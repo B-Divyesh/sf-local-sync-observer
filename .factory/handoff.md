@@ -31,6 +31,9 @@ Verified in the factory worker on 2026-08-28:
 - `npm run check`: passed; `dist/app` and `dist/site` produced.
 - Initial JavaScript: 2.10 KB landing / 18.54 KB app (uncompressed); CSS: 9.05 KB landing / 10.67 KB app; hero WebP: 84 KB.
 - Native packaging passed locally for both `Local Sync Observer_0.1.0_amd64.deb` and `Local Sync Observer_0.1.0_amd64.AppImage`.
+- Hosted GitHub Actions quality run `33158507311` passed both the web and Rust jobs.
+- Hosted release run `33158508334` passed for macOS arm64/x64, Windows x64, and Linux x64; the public [v0.1.0 release](https://github.com/B-Divyesh/sf-local-sync-observer/releases/tag/v0.1.0) contains DMG, MSI, NSIS EXE, AppImage, and DEB assets plus `latest.json` and `SHA256SUMS`.
+- The Linux AppImage was downloaded from the URL in the public `latest.json` and verified successfully against the published `SHA256SUMS`.
 - Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 96, SEO 92; LCP 1.5 s, total blocking time 0 ms, CLS 0.004.
 - Manual visual review: desktop landing, 390 px landing, desktop app empty state, and 390 px app empty state.
 
@@ -44,9 +47,8 @@ Verified in the factory worker on 2026-08-28:
 
 ## Needs operator action
 
-1. Push the committed `v0.1.0` tag if it was not pushed by the worker, wait for `.github/workflows/release.yml`, then download one artifact and verify it against `SHA256SUMS`. Confirm `latest.json` links return real assets before deployment.
-2. Deploy `dist/site` to `https://local-sync-observer.sociobot.in`; do not change DNS or infrastructure from this repo.
-3. v0.1 intentionally ships unsigned. To sign later, provision `APPLE_CERTIFICATE` (plus certificate password, signing identity, Apple ID/app password, and team ID) and `WINDOWS_CERT_PFX` (plus its password), then wire those secrets into the release workflow. No signing secret is currently referenced.
+1. Deploy `dist/site` to `https://local-sync-observer.sociobot.in`; do not change DNS or infrastructure from this repo.
+2. v0.1 intentionally ships unsigned. To sign later, provision `APPLE_CERTIFICATE` (plus certificate password, signing identity, Apple ID/app password, and team ID) and `WINDOWS_CERT_PFX` (plus its password), then wire those secrets into the release workflow. No signing secret is currently referenced.
 
 ## Asset provenance
 
