@@ -1,0 +1,30 @@
+{
+  "slug": "local-sync-observer",
+  "title": "Local Sync Observer",
+  "territory": "utilities",
+  "user": "Users running local-first mobile and desktop stacks who need one truthful, non-destructive view of whether their folders and devices have actually converged.",
+  "evidence": [
+    {
+      "url": "https://hn.algolia.com/api/v1/items/44479433",
+      "date": "2025-07-06",
+      "quote_or_summary": "Ask HN asks for the go-to stack for a local-first mobile app in 2025."
+    },
+    {
+      "url": "https://github.com/syncthing/syncthing/issues/10851",
+      "date": "2026-08-10",
+      "quote_or_summary": "A feature request explicitly asks for an official cross-platform desktop application with improved sync status and configuration UI."
+    }
+  ],
+  "recurrence": "Local-first stack selection and a direct request for clearer cross-platform sync state point to an ongoing trust problem, especially after offline work.",
+  "current_workaround": "Open each product's web UI, inspect logs, compare folder timestamps, and wait after reconnecting.",
+  "incumbents_and_gap": "Syncthing, Nextcloud, and Resilio expose status, but users with several local-first tools lack a neutral, read-only convergence dashboard and actionable explanations.",
+  "smallest_useful_product": "A local tray app that consumes opt-in read-only status APIs/logs from Syncthing and selected folder sync tools, shows pending/conflict/last-good state, and opens the owning tool for fixes. Non-goals: becoming a sync engine, modifying data, or cloud monitoring.",
+  "success_measure": "Pilot users identify a deliberately introduced offline conflict within two minutes, without the observer making any file changes.",
+  "artifact_class": "desktop-app",
+  "monetization": "free — a read-only ecosystem utility benefits from broad compatibility; paid support can be considered only after adoption.",
+  "constraints": "Read-only integrations; local data only; never parse or transmit file contents; disclose incomplete provider coverage and avoid false 'synced' claims.",
+  "est_build_effort": "S",
+  "why_distinct": "It observes and explains convergence across tools rather than competing as yet another sync service.",
+  "confidence": 4,
+  "state": "RESEARCHED"
+}
