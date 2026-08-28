@@ -19,7 +19,7 @@ export function summarizeFolders(folders: FolderReading[]): Pick<SourceReading, 
   const conflicts = folders.reduce((total, folder) => total + folder.conflictFiles, 0);
   const pendingKnown = folders.filter((folder) => folder.pendingFiles !== null);
   const pending = pendingKnown.reduce((total, folder) => total + (folder.pendingFiles ?? 0), 0);
-  if (conflicts > 0) return { state: "conflict", summary: `${conflicts} conflict ${conflicts === 1 ? "file" : "files"} need attention` };
+  if (conflicts > 0) return { state: "conflict", summary: `${conflicts} conflict ${conflicts === 1 ? "file needs" : "files need"} attention` };
   if (state === "error") return { state, summary: "Provider returned an error" };
   if (state === "offline") return { state, summary: "Provider cannot be reached" };
   if (pending > 0) return { state: "pending", summary: `${pending} ${pending === 1 ? "item" : "items"} still pending` };

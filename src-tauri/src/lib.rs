@@ -37,6 +37,14 @@ struct SyncthingFolder {
     #[serde(default)]
     label: String,
     path: String,
+    #[serde(default)]
+    devices: Vec<SyncthingFolderDevice>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct SyncthingFolderDevice {
+    device_id: String,
 }
 
 fn now_ms() -> u64 {
@@ -198,6 +206,19 @@ async fn probe_syncthing(
         .json()
         .await
         .map_err(|_| "Syncthing returned folder data in an unexpected format.".to_string())?;
+    let connections = {
+        let url = base
+            .join("/rest/system/connections")
+            .map_err(|error| error.to_string())?;
+        match client.get(url).header("X-API-Key", &api_key).send().await {
+            Ok(response) if response.status().is_success() => response
+                .json::<serde_json::Value>()
+                .await
+                .ok()
+                .and_then(|value| value.get("connections").cloned()),
+            _ => None,
+        }
+    };
     let mut readings = Vec::with_capacity(configured.len());
     for folder in configured {
         let mut status_url = base
@@ -211,7 +232,7 @@ async fn probe_syncthing(
             .header("X-API-Key", &api_key)
             .send()
             .await;
-        let pending = match status_response {
+        let local_pending = match status_response {
             Ok(response) if response.status().is_success() => response
                 .json::<serde_json::Value>()
                 .await
@@ -219,13 +240,59 @@ async fn probe_syncthing(
                 .and_then(|value| value.get("needFiles").and_then(serde_json::Value::as_u64)),
             _ => None,
         };
+        let mut pending = local_pending;
+        let mut disconnected_devices = 0_u64;
+        for device in &folder.devices {
+            let connected = connections
+                .as_ref()
+                .and_then(|map| map.get(&device.device_id))
+                .and_then(|value| value.get("connected"))
+                .and_then(serde_json::Value::as_bool)
+                .unwrap_or(false);
+            if !connected {
+                disconnected_devices += 1;
+                continue;
+            }
+            let mut completion_url = base
+                .join("/rest/db/completion")
+                .map_err(|error| error.to_string())?;
+            completion_url
+                .query_pairs_mut()
+                .append_pair("device", &device.device_id)
+                .append_pair("folder", &folder.id);
+            if let Ok(response) = client
+                .get(completion_url)
+                .header("X-API-Key", &api_key)
+                .send()
+                .await
+            {
+                if let Ok(value) = response.json::<serde_json::Value>().await {
+                    if let Some(remote_pending) =
+                        value.get("needItems").and_then(serde_json::Value::as_u64)
+                    {
+                        pending = Some(pending.unwrap_or(0) + remote_pending);
+                    }
+                }
+            }
+        }
         let label = if folder.label.trim().is_empty() {
             folder.id.clone()
         } else {
             folder.label
         };
         match scan_folder(folder.id.clone(), label, folder.path.clone(), pending) {
-            Ok(reading) => readings.push(reading),
+            Ok(mut reading) => {
+                if disconnected_devices > 0 && reading.state != "conflict" {
+                    reading.state = "offline".into();
+                    reading.last_good_at = None;
+                    reading.note = format!(
+                        "{disconnected_devices} configured {} offline, so convergence cannot be confirmed. {}",
+                        if disconnected_devices == 1 { "device is" } else { "devices are" },
+                        reading.note
+                    );
+                }
+                readings.push(reading)
+            }
             Err(error) => readings.push(FolderReading {
                 id: folder.id,
                 label: "Unavailable folder".into(),
@@ -245,6 +312,7 @@ async fn probe_syncthing(
         .filter_map(|reading| reading.pending_files)
         .sum();
     let has_error = readings.iter().any(|reading| reading.state == "error");
+    let has_offline = readings.iter().any(|reading| reading.state == "offline");
     let all_reported = !readings.is_empty()
         && readings
             .iter()
@@ -259,6 +327,11 @@ async fn probe_syncthing(
         )
     } else if has_error {
         ("error", "One or more folders could not be inspected".into())
+    } else if has_offline {
+        (
+            "offline",
+            "A configured device is offline; convergence is not confirmed".into(),
+        )
     } else if pending > 0 {
         (
             "pending",
@@ -282,7 +355,7 @@ async fn probe_syncthing(
         checked_at: now_ms(),
         summary,
         folders: readings,
-        coverage: "Syncthing needFiles plus a capped, read-only conflict-filename scan; file contents are never read".into(),
+        coverage: "Syncthing local and connected-device needItems, connection state, plus a capped read-only conflict-filename scan; file contents are never read".into(),
     })
 }
 

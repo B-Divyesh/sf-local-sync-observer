@@ -199,7 +199,10 @@ function bindEvents(): void {
 async function handleAction(event: Event): Promise<void> {
   const element = event.currentTarget as HTMLElement;
   const action = element.dataset.action;
-  if (action === "configure") document.querySelector<HTMLDialogElement>("#source-dialog")?.showModal();
+  if (action === "configure") {
+    document.querySelector<HTMLDialogElement>("#source-dialog")?.showModal();
+    document.querySelector<HTMLInputElement>('input[name="syncName"]')?.focus();
+  }
   if (action === "close-source") document.querySelector<HTMLDialogElement>("#source-dialog")?.close();
   if (action === "dismiss-notice") { state.notice = ""; render(); }
   if (action === "show-privacy") document.querySelector<HTMLDialogElement>("#privacy-dialog")?.showModal();
