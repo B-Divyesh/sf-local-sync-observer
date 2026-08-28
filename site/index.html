@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f0e6" />
+    <meta name="description" content="A private, read-only convergence dashboard for Syncthing and local folders." />
+    <meta property="og:title" content="Local Sync Observer" />
+    <meta property="og:description" content="One careful answer to: have my local-first folders actually converged?" />
+    <title>Local Sync Observer — know what actually synced</title>
+    <link rel="preload" as="image" href="/assets/convergence-board.webp" type="image/webp" fetchpriority="high" />
+    <link rel="stylesheet" href="/site.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Local Sync Observer home"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></a>
+      <nav aria-label="Main navigation"><a href="#how">How it works</a><a href="#coverage">Coverage</a><a class="nav-download" href="#download">Download</a></nav>
+    </header>
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">A read-only field instrument for local-first stacks</p>
+          <h1>Know what actually synced.</h1>
+          <p class="lede">One truthful board for pending files, conflict copies, and last-good state—without becoming another sync engine.</p>
+          <div class="hero-actions" id="download">
+            <a class="button button--primary" id="primary-download" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download for your computer</a>
+            <a class="button" href="#install-options">All install options</a>
+          </div>
+          <p class="download-note" id="download-note" aria-live="polite">Detecting your platform…</p>
+          <ul class="trust-list" aria-label="Product promises"><li><span aria-hidden="true">✓</span> Reads status, never file contents</li><li><span aria-hidden="true">✓</span> No account or telemetry</li><li><span aria-hidden="true">✓</span> Free and MIT licensed</li></ul>
+        </div>
+        <figure class="hero-art">
+          <div class="figure-label"><span>FIG. 01</span><span>CONVERGENCE / INSPECTION</span></div>
+          <picture><source srcset="/assets/convergence-board.webp" type="image/webp"><img src="/assets/convergence-board.jpg" width="1280" height="853" fetchpriority="high" decoding="async" alt="Cut-paper inspection board where yellow and blue device lanes align while a red conflict lane visibly breaks before the viewing aperture"></picture>
+          <figcaption>The observer sits outside your data path. It sees evidence; it never moves a file.</figcaption>
+        </figure>
+      </section>
+      <section class="problem-band" aria-labelledby="problem-title">
+        <div><p class="ticket">THE OLD ROUTINE</p><h2 id="problem-title">Four tabs. Three logs. Still no answer.</h2></div>
+        <p>After reconnecting, “idle” does not always mean every device agrees. Local Sync Observer turns each provider’s evidence into a careful reading—and refuses to call folder metadata alone “synced.”</p>
+      </section>
+      <section class="method" id="how" aria-labelledby="method-title">
+        <div class="section-heading"><p class="eyebrow">The two-minute check</p><h2 id="method-title">Observe. Explain. Hand off.</h2></div>
+        <ol class="steps">
+          <li><span class="step-number">01</span><div><h3>Connect local evidence</h3><p>Add a loopback Syncthing API or choose a folder. Credentials and paths stay in the app’s local storage.</p></div></li>
+          <li><span class="step-number">02</span><div><h3>Read the boundary</h3><p>See pending counts, known conflict-copy names, last-good checks, and exactly what the provider did not report.</p></div></li>
+          <li><span class="step-number">03</span><div><h3>Fix it at the source</h3><p>Open the owning tool from the affected row. The observer never resolves, renames, or deletes anything.</p></div></li>
+        </ol>
+      </section>
+      <section class="proof" aria-labelledby="proof-title">
+        <div class="mock-window">
+          <div class="mock-bar"><span></span><span></span><span></span><b>CONVERGENCE BOARD</b></div>
+          <div class="mock-body">
+            <div class="mock-state"><span class="state-icon" aria-hidden="true">!</span><div><small>CONFLICT</small><strong>1 conflict file needs attention</strong><p>Checked just now · Syncthing REST + filename metadata</p></div></div>
+            <div class="mock-table" role="img" aria-label="Example reading showing Field notes in conflict and Archive converged"><div class="mock-row mock-head"><span>Folder</span><span>State</span><span>Pending</span></div><div class="mock-row"><b>Field notes</b><em class="conflict">! Conflict</em><span>0</span></div><div class="mock-row"><b>Archive</b><em class="good">✓ Converged</em><span>0</span></div></div>
+          </div>
+        </div>
+        <div><p class="eyebrow">Designed for honesty</p><h2 id="proof-title">“Unknown” is a feature.</h2><p>If an integration cannot prove convergence, the board says so. Every status includes its evidence coverage, so a reassuring color never outruns the facts.</p><div class="annotation"><span aria-hidden="true">↳</span> Folder observation can detect common conflict copies. Only provider-reported pending counts can establish “Converged.”</div></div>
+      </section>
+      <section class="coverage" id="coverage" aria-labelledby="coverage-title">
+        <div class="section-heading"><p class="eyebrow">Coverage in v0.1</p><h2 id="coverage-title">Small surface. Explicit limits.</h2></div>
+        <div class="coverage-grid">
+          <article><span class="provider-code">ST</span><h3>Syncthing</h3><p>Reads local REST folder configuration and <code>needFiles</code>; scans configured folder names for common conflict copies.</p><strong>Convergence evidence supported</strong></article>
+          <article><span class="provider-code">FS</span><h3>Any local folder</h3><p>Reads names, sizes, and timestamps only, capped at 50,000 entries and 16 levels. Never opens file content.</p><strong>Conflict hints; convergence unknown</strong></article>
+          <article class="muted-card"><span class="provider-code">+</span><h3>More providers</h3><p>Nextcloud and Resilio adapters are not in v0.1. Their folders can be observed, but provider-specific pending state is not claimed.</p><strong>Coverage disclosed in-app</strong></article>
+        </div>
+      </section>
+      <section class="install" id="install-options" aria-labelledby="install-title">
+        <div><p class="eyebrow">Install the observer</p><h2 id="install-title">One local tool. No account.</h2><p>Choose the checksum-verified build for your platform. v0.1 packages are unsigned; your operating system may ask you to confirm the first launch.</p></div>
+        <div class="install-grid">
+          <article><h3>macOS</h3><p>Apple silicon and Intel disk images.</p><a class="button platform-link" data-platform="macos" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .dmg</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+          <article><h3>Windows</h3><p>64-bit Windows installer.</p><a class="button platform-link" data-platform="windows" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .msi</a><code>irm https://local-sync-observer.sociobot.in/install.ps1 | iex</code></article>
+          <article><h3>Linux</h3><p>AppImage and Debian package.</p><a class="button platform-link" data-platform="linux" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .AppImage</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+        </div>
+        <p class="checksum-note">Every installer is published with SHA-256 checksums. The one-line installers verify before opening or installing anything.</p>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Original generated cut-paper artwork · No telemetry · Made by <a href="https://sociobot.in">Sociobot</a></p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source</a></nav></footer>
+    <script type="module" src="/site.ts"></script>
+  </body>
+</html>
