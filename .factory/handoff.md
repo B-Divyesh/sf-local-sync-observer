@@ -27,7 +27,7 @@ Verified in the factory worker on 2026-08-28:
 - `npm audit`: 0 vulnerabilities.
 - `npm test`: 4/4 unit tests passed.
 - `npm run test:e2e`: 12/12 Playwright tests passed across Desktop Chrome and a 390 px mobile profile, covering both the site and app plus axe serious/critical checks.
-- `cargo test --manifest-path src-tauri/Cargo.toml`: 2/2 native tests passed.
+- `cargo test --manifest-path src-tauri/Cargo.toml`: 3/3 native tests passed.
 - `npm run check`: passed; `dist/app` and `dist/site` produced.
 - Initial JavaScript: 2.10 KB landing / 18.54 KB app (uncompressed); CSS: 9.05 KB landing / 10.67 KB app; hero WebP: 84 KB.
 - Native packaging passed locally for both `Local Sync Observer_0.1.0_amd64.deb` and `Local Sync Observer_0.1.0_amd64.AppImage`.

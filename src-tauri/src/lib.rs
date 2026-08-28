@@ -42,8 +42,8 @@ struct SyncthingFolder {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
 struct SyncthingFolderDevice {
+    #[serde(rename = "deviceID")]
     device_id: String,
 }
 
@@ -241,6 +241,7 @@ async fn probe_syncthing(
             _ => None,
         };
         let mut pending = local_pending;
+        let mut completion_missing = false;
         let mut disconnected_devices = 0_u64;
         for device in &folder.devices {
             let connected = connections
@@ -260,20 +261,32 @@ async fn probe_syncthing(
                 .query_pairs_mut()
                 .append_pair("device", &device.device_id)
                 .append_pair("folder", &folder.id);
-            if let Ok(response) = client
+            match client
                 .get(completion_url)
                 .header("X-API-Key", &api_key)
                 .send()
                 .await
             {
-                if let Ok(value) = response.json::<serde_json::Value>().await {
-                    if let Some(remote_pending) =
-                        value.get("needItems").and_then(serde_json::Value::as_u64)
-                    {
+                Ok(response) if response.status().is_success() => {
+                    let remote_pending =
+                        response
+                            .json::<serde_json::Value>()
+                            .await
+                            .ok()
+                            .and_then(|value| {
+                                value.get("needItems").and_then(serde_json::Value::as_u64)
+                            });
+                    if let Some(remote_pending) = remote_pending {
                         pending = Some(pending.unwrap_or(0) + remote_pending);
+                    } else {
+                        completion_missing = true;
                     }
                 }
+                _ => completion_missing = true,
             }
+        }
+        if completion_missing {
+            pending = None;
         }
         let label = if folder.label.trim().is_empty() {
             folder.id.clone()
@@ -450,5 +463,14 @@ mod tests {
     fn rejects_remote_endpoints() {
         assert!(validate_local_endpoint("https://sync.example.com").is_err());
         assert!(validate_local_endpoint("http://127.0.0.1:8384").is_ok());
+    }
+
+    #[test]
+    fn parses_syncthing_device_ids() {
+        let folder: SyncthingFolder = serde_json::from_str(
+            r#"{"id":"notes","path":"/notes","devices":[{"deviceID":"ABC-123"}]}"#,
+        )
+        .expect("valid Syncthing folder");
+        assert_eq!(folder.devices[0].device_id, "ABC-123");
     }
 }
