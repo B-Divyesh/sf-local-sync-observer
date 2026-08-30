@@ -1,4 +1,30 @@
-# Local Sync Observer — build handoff
+# Local Sync Observer — verification handoff
+
+## Release decision
+
+**FAIL — do not release candidate `1313d781ab40a7b3fe4c950a080a2163321ce925`.**
+
+Independent verification ran on 2026-08-30 against the clean candidate and `https://local-sync-observer.sociobot.in`. The live static files match the candidate build byte-for-byte. Full evidence is in [`.factory/verification.md`](verification.md).
+
+Release blockers:
+
+1. `.factory/claims.json` is missing, so the mandatory claims gate cannot run and all public claims are unregistered.
+2. The first screen has no one-click `Try it with sample data` action; `/demo` is the home fallback, `.factory/demo.md` is missing, and the in-app example is not isolated from real storage.
+3. The live page fetches `github.com/.../releases/latest/download/latest.json`, which is blocked by CORS and logs two console errors. Platform buttons remain generic release-page links.
+4. The released Linux app displays the inactive Folder metadata form while Syncthing is selected; its `Choose…` button remains operable and the extra controls push `Save and inspect` below the initial dialog viewport.
+5. `/privacy/` and `/terms/` each have an axe serious `link-name` failure at 390 px.
+
+Additional gaps: no CSP/frame restriction, real 404, robots, sitemap, static-host configuration, canonical/social image/Twitter metadata, favicon, footer build ID, immutable asset caching, or `.factory/copy-audit.md`; several mobile/footer targets are below 44 px.
+
+Passing evidence: `npm ci`, `npm test` (4/4), `npm run check`, `npm run build`, `npm run test:e2e` (12/12), Rust format/test (3/3)/clippy, exact deployment hashes, active/offline service worker reload, performance budget (Lighthouse 93; LCP 2.3 s; CLS 0.004; 87 KiB transfer), release platform matrix, and the downloaded Linux AppImage checksum. A real native flow against a local mock Syncthing API detected an introduced conflict, recovered to Converged, and refused convergence when a configured peer went offline.
+
+## Required next work
+
+Add claim tests and a documented isolated demo; move release metadata lookup to the CORS-enabled GitHub API; fix the dialog’s hidden state and add regression coverage in WebKit-sized layout; fix legal-page mobile link names; add required routing/metadata/security/cache files and touch targets; then rerun this independent verification.
+
+---
+
+## Original builder handoff
 
 ## What was built
 
