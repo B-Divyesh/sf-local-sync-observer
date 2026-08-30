@@ -1,24 +1,101 @@
 [
   {
     "id": "release-downloads",
-    "claim": "Download buttons use the latest GitHub Release metadata.",
+    "claim": "Download buttons use the exact asset URL from the latest GitHub Release metadata.",
     "where": "landing download controls, README",
     "test": "npm run test:e2e -- --grep @claim:release-downloads",
-    "sandbox": "intercept the CORS-safe GitHub API response; assert the detected Linux button receives the published AppImage URL and no console error occurs"
+    "sandbox": "intercept the CORS-safe GitHub API response and require the detected Linux button to equal the fixture browser_download_url"
+  },
+  {
+    "id": "release-matrix",
+    "claim": "A release manifest requires macOS arm64, macOS Intel, Windows x64, and Linux x64 assets with SHA-256 checksums and a source commit.",
+    "where": "README release workflow",
+    "test": "npm test -- --testNamePattern @claim:release-matrix",
+    "sandbox": "generate a manifest from six fixture packages; assert four platform entries, the candidate commit, URLs, and checksums for every package"
+  },
+  {
+    "id": "checksum-install",
+    "claim": "The one-line installer rejects a bad SHA-256 checksum before installing and installs a matching artifact.",
+    "where": "landing install section, README",
+    "test": "npm test -- --testNamePattern @claim:checksum-install",
+    "sandbox": "run the production shell installer with local manifest/download shims; assert mismatch leaves no binary and a valid hash installs exact bytes"
+  },
+  {
+    "id": "evidence-boundary",
+    "claim": "Conflicts take priority, and folder-only evidence never establishes convergence.",
+    "where": "landing evidence explanation, desktop board, README",
+    "test": "npm test -- --testNamePattern @claim:evidence-boundary",
+    "sandbox": "summarize deterministic folder readings containing a conflict and a reading without provider pending evidence"
+  },
+  {
+    "id": "metadata-only-scan",
+    "claim": "Folder scans inspect metadata without reading or changing file contents.",
+    "where": "landing, desktop privacy dialog, privacy page, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_metadata_only_scan_preserves_contents_and_stays_unknown",
+    "sandbox": "scan a temporary file whose contents look like a conflict marker; assert it is not classified from contents, remains byte-identical, and convergence stays unknown"
+  },
+  {
+    "id": "scan-bounds",
+    "claim": "Folder scans stop at 50,000 entries and depth 16.",
+    "where": "landing coverage, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen",
+    "sandbox": "assert production scan bounds and prove a conflict filename below the depth boundary is not inspected"
+  },
+  {
+    "id": "local-endpoint-only",
+    "claim": "Syncthing checks accept loopback or .local endpoints and reject remote hosts.",
+    "where": "desktop setup, privacy page, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints",
+    "sandbox": "validate a fixture remote HTTPS endpoint is rejected and a loopback endpoint is accepted"
+  },
+  {
+    "id": "local-app-storage",
+    "claim": "Source credentials, paths, and readings stay in local app storage with no telemetry request, and removal deletes the saved source.",
+    "where": "desktop privacy dialog, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:local-app-storage",
+    "sandbox": "save and remove a fixture source; assert its credential uses namespaced localStorage, every request is same-origin, and removal clears the saved source"
+  },
+  {
+    "id": "open-owner",
+    "claim": "A finding opens the owning local tool for the fix without changing the observer reading.",
+    "where": "landing how-it-works section, desktop sample, README",
+    "test": "npm run test:e2e -- --grep @claim:open-owner",
+    "sandbox": "load the desktop sample, click Open owning tool, require the fixture local URL in a new window, and assert the conflict reading remains"
+  },
+  {
+    "id": "thirty-second-refresh",
+    "claim": "The running desktop app refreshes configured sources every 30 seconds.",
+    "where": "README use steps",
+    "test": "npm run test:e2e -- --grep @claim:thirty-second-refresh",
+    "sandbox": "mock the native probe, add a source after launch, advance the browser clock by 30 seconds, and require a second probe"
+  },
+  {
+    "id": "site-private",
+    "claim": "The website uses no cookies or analytics and contacts only itself plus the disclosed GitHub release API.",
+    "where": "landing facts, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:site-private",
+    "sandbox": "record a fresh landing visit; assert no cookies and no request origin beyond same-origin and api.github.com"
+  },
+  {
+    "id": "mit-license",
+    "claim": "Local Sync Observer is free software under the MIT License.",
+    "where": "landing facts, README, terms",
+    "test": "npm test -- --testNamePattern @claim:mit-license",
+    "sandbox": "read the shipped LICENSE and assert the MIT permission grant is present"
   },
   {
     "id": "isolated-demo",
     "claim": "The sample demo is isolated from real observer data.",
     "where": "landing demo action, /demo, desktop sample mode",
     "test": "npm run test:e2e -- --grep @claim:isolated-demo",
-    "sandbox": "fresh browser context; load /demo; assert the sample is visible, only the demo: localStorage key exists, then reset it"
+    "sandbox": "fresh browser context; load /demo; assert the sample is visible, only the demo namespace exists, then reset it"
   },
   {
     "id": "demo-private",
     "claim": "The sample demo sends no data to third parties.",
     "where": "/demo privacy copy",
     "test": "npm run test:e2e -- --grep @claim:demo-private",
-    "sandbox": "fresh browser context; record every request while loading and reading the shipped sample; assert every request is same-origin"
+    "sandbox": "fresh browser context; record every request while loading and reading the sample; assert every request is same-origin"
   },
   {
     "id": "offline-demo-reload",

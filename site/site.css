@@ -4,3 +4,20 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
 .coverage-grid article,.install-grid article{min-width:0}.install-grid code{max-width:100%}
+
+/* Narrow-layout and touch-target repair. These overrides also cover 200% zoom,
+   where a 390px device presents a roughly 195px CSS viewport. */
+body{min-width:0;overflow-wrap:anywhere}
+.skip-link,.site-header nav a,.site-footer nav a{min-width:44px}
+.site-header nav a,.site-footer nav a{justify-content:center}
+h1{font-size:clamp(36px,7vw,86px)}
+.legal-page a{display:inline-flex;min-width:44px;min-height:44px;align-items:center}
+.walkthrough-list figure{display:grid;grid-template-rows:auto 1fr;gap:0;height:100%;margin:0;border:2px solid var(--ink);background:var(--panel);box-shadow:5px 5px 0 var(--ink)}
+.walkthrough-list img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:top;border-bottom:2px solid var(--ink)}
+.walkthrough-list figcaption{display:grid;gap:6px;padding:16px}
+.walkthrough-list strong{font-family:"Arial Black",Arial,sans-serif}
+.walkthrough-list span{font-size:14px}
+.walkthrough-list li{min-width:0;padding:0;border:0;background:transparent;box-shadow:none}
+@media(max-width:320px){.site-header nav{display:none}.hero-copy,.hero-art,.problem-band,.method,.proof,.coverage,.install,.walkthrough,.legal-page,.demo-page{padding-right:12px;padding-left:12px}.hero-actions,.demo-actions{display:grid}.button{width:100%;white-space:normal}.steps li{grid-template-columns:1fr;gap:8px}.mock-row{grid-template-columns:1fr}.mock-row>*:not(:first-child){display:none}.site-footer{padding-right:12px;padding-left:12px}.site-footer nav{gap:8px}h1,.legal-page h1,.demo-page h1{font-size:32px}}
+.install-grid code{overflow:visible;white-space:normal}
+.download-note a{display:inline-flex;min-height:44px;align-items:center}

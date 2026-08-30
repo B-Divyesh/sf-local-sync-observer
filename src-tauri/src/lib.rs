@@ -5,6 +5,9 @@ use tauri::{Manager, WindowEvent};
 use url::Url;
 use walkdir::WalkDir;
 
+const SCAN_MAX_ENTRIES: u64 = 50_000;
+const SCAN_MAX_DEPTH: usize = 16;
+
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct FolderReading {
@@ -91,7 +94,7 @@ fn scan_folder(
     let mut truncated = false;
     for item in WalkDir::new(root)
         .follow_links(false)
-        .max_depth(16)
+        .max_depth(SCAN_MAX_DEPTH)
         .into_iter()
     {
         let entry = match item {
@@ -102,7 +105,7 @@ fn scan_folder(
             continue;
         }
         inspected += 1;
-        if inspected > 50_000 {
+        if inspected > SCAN_MAX_ENTRIES {
             truncated = true;
             break;
         }
@@ -460,7 +463,7 @@ mod tests {
     }
 
     #[test]
-    fn rejects_remote_endpoints() {
+    fn claim_local_endpoint_only_rejects_remote_endpoints() {
         assert!(validate_local_endpoint("https://sync.example.com").is_err());
         assert!(validate_local_endpoint("http://127.0.0.1:8384").is_ok());
     }
@@ -472,5 +475,58 @@ mod tests {
         )
         .expect("valid Syncthing folder");
         assert_eq!(folder.devices[0].device_id, "ABC-123");
+    }
+
+    #[test]
+    fn claim_metadata_only_scan_preserves_contents_and_stays_unknown() {
+        let root = std::env::temp_dir().join(format!("lso-metadata-{}", now_ms()));
+        std::fs::create_dir_all(&root).expect("create fixture folder");
+        let ordinary = root.join("ordinary-note.txt");
+        let contents = b"a .sync-conflict- marker inside content is not filename evidence";
+        std::fs::write(&ordinary, contents).expect("write fixture file");
+
+        let reading = scan_folder(
+            "fixture".into(),
+            "Fixture".into(),
+            root.to_string_lossy().into_owned(),
+            None,
+        )
+        .expect("scan succeeds");
+
+        assert_eq!(reading.state, "unknown");
+        assert_eq!(reading.conflict_files, 0);
+        assert_eq!(
+            std::fs::read(&ordinary).expect("read fixture after scan"),
+            contents
+        );
+        std::fs::remove_dir_all(root).expect("remove fixture folder");
+    }
+
+    #[test]
+    fn claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen() {
+        assert_eq!(SCAN_MAX_ENTRIES, 50_000);
+        assert_eq!(SCAN_MAX_DEPTH, 16);
+        let root = std::env::temp_dir().join(format!("lso-depth-{}", now_ms()));
+        let mut nested = root.clone();
+        for level in 0..SCAN_MAX_DEPTH {
+            nested = nested.join(format!("level-{level}"));
+        }
+        std::fs::create_dir_all(&nested).expect("create deep fixture folder");
+        std::fs::write(nested.join("deep.sync-conflict-20260830.txt"), b"unchanged")
+            .expect("write deep fixture file");
+
+        let reading = scan_folder(
+            "fixture".into(),
+            "Fixture".into(),
+            root.to_string_lossy().into_owned(),
+            None,
+        )
+        .expect("scan succeeds");
+
+        assert_eq!(
+            reading.conflict_files, 0,
+            "entries deeper than 16 are not scanned"
+        );
+        std::fs::remove_dir_all(root).expect("remove fixture folder");
     }
 }

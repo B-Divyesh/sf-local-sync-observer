@@ -60,7 +60,7 @@ npm run test:e2e     # Playwright desktop/mobile and axe checks
 cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
-The release workflow runs on `v*` tags and manual dispatch. It builds macOS arm64/x64 DMGs, Windows MSI/NSIS packages, and Linux AppImage/DEB packages, then publishes `SHA256SUMS` and `latest.json` with the release.
+The release workflow runs on `v*` tags and manual dispatch. It builds macOS arm64/x64 DMGs, Windows MSI/NSIS packages, and Linux AppImage/DEB packages. It then publishes `SHA256SUMS` and `latest.json` with the tagged source commit. CI runs the web checks on Linux and Windows so test discovery cannot depend on shell glob expansion.
 
 ## Demo and claims
 

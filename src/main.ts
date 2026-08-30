@@ -386,7 +386,7 @@ load();
 if (demoMode && state.sources.length === 0) addSample();
 else render();
 
-if (isTauri() && state.sources.length > 0) {
-  void Promise.all(state.sources.map((source) => refreshSource(source.id)));
+if (isTauri()) {
+  if (state.sources.length > 0) void Promise.all(state.sources.map((source) => refreshSource(source.id)));
   window.setInterval(() => { void Promise.all(state.sources.map((source) => refreshSource(source.id))); }, 30_000);
 }

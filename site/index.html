@@ -60,7 +60,11 @@
       </section>
       <section class="walkthrough" aria-labelledby="walkthrough-title">
         <div class="section-heading"><p class="eyebrow">Sample walkthrough</p><h2 id="walkthrough-title">See the reading before you connect anything.</h2></div>
-        <ol class="walkthrough-list"><li><strong>1. Load the sample</strong><span>A conflict appears with the evidence used to find it.</span></li><li><strong>2. Read the boundary</strong><span>The board explains which status is proven and which is not.</span></li><li><strong>3. Start for real</strong><span>The demo is discarded before you add a local source.</span></li></ol>
+        <ol class="walkthrough-list">
+          <li><figure><img src="/assets/walkthrough-empty.webp" width="900" height="600" loading="lazy" decoding="async" alt="Empty observer board with buttons to add a source or load sample data"><figcaption><strong>1. Start with no claim</strong><span>The empty board asks for evidence before it reports a status.</span></figcaption></figure></li>
+          <li><figure><img src="/assets/walkthrough-setup.webp" width="900" height="600" loading="lazy" decoding="async" alt="Source setup dialog with Syncthing and folder metadata choices"><figcaption><strong>2. Connect local evidence</strong><span>Add a local Syncthing endpoint or choose folder metadata.</span></figcaption></figure></li>
+          <li><figure><img src="/assets/walkthrough-conflict.webp" width="900" height="600" loading="lazy" decoding="async" alt="Sample observer board showing one field notes conflict"><figcaption><strong>3. Read the boundary</strong><span>The board shows the conflict and explains what the evidence proves.</span></figcaption></figure></li>
+        </ol>
       </section>
       <section class="proof" aria-labelledby="proof-title">
         <div class="mock-window">
@@ -83,14 +87,14 @@
       <section class="install" id="install-options" aria-labelledby="install-title">
         <div><p class="eyebrow">Install the observer</p><h2 id="install-title">One local tool. No account.</h2><p>Choose the checksum-verified build for your platform. v0.1 packages are unsigned; your operating system may ask you to confirm the first launch.</p></div>
         <div class="install-grid">
-          <article><h3>macOS</h3><p>Apple silicon and Intel disk images.</p><a class="button platform-link" data-platform="macos" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .dmg</a><code tabindex="0">curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
-          <article><h3>Windows</h3><p>64-bit Windows installer.</p><a class="button platform-link" data-platform="windows" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .msi</a><code tabindex="0">irm https://local-sync-observer.sociobot.in/install.ps1 | iex</code></article>
-          <article><h3>Linux</h3><p>AppImage and Debian package.</p><a class="button platform-link" data-platform="linux" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .AppImage</a><code tabindex="0">curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+          <article><h3>macOS</h3><p>Apple silicon and Intel disk images.</p><a class="button platform-link" data-platform="macos" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .dmg</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+          <article><h3>Windows</h3><p>64-bit Windows installer.</p><a class="button platform-link" data-platform="windows" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .msi</a><code>irm https://local-sync-observer.sociobot.in/install.ps1 | iex</code></article>
+          <article><h3>Linux</h3><p>AppImage and Debian package.</p><a class="button platform-link" data-platform="linux" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .AppImage</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
         </div>
         <p class="checksum-note">Every installer is published with SHA-256 checksums. The one-line installers verify before opening or installing anything.</p>
       </section>
     </main>
-    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Original generated cut-paper artwork · No telemetry · Built by Param Factory · v0.1.1</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source</a></nav></footer>
+    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Original generated cut-paper artwork · No telemetry · Built by Param Factory · v0.1.2</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source</a></nav></footer>
     <script type="module" src="/site.ts"></script>
   </body>
 </html>

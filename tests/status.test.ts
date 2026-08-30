@@ -16,11 +16,8 @@ const folder = (overrides: Partial<FolderReading> = {}): FolderReading => ({
 });
 
 describe("evidence status", () => {
-  it("never lets convergence hide a conflict", () => {
+  it("@claim:evidence-boundary never lets convergence hide a conflict or missing evidence", () => {
     expect(worstState(["converged", "pending", "conflict"])).toBe("conflict");
-  });
-
-  it("does not claim convergence when pending evidence is absent", () => {
     expect(summarizeFolders([folder({ state: "unknown", pendingFiles: null })])).toEqual({
       state: "unknown",
       summary: "Not enough evidence to claim convergence"

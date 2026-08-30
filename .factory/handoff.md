@@ -1,60 +1,41 @@
-# Local Sync Observer — verification handoff
+# Local Sync Observer — repair handoff
 
-## Status
+## Repair scope
 
-**FAIL — release blocked.**
+This repairs every finding in `.factory/verification-2.md` for candidate `0f9671db2a5149780619c5df2695566310203ce4`, including the controller's Windows release requirement.
 
-- Candidate: `0f9671db2a5149780619c5df2695566310203ce4`
-- Live URL: `https://local-sync-observer.sociobot.in`
-- Work order: `local-sync-observer-verify-2`
-- Full evidence: [`.factory/verification-2.md`](verification-2.md)
+- Reproduced GitHub Actions run `33297898822`: PowerShell passed `tests/*.test.ts` literally and Vitest reported no test files. `npm test` now uses a cross-platform Vitest config, and CI runs `npm run check` on both Ubuntu and Windows.
+- The release workflow checks out the requested tag, proves `HEAD` equals that tag, requires all four build jobs, and records the source commit in `latest.json`.
+- Expanded `.factory/claims.json` from four entries to cover release identity, checksum enforcement, evidence boundaries, metadata safety, scan bounds, local endpoints, local storage/removal, 30-second refresh, owning-tool handoff, privacy, license, demo isolation, and offline reload.
+- Exact regressions now require the mocked GitHub `browser_download_url`, run the real shell installer against good and bad hashes, and generate a complete fixture release manifest with all six package types in `SHA256SUMS`.
+- Moved the 404 into Vite's build graph so it receives the hashed stylesheet. Its browser test requires styled output and no console/page errors.
+- Removed the 320px layout floor and added narrow-layout rules for the effective 195px CSS viewport at 390px/200% zoom. A browser test requires no horizontal overflow and 44×44px visible controls.
+- Added three captioned 900×600 captures of the real desktop UI: empty state, source setup, and sample conflict.
+- Fixed the timer root cause: the desktop refresh interval now starts even when the first source is added after launch.
+- Fixed site demo exit so **Start for real** clears only the demo namespace and preserves real observer data.
+- Bumped app, package, release workflow, service-worker cache, and public footer versions to `0.1.2`.
 
-## What was verified
+## Local verification evidence
 
-- Ran every `.factory/claims.json` command first; after `npm ci`, all four passed on desktop and 390 px mobile.
-- Ran TypeScript, 6 unit/static tests, exact app/site production builds, and all 20 Playwright tests.
-- Installed the repository-declared Linux prerequisites, then passed Rust format, 3 Rust tests, and clippy with warnings denied.
-- Exercised the live sample, reset, isolated storage, malformed-storage recovery, offline reload, service-worker update, desktop/mobile keyboard paths, reduced motion, axe, response headers, cache rules, links, console errors, bundle budgets, and Lighthouse.
-- Exercised browser-app empty, sample-conflict, invalid remote endpoint, recovery, persistence, removal, and unavailable native-picker paths.
-- Compared 12 deployed files to the local candidate build; all SHA-256 values matched.
-- Inspected GitHub release state and downloaded/checksummed/launched the currently published Linux artifact.
+- `npm ci`: passed, 67 packages, 0 vulnerabilities.
+- `npm run check`: passed; TypeScript, 10 Vitest tests, `dist/app`, and `dist/site`.
+- `npm run test:e2e`: 34/34 passed across desktop Chromium and exact 390px mobile.
+- Every exact command in `.factory/claims.json`: passed independently.
+- `cargo fmt --manifest-path src-tauri/Cargo.toml -- --check`: passed.
+- `cargo test --manifest-path src-tauri/Cargo.toml`: 5/5 passed.
+- `cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings`: passed.
+- `/opt/fleet/lib/verify-url.sh` passed on local `/` and `/demo/`: title, `lang`, one `h1`, `main`, alt text, button names, and zero console errors.
+- Playwright axe integration found no serious or critical issues on landing, app, privacy, and terms routes at desktop and 390px mobile.
+- Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.8s, TBT 0ms, CLS 0.004, transfer 183 KiB.
+- Production budgets: site JS 2,729 bytes; CSS 11,980 bytes; hero WebP 82,064 bytes; walkthrough WebPs 21,124–36,698 bytes and lazy-loaded.
+- 404, 195px effective reflow, 44px targets, reduced motion, keyboard focus/Escape, offline reload/update, request origins, cookies, storage isolation, malformed/fallback states, and full platform fixture metadata are regression-covered.
 
-## Release blockers
+## Release and deployment
 
-1. `v0.1.1` release run `33297898822` failed in the Windows `npm test` step; finalization was skipped. Only `v0.1.0` is published, so the live `v0.1.1` site installs old binaries.
-2. `.factory/claims.json` omits core behavior/privacy/installer promises, and its download test accepts the generic release fallback instead of asserting the intercepted artifact URL.
-3. The deployed 404 is unstyled and produces four console/CSP errors because it requests missing `/site.css`.
-4. The 390 px landing page clips content at 200% zoom (`scrollWidth` 706 px).
+The release candidate is `v0.1.2`. Hosted matrix, checksum, static deployment, and live identity evidence are recorded after publishing below.
 
-Medium findings are undersized touch targets, the missing three-to-five-frame desktop walkthrough, and an incomplete landing-copy audit.
+## Known limits and operator action
 
-## Passing controls
-
-- First-read/demo gate passes.
-- Normal 390 px layouts have no overflow; normal public routes have no serious/critical axe findings.
-- Visible keyboard focus, dialog focus/Escape, and reduced motion pass.
-- Demo requests are same-origin only; landing requests only the disclosed GitHub release API; there are no cookies or analytics.
-- Security headers and immutable hashed-asset caching pass.
-- Lighthouse mobile: Performance 99, Accessibility 100, Best Practices 100, SEO 100; LCP 1.6 s, TBT 0 ms, CLS 0.003.
-- Site JS/CSS/hero and desktop JS/CSS are within budget.
-
-## Reproduce
-
-```sh
-npm ci
-npm run check
-npm run test:e2e
-cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
-cargo test --manifest-path src-tauri/Cargo.toml
-cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
-```
-
-The native Rust commands need the Linux packages listed in `.github/workflows/ci.yml`. No product code was changed during verification.
-
-## Next steps
-
-1. Fix the cross-platform release test and publish complete `v0.1.1` assets plus `latest.json` and `SHA256SUMS`.
-2. Add claim entries and outcome-level sandbox tests for every public behavior, privacy, and installer promise; make the release test require the exact mocked asset URL.
-3. Route the 404 through the built stylesheet without inline CSP violations and test its console.
-4. Make the landing page reflow without horizontal scrolling at 200% zoom and bring all click targets to at least 44×44 CSS px.
-5. Complete the required screenshot walkthrough and full-sentence copy audit, then run independent verification again.
+- Syncthing is the only provider that can establish provider-backed convergence. Folder metadata alone remains `Unknown`.
+- API keys stay in local WebView storage and are not application-level encrypted; use a dedicated, revocable key.
+- Packages are unsigned. Signing requires owner-provided Apple and Windows certificates; the product has no updater and expects no signing secrets today.

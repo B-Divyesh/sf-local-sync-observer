@@ -27,6 +27,57 @@ test("example exposes the conflict in one action", async ({ page }) => {
   await expect(page.getByRole("button", { name: /Open owning tool/ })).toBeVisible();
 });
 
+test("@claim:local-app-storage keeps source settings in the local app namespace", async ({ page }) => {
+  const requests: string[] = [];
+  page.on("request", request => requests.push(request.url()));
+  await page.goto(appUrl);
+  await page.getByRole("button", { name: "Add first source" }).click();
+  await page.locator('input[name="apiKey"]').fill("test-only-key");
+  await page.getByRole("button", { name: "Save and inspect" }).click();
+  await expect(page.getByRole("heading", { name: "Native checks run in the installed desktop app." })).toBeVisible();
+  const saved = await page.evaluate(() => localStorage.getItem("local-sync-observer.v1"));
+  expect(saved).toContain("test-only-key");
+  expect(requests.every(url => new URL(url).origin === appUrl)).toBe(true);
+  page.on("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "Remove source" }).click();
+  await expect(page.getByText("NO SOURCES / NO CLAIM")).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("local-sync-observer.v1") ?? "null")?.sources)).toEqual([]);
+});
+
+test("@claim:open-owner opens the owning local tool without changing the sample", async ({ page }) => {
+  await page.context().route("http://127.0.0.1:8384/", route => route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>Owning tool fixture</title>" }));
+  await page.goto(appUrl);
+  await page.getByRole("button", { name: "Try sample data" }).click();
+  const popupPromise = page.waitForEvent("popup");
+  await page.getByRole("button", { name: /Open owning tool/ }).click();
+  const popup = await popupPromise;
+  expect(popup.url()).toBe("http://127.0.0.1:8384/");
+  await popup.close();
+  await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
+});
+
+test("@claim:thirty-second-refresh refreshes sources added after launch", async ({ page }) => {
+  await page.clock.install();
+  await page.addInitScript(() => {
+    let calls = 0;
+    (window as Window & { __TAURI_INTERNALS__?: unknown; __probeCalls?: number }).__TAURI_INTERNALS__ = {
+      invoke: async (command: string, args: Record<string, string>) => {
+        if (command !== "probe_syncthing") throw new Error(`Unexpected command ${command}`);
+        calls += 1;
+        (window as Window & { __probeCalls?: number }).__probeCalls = calls;
+        return { sourceId: args.sourceId, provider: "Syncthing", state: "converged", checkedAt: Date.now(), summary: "Every reported folder has zero pending items", folders: [], coverage: "fixture" };
+      }
+    };
+  });
+  await page.goto(appUrl);
+  await page.getByRole("button", { name: "Add first source" }).click();
+  await page.locator('input[name="apiKey"]').fill("fixture-key");
+  await page.getByRole("button", { name: "Save and inspect" }).click();
+  await expect.poll(() => page.evaluate(() => (window as Window & { __probeCalls?: number }).__probeCalls ?? 0)).toBe(1);
+  await page.clock.fastForward(30_000);
+  await expect.poll(() => page.evaluate(() => (window as Window & { __probeCalls?: number }).__probeCalls ?? 0)).toBe(2);
+});
+
 test("inactive folder fields stay hidden when Syncthing is selected", async ({ page }) => {
   await page.goto(appUrl);
   await page.getByRole("button", { name: "Add first source" }).click();

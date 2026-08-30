@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-const [assetsDir = "release-assets", repo = "B-Divyesh/sf-local-sync-observer", version = "v0.1.1"] = process.argv.slice(2);
+const [assetsDir = "release-assets", repo = "B-Divyesh/sf-local-sync-observer", version = "v0.1.2", sourceCommit = "unknown"] = process.argv.slice(2);
 
 async function filesUnder(directory) {
   const found = [];
@@ -37,5 +37,5 @@ const platforms = Object.fromEntries(Object.entries(assets).map(([key, asset]) =
   url: `${releaseBase}/${encodeURIComponent(asset.name)}`,
   sha256: asset.sha256
 }]));
-await writeFile(join(assetsDir, "latest.json"), `${JSON.stringify({ version, publishedAt: new Date().toISOString(), platforms }, null, 2)}\n`);
+await writeFile(join(assetsDir, "latest.json"), `${JSON.stringify({ version, sourceCommit, publishedAt: new Date().toISOString(), platforms }, null, 2)}\n`);
 await writeFile(join(assetsDir, "SHA256SUMS"), `${details.sort((a, b) => a.name.localeCompare(b.name)).map(item => `${item.sha256}  ${item.name}`).join("\n")}\n`);
