@@ -36,8 +36,8 @@ Completed in this repair environment:
 ## Deployment and release
 
 - Static deployment output remains `dist/site` from `npm run build:site`; it contains `staticwebapp.config.json` with the required CSP (`connect-src` includes `https://api.github.com`), frame restriction, 404 rewrite, and immutable `/assets/*` caching.
-- Push `main` to deploy the static site through the work-order configuration.
-- Push tag `v0.1.1` after the commit to run `.github/workflows/release.yml`; it builds the required DMG/MSI/EXE/AppImage/DEB matrix and publishes `SHA256SUMS` plus `latest.json`. Builds remain unsigned.
+- Deployed on 2026-08-30 with `/opt/fleet/lib/deploy-static.sh local-sync-observer /work/repo/dist/site` (deployment `341ca07e-86f2-410c-b793-8f271dd80a53`). Live `/demo/` returns the new 1,729-byte page with CSP/frame restriction; a hashed JS asset returns `Cache-Control: public, max-age=31536000, immutable`; an unknown path returns HTTP 404.
+- Pushed repair commit `b05da6b` and tag `v0.1.1`. Hosted release run `33297898822` is the GitHub Actions package/release run; it builds the required DMG/MSI/EXE/AppImage/DEB matrix and publishes `SHA256SUMS` plus `latest.json`. Builds remain unsigned.
 
 ## Known limits / operator action
 
