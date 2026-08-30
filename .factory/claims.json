@@ -1,0 +1,30 @@
+[
+  {
+    "id": "release-downloads",
+    "claim": "Download buttons use the latest GitHub Release metadata.",
+    "where": "landing download controls, README",
+    "test": "npm run test:e2e -- --grep @claim:release-downloads",
+    "sandbox": "intercept the CORS-safe GitHub API response; assert the detected Linux button receives the published AppImage URL and no console error occurs"
+  },
+  {
+    "id": "isolated-demo",
+    "claim": "The sample demo is isolated from real observer data.",
+    "where": "landing demo action, /demo, desktop sample mode",
+    "test": "npm run test:e2e -- --grep @claim:isolated-demo",
+    "sandbox": "fresh browser context; load /demo; assert the sample is visible, only the demo: localStorage key exists, then reset it"
+  },
+  {
+    "id": "demo-private",
+    "claim": "The sample demo sends no data to third parties.",
+    "where": "/demo privacy copy",
+    "test": "npm run test:e2e -- --grep @claim:demo-private",
+    "sandbox": "fresh browser context; record every request while loading and reading the shipped sample; assert every request is same-origin"
+  },
+  {
+    "id": "offline-demo-reload",
+    "claim": "The sample demo works offline after the first visit.",
+    "where": "/demo, README",
+    "test": "npm run test:e2e -- --grep @claim:offline-demo-reload",
+    "sandbox": "dedicated browser context; visit /demo, wait for its service worker, set offline, reload, and assert the sample conflict remains visible"
+  }
+]

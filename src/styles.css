@@ -16,6 +16,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { min-width: 320px; background: var(--paper); }
 body { margin: 0; min-width: 320px; min-height: 100vh; font-size: 16px; line-height: 1.55; background-color: var(--paper); background-image: radial-gradient(#17171718 0.7px, transparent 0.7px); background-size: 7px 7px; }
 button, input { font: inherit; }
@@ -59,6 +60,8 @@ h3 { font-size: 20px; }
 .empty-register span:nth-child(2) { transform: translateY(-12px); background: var(--signal); }
 .empty-register span:nth-child(3) { background: var(--danger); }
 .notice { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 24px; color: white; background: var(--link); font-weight: 700; }
+.demo-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 24px; border-bottom: 2px solid var(--ink); background: var(--signal); }
+.demo-banner .text-button { color: var(--ink); font-weight: 800; }
 .notice button { min-width: 44px; min-height: 44px; border: 0; color: white; background: transparent; font-size: 24px; cursor: pointer; }
 .board-layout { display: grid; min-height: 560px; grid-template-columns: 260px minmax(0, 1fr); }
 .source-rail { padding: 24px 16px; border-right: 2px solid var(--ink); background: #e8e2d5; }
@@ -125,6 +128,7 @@ fieldset { border: 0; }
   .app-header { align-items: start; padding: 10px 14px; }
   .brand > span:last-child, .privacy-mark { display: none; }
   .summary-strip { grid-template-columns: 1fr; gap: 16px; padding: 24px 16px; }
+  .demo-banner { align-items: start; flex-direction: column; padding: 12px 16px; }
   .overall-reading { max-width: none; }
   .board-layout { display: block; }
   .source-rail { border-right: 0; border-bottom: 2px solid var(--ink); }

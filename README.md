@@ -1,10 +1,12 @@
 # Local Sync Observer
 
-Local Sync Observer is a free, local-only desktop utility for people who run local-first tools and need one honest answer after offline work: have the folders and devices actually converged?
+Local Sync Observer is a free, local-only desktop utility for people who use Syncthing and need one clear answer after offline work: have the folders and devices actually converged?
 
 It is intentionally an observer, not a sync engine. v0.1 reads Syncthing’s local REST status and scans selected folder metadata for common conflict-copy names. It never opens file contents, sends telemetry, or changes a file. When something needs attention, it opens the owning tool for the fix.
 
 Live site: <https://local-sync-observer.sociobot.in>
+
+Try the isolated sample before installing: <https://local-sync-observer.sociobot.in/demo/>. It shows a realistic conflict reading and uses a separate demo storage key, so it never reads or changes real observer data.
 
 ## Install
 
@@ -59,6 +61,10 @@ cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
 The release workflow runs on `v*` tags and manual dispatch. It builds macOS arm64/x64 DMGs, Windows MSI/NSIS packages, and Linux AppImage/DEB packages, then publishes `SHA256SUMS` and `latest.json` with the release.
+
+## Demo and claims
+
+The one-click demo is documented in [`.factory/demo.md`](.factory/demo.md). Its observable product promises and the exact command that checks each one are in [`.factory/claims.json`](.factory/claims.json). The landing page requests CORS-safe release metadata from `api.github.com`; if it is unavailable, it shows a release-page link without failing the page.
 
 ## Privacy and security
 

@@ -1,13 +1,13 @@
 {
   "name": "local-sync-observer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.app.config.ts",
     "dev:site": "vite --config vite.site.config.ts",
     "tauri": "tauri",
-    "test": "vitest run tests/status.test.ts",
+    "test": "vitest run tests/*.test.ts",
     "test:e2e": "playwright test",
     "build:app": "vite build --config vite.app.config.ts",
     "build:site": "vite build --config vite.site.config.ts",

@@ -3,6 +3,8 @@ import type { FolderReading, FolderSource, Source, SourceReading, StatusKind, St
 import { relativeTime, summarizeFolders, worstState } from "./status";
 
 const STORAGE_KEY = "local-sync-observer.v1";
+const DEMO_STORAGE_KEY = "demo:local-sync-observer.v1";
+let demoMode = new URLSearchParams(window.location.search).get("demo") === "1";
 const appRoot = document.querySelector<HTMLDivElement>("#app");
 if (!appRoot) throw new Error("App root is missing");
 const app: HTMLDivElement = appRoot;
@@ -13,7 +15,7 @@ const state: StoredState & { loading: Set<string>; selectedId: string | null; no
 
 function load(): void {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<StoredState> | null;
+    const saved = JSON.parse(localStorage.getItem(storageKey()) ?? "null") as Partial<StoredState> | null;
     state.sources = Array.isArray(saved?.sources) ? saved.sources : [];
     state.readings = saved?.readings && typeof saved.readings === "object" ? saved.readings : {};
     state.selectedId = state.sources[0]?.id ?? null;
@@ -23,7 +25,18 @@ function load(): void {
 }
 
 function save(): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ sources: state.sources, readings: state.readings }));
+  localStorage.setItem(storageKey(), JSON.stringify({ sources: state.sources, readings: state.readings }));
+}
+
+function storageKey(): string {
+  return demoMode ? DEMO_STORAGE_KEY : STORAGE_KEY;
+}
+
+function setDemoLocation(enabled: boolean): void {
+  const url = new URL(window.location.href);
+  if (enabled) url.searchParams.set("demo", "1");
+  else url.searchParams.delete("demo");
+  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
 const statusMeta: Record<StatusKind, { label: string; symbol: string }> = {
@@ -76,6 +89,7 @@ function render(): void {
       </div>
     </header>
     <main id="main" tabindex="-1">
+      ${demoMode ? renderDemoBanner() : ""}
       <section class="summary-strip" aria-labelledby="board-title">
         <div>
           <p class="eyebrow">Read-only convergence board</p>
@@ -105,10 +119,14 @@ function renderEmpty(): string {
     <p>Add Syncthing’s read-only REST status or inspect folder metadata for common conflict copies. Nothing is uploaded, edited, or resolved here.</p>
     <div class="button-row">
       <button class="button button--primary" type="button" data-action="configure">Add first source</button>
-      <button class="button" type="button" data-action="sample">Preview an example</button>
+      <button class="button" type="button" data-action="sample">Try sample data</button>
     </div>
     <p class="fineprint">A green result is shown only when a provider reports zero pending items. Folder observation alone stays “Unknown” unless it finds a conflict.</p>
   </section>`;
+}
+
+function renderDemoBanner(): string {
+  return `<section class="demo-banner" aria-label="Demo controls"><strong>Demo — sample data, nothing is saved to your real observer.</strong><div class="button-row"><button class="text-button" type="button" data-action="reset-demo">Reset demo</button><button class="text-button" type="button" data-action="start-real">Start for real</button></div></section>`;
 }
 
 function renderBoard(selected?: Source): string {
@@ -138,7 +156,7 @@ function renderEvidence(source: Source, reading?: SourceReading): string {
   const sourceLocation = source.kind === "syncthing" ? source.endpoint : source.path;
   return `<div class="evidence-heading">
       <div><p class="eyebrow">${source.kind === "syncthing" ? "Syncthing REST evidence" : "Local metadata evidence"}</p><h2>${escapeHtml(source.name)}</h2><p class="path" title="${escapeHtml(sourceLocation)}">${escapeHtml(sourceLocation)}</p></div>
-      <div class="button-row"><button class="button" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">Refresh evidence</button>${source.ownerUrl ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open owning tool ↗</button>` : ""}</div>
+      <div class="button-row">${demoMode ? `<button class="button" type="button" data-action="reset-demo">Reset sample</button>` : `<button class="button" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">Refresh evidence</button>`}${source.ownerUrl ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open owning tool ↗</button>` : ""}</div>
     </div>
     ${reading ? renderReading(reading) : renderNeverChecked(source)}
     <div class="evidence-footer"><span>Coverage: ${escapeHtml(reading?.coverage ?? (source.kind === "syncthing" ? "Folder completion and connection metadata" : "Conflict filename patterns and timestamps"))}</span><button class="text-button danger-text" type="button" data-action="remove" data-source-id="${escapeHtml(source.id)}">Remove source</button></div>`;
@@ -169,7 +187,7 @@ function renderSourceDialog(): string {
         <label>API key<input name="apiKey" type="password" autocomplete="off" required aria-describedby="api-help"></label>
         <small id="api-help">Stored only in this app’s local WebView storage. You can revoke it in Syncthing.</small>
       </div>
-      <div class="form-fields" data-fields="folder" hidden>
+      <div class="form-fields" data-fields="folder" hidden aria-hidden="true">
         <label>Display name<input name="folderName" value="Observed folder" required disabled></label>
         <label>Folder path<span class="path-input"><input name="path" required disabled><button type="button" class="button" data-action="choose-folder">Choose…</button></span></label>
         <label>Owning tool URL <span class="optional">optional</span><input name="ownerUrl" type="url" placeholder="http://127.0.0.1:8384" disabled></label>
@@ -212,6 +230,8 @@ async function handleAction(event: Event): Promise<void> {
   if (action === "open-owner" && element.dataset.sourceId) await openOwner(element.dataset.sourceId);
   if (action === "remove" && element.dataset.sourceId) removeSource(element.dataset.sourceId);
   if (action === "sample") addSample();
+  if (action === "reset-demo") resetDemo();
+  if (action === "start-real") startForReal();
 }
 
 function toggleSourceFields(event: Event): void {
@@ -219,6 +239,7 @@ function toggleSourceFields(event: Event): void {
   document.querySelectorAll<HTMLElement>("[data-fields]").forEach((group) => {
     const active = group.dataset.fields === kind;
     group.hidden = !active;
+    group.setAttribute("aria-hidden", String(!active));
     group.querySelectorAll<HTMLInputElement>("input").forEach((input) => { input.disabled = !active; });
   });
 }
@@ -273,6 +294,11 @@ async function handleSourceSubmit(event: SubmitEvent): Promise<void> {
 }
 
 async function refreshSource(id: string): Promise<void> {
+  if (demoMode) {
+    state.notice = "Sample evidence is fixed so it never contacts a provider.";
+    render();
+    return;
+  }
   const source = state.sources.find((candidate) => candidate.id === id);
   if (!source) return;
   state.loading.add(id);
@@ -316,6 +342,10 @@ function removeSource(id: string): void {
 }
 
 function addSample(): void {
+  demoMode = true;
+  setDemoLocation(true);
+  state.sources = [];
+  state.readings = {};
   const id = "sample-evidence";
   const source: FolderSource = { id, kind: "folder", name: "Example: field notes", path: "/Users/you/Documents/Field notes", ownerUrl: "http://127.0.0.1:8384" };
   const folders: FolderReading[] = [
@@ -325,12 +355,36 @@ function addSample(): void {
   state.sources = [source];
   state.readings = { [id]: { sourceId: id, provider: "Example only", checkedAt: Date.now(), folders, coverage: "Example conflict filename and timestamps", ...summary } };
   state.selectedId = id;
-  state.notice = "Example board loaded. Remove it before adding your real sources.";
+  state.notice = "Sample board loaded in an isolated demo. It cannot change your real observer.";
+  save();
+  render();
+}
+
+function resetDemo(): void {
+  if (!demoMode) return;
+  localStorage.removeItem(DEMO_STORAGE_KEY);
+  state.sources = [];
+  state.readings = {};
+  state.selectedId = null;
+  state.notice = "";
+  addSample();
+}
+
+function startForReal(): void {
+  if (!demoMode) return;
+  localStorage.removeItem(DEMO_STORAGE_KEY);
+  demoMode = false;
+  setDemoLocation(false);
+  state.sources = [];
+  state.readings = {};
+  state.selectedId = null;
+  state.notice = "Demo data was discarded. Add a source when you are ready.";
   render();
 }
 
 load();
-render();
+if (demoMode && state.sources.length === 0) addSample();
+else render();
 
 if (isTauri() && state.sources.length > 0) {
   void Promise.all(state.sources.map((source) => refreshSource(source.id)));

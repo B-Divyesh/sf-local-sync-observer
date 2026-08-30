@@ -21,9 +21,21 @@ test("desktop shell exposes an honest empty state and keyboard dialog", async ({
 
 test("example exposes the conflict in one action", async ({ page }) => {
   await page.goto(appUrl);
-  await page.getByRole("button", { name: "Preview an example" }).click();
+  await page.getByRole("button", { name: "Try sample data" }).click();
   await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
+  await expect(page.getByText("Demo — sample data, nothing is saved to your real observer.")).toBeVisible();
   await expect(page.getByRole("button", { name: /Open owning tool/ })).toBeVisible();
+});
+
+test("inactive folder fields stay hidden when Syncthing is selected", async ({ page }) => {
+  await page.goto(appUrl);
+  await page.getByRole("button", { name: "Add first source" }).click();
+  const dialog = page.getByRole("dialog", { name: "Add an evidence source" });
+  await expect(dialog.locator('[data-fields="folder"]')).toBeHidden();
+  await expect(dialog.getByRole("button", { name: "Choose…" })).toBeHidden();
+  await dialog.getByLabel("Folder metadata").check();
+  await expect(dialog.locator('[data-fields="folder"]')).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "Choose…" })).toBeVisible();
 });
 
 test("desktop shell has no serious accessibility violations or mobile overflow", async ({ page }) => {

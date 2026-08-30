@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://local-sync-observer.sociobot.in/sitemap.xml

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Local Sync Observer registration mark</title>
+  <rect width="512" height="512" rx="64" fill="#F4F0E6"/>
+  <path fill="#FFE34F" stroke="#171717" stroke-width="20" d="M48 84h416v344H48z"/>
+  <path fill="#0645D1" stroke="#171717" stroke-width="18" d="M82 154h190v66H82z"/>
+  <path fill="#176B45" stroke="#171717" stroke-width="18" d="M82 246h190v66H82z"/>
+  <path fill="#A62121" stroke="#171717" stroke-width="18" d="M82 338h124l34-30 36 34v62H82z"/>
+  <circle cx="342" cy="256" r="108" fill="#FFFDF5" fill-opacity=".9" stroke="#171717" stroke-width="22"/>
+  <circle cx="342" cy="256" r="58" fill="none" stroke="#171717" stroke-width="16"/>
+  <path stroke="#171717" stroke-width="18" d="M342 110v50m0 192v50m-146-146h50m192 0h50"/>
+</svg>

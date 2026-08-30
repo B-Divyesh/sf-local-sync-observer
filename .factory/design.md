@@ -63,6 +63,8 @@ The core raster illustration is **“Convergence inspection board”**, used on 
 
 Generation command: `/opt/fleet/lib/gen-image.sh` using the factory `factory-image` deployment, 1536×1024, high quality. Generated 2026-08-28. The selected output is original AI-generated imagery for this product; prompt sidecar is retained in `assets/src/`. It will be reviewed for text artifacts, seams, misleading symbols, and palette consistency, then exported to WebP (hero mobile budget ≤300 KB).
 
+The social preview at `public/assets/social-card.png` is a 1200×630 center crop composed from the reviewed original convergence-board artwork on 2026-08-30. The 180 px Apple touch icon is a raster derivative of the hand-authored `app-icon.svg`.
+
 ## Why this fits
 
 Sync tools often communicate certainty with soothing green dots. This product must do the opposite: show the evidence boundary and say “not enough evidence” when it cannot prove convergence. The inspection-board metaphor, hard registration marks, paper tickets, and visibly offset layers make that epistemic caution tangible while remaining fast and legible for a utility people open during a stressful incident.

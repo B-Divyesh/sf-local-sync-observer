@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-const [assetsDir = "release-assets", repo = "B-Divyesh/sf-local-sync-observer", version = "v0.1.0"] = process.argv.slice(2);
+const [assetsDir = "release-assets", repo = "B-Divyesh/sf-local-sync-observer", version = "v0.1.1"] = process.argv.slice(2);
 
 async function filesUnder(directory) {
   const found = [];
