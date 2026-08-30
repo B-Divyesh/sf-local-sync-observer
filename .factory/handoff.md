@@ -31,7 +31,7 @@ Completed in this repair environment:
 - `npm run check`: passed. TypeScript, 6 unit/static-contract tests, and both production builds passed. `dist/app` and `dist/site` were produced.
 - `npm run test:e2e`: passed, 20/20 across desktop and exact 390 px mobile. This includes axe serious/critical checks on the landing, app, privacy, and terms pages; keyboard dialog checks; no-console-error release API resolution; the hidden source-form regression; the isolated-demo/reset/privacy/offline claim tests; and no mobile horizontal overflow.
 - Claim commands in `.factory/claims.json` each pass independently; the offline claim uses its own `browser.newContext()` and closes only that context.
-- Native Rust quality commands were started after installing the CI-declared Linux WebKit dependencies in this disposable worker; see the final command log for their completion status before release.
+- After installing the CI-declared Linux WebKit dependencies in this disposable worker, `cargo fmt --check`, `cargo test` (3/3), and `cargo clippy --all-targets -- -D warnings` all passed.
 
 ## Deployment and release
 
