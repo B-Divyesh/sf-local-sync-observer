@@ -32,7 +32,34 @@ This repairs every finding in `.factory/verification-2.md` for candidate `0f9671
 
 ## Release and deployment
 
-The release candidate is `v0.1.2`. Hosted matrix, checksum, static deployment, and live identity evidence are recorded after publishing below.
+The repaired release candidate is tag `v0.1.2`, built from commit `39df651917f50f887a25123575d7f9d82c2e6a21`.
+
+- Hosted quality run [`33300352802`](https://github.com/B-Divyesh/sf-local-sync-observer/actions/runs/33300352802): Rust passed; web checks passed on both `ubuntu-latest` and `windows-latest`. This is the hosted regression for the original PowerShell literal-glob failure.
+- Hosted release run [`33300353819`](https://github.com/B-Divyesh/sf-local-sync-observer/actions/runs/33300353819): both macOS architectures, Windows MSI/NSIS, Linux AppImage/DEB, and the metadata finalizer passed.
+- Published release: [`v0.1.2`](https://github.com/B-Divyesh/sf-local-sync-observer/releases/tag/v0.1.2), non-draft and non-prerelease, with `target_commitish` equal to the repair commit.
+- Downloaded every release asset and ran `sha256sum -c SHA256SUMS`: all six packages passed.
+
+| Platform/package | Published SHA-256 |
+| --- | --- |
+| macOS arm64 `.dmg` | `78a6409821dfc5ddcc8c164f0cadecc8ca395a111f2e31eba2960c5c9d9a9e5d` |
+| macOS x64 `.dmg` | `db374e8e52645306b8f2edefc9d117f78c1610f2b2b0c8e725e47e941b787a9d` |
+| Windows x64 `.msi` | `92c971704c02430cc0ea35394c29555c23aa24fc5e926786b783872eb8efba3c` |
+| Windows x64 `.exe` | `f970c7e36f96fe1c0b7789b1198677d7d08f9d0c99b0f6eeb79fbf04da590e64` |
+| Linux x64 `.AppImage` | `7a94a4401d58214c7e82cad8b868f57fb35fd1910e0baf2b3044022d839b5583` |
+| Linux x64 `.deb` | `918d6a3481ca9507b8890012a13e918fe7755387c16f5a23dd040e552ec80e04` |
+
+`latest.json` reports `v0.1.2`, the exact source commit, four platform keys, real package URLs, and the same primary-package hashes. Package inspection identified a valid x86-64 AppImage, Debian package `local-sync-observer` version `0.1.2`, x64 MSI, NSIS executable, and both disk images.
+
+The matching `dist/site` was deployed with `/opt/fleet/lib/deploy-static.sh local-sync-observer /work/repo/dist/site`; deployment ID `6b096a3a-ec17-4bde-979f-9217cfb43278` succeeded. Live checks at `https://local-sync-observer.sociobot.in` found:
+
+- `/` and `/demo` return 200 with the correct title, language, one `h1`, main landmark, complete image alternatives, and zero console errors.
+- The Linux-detected primary action resolves to the published `v0.1.2` AppImage and displays its release/package metadata.
+- The direct `/404.html` artifact is styled and has no console error; an unknown route returns HTTP 404 with that artifact.
+- At the 195 CSS-pixel effective viewport used to model 390px at 200% zoom: no horizontal overflow and no visible control smaller than 44px.
+- Axe found no serious or critical landing-page issues. The demo reloaded from its service-worker cache while offline.
+- CSP permits only the documented GitHub API connection, forbids framing, and has no inline-policy violation. Hashed assets return one-year immutable caching; HTML returns `no-cache`.
+- Live `install.sh` and `install.ps1` byte hashes equal the deployed build. Ten representative HTML, script, style, installer, and walkthrough assets matched local SHA-256 exactly.
+- Live Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.203s, TBT 56ms, CLS 0.004, transfer 186,244 bytes.
 
 ## Known limits and operator action
 
