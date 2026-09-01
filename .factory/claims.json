@@ -8,10 +8,10 @@
   },
   {
     "id": "release-matrix",
-    "claim": "A release manifest requires macOS arm64, macOS Intel, Windows x64, and Linux x64 assets with SHA-256 checksums and a source commit.",
+    "claim": "A release manifest requires macOS arm64, macOS Intel, Windows x64, and Linux x64 assets with SHA-256 checksums tied to one source commit.",
     "where": "README release workflow",
     "test": "npm test -- --testNamePattern @claim:release-matrix",
-    "sandbox": "generate a manifest from six fixture packages; assert four platform entries, the candidate commit, URLs, and checksums for every package"
+    "sandbox": "generate a manifest from six fixture packages; assert four platform entries and that every package URL and checksum identifies the candidate commit; reject a stale commit"
   },
   {
     "id": "checksum-install",

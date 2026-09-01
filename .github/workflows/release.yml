@@ -8,7 +8,7 @@ on:
       tag:
         description: Existing v* tag to release
         required: true
-        default: v0.1.2
+        default: v0.1.3
 
 env:
   RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
@@ -41,7 +41,10 @@ jobs:
           ref: ${{ env.RELEASE_TAG }}
       - name: Verify candidate tag identity
         shell: bash
-        run: test "$(git rev-parse HEAD)" = "$(git rev-list -n 1 "$RELEASE_TAG")"
+        run: |
+          test "$(git rev-parse HEAD)" = "$(git rev-list -n 1 "$RELEASE_TAG")"
+          test "$RELEASE_TAG" = "v$(node -p "require('./package.json').version")"
+          echo "LSO_SOURCE_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -86,6 +89,8 @@ jobs:
         run: gh release download "$RELEASE_TAG" --dir release-assets
       - name: Build checksum and download manifests
         run: node scripts/release-manifest.mjs release-assets "$GITHUB_REPOSITORY" "$RELEASE_TAG" "$(git rev-parse HEAD)"
+      - name: Verify every download identifies this candidate
+        run: node scripts/verify-release-identity.mjs release-assets/latest.json "$RELEASE_TAG" "$(git rev-parse HEAD)"
       - name: Upload manifests and publish release
         uses: softprops/action-gh-release@v2
         with:

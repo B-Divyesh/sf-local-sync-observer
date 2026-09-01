@@ -3,21 +3,21 @@ import { expect, test } from "@playwright/test";
 
 test("@claim:release-downloads landing page has one clear heading and a usable download path", async ({ page }) => {
   const published = {
-    linux: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.2/observer.AppImage",
-    windows: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.2/observer.msi",
-    macArm: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.2/observer-aarch64.dmg",
-    macX64: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.2/observer-x64.dmg"
+    linux: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.3/observer.AppImage",
+    windows: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.3/observer.msi",
+    macArm: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.3/observer-aarch64.dmg",
+    macX64: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.3/observer-x64.dmg"
   };
   const errors: string[] = [];
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
   await page.route("https://api.github.com/repos/B-Divyesh/sf-local-sync-observer/releases/latest", route => route.fulfill({
     status: 200,
     contentType: "application/json",
-    body: JSON.stringify({ tag_name: "v0.1.2", assets: [
-      { name: "Local.Sync.Observer_0.1.2_amd64.AppImage", browser_download_url: published.linux },
-      { name: "Local.Sync.Observer_0.1.2_x64_en-US.msi", browser_download_url: published.windows },
-      { name: "Local.Sync.Observer_0.1.2_aarch64.dmg", browser_download_url: published.macArm },
-      { name: "Local.Sync.Observer_0.1.2_x64.dmg", browser_download_url: published.macX64 }
+    body: JSON.stringify({ tag_name: "v0.1.3", assets: [
+      { name: "Local.Sync.Observer_0.1.3_amd64.AppImage", browser_download_url: published.linux },
+      { name: "Local.Sync.Observer_0.1.3_x64_en-US.msi", browser_download_url: published.windows },
+      { name: "Local.Sync.Observer_0.1.3_aarch64.dmg", browser_download_url: published.macArm },
+      { name: "Local.Sync.Observer_0.1.3_x64.dmg", browser_download_url: published.macX64 }
     ] })
   }));
   await page.goto("/");

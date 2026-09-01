@@ -104,7 +104,7 @@ function render(): void {
       ${state.notice ? `<div class="notice" role="status">${escapeHtml(state.notice)}<button type="button" data-action="dismiss-notice" aria-label="Dismiss message">×</button></div>` : ""}
       ${state.sources.length === 0 ? renderEmpty() : renderBoard(selected)}
     </main>
-    <footer class="app-footer"><span>Observation only · never writes or syncs files</span><button class="text-button" data-action="show-privacy" type="button">Privacy details</button></footer>
+    <footer class="app-footer"><span>Observation only · never writes or syncs files</span><span class="build-id" title="Source commit ${__SOURCE_COMMIT__}" aria-label="Version ${__APP_VERSION__}, source commit ${__SOURCE_COMMIT__}">v${__APP_VERSION__} · build <code>${__SOURCE_COMMIT__.slice(0, 7)}</code></span><button class="text-button" data-action="show-privacy" type="button">Privacy details</button></footer>
     ${renderSourceDialog()}
     ${renderPrivacyDialog()}
   `;

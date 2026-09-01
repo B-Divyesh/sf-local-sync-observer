@@ -2,7 +2,11 @@ import { createHash } from "node:crypto";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-const [assetsDir = "release-assets", repo = "B-Divyesh/sf-local-sync-observer", version = "v0.1.2", sourceCommit = "unknown"] = process.argv.slice(2);
+const [assetsDir, repo, version, sourceCommit] = process.argv.slice(2);
+
+if (!assetsDir || !repo || !/^v\d+\.\d+\.\d+$/.test(version ?? "") || !/^[a-f0-9]{40}$/.test(sourceCommit ?? "")) {
+  throw new Error("Usage: release-manifest.mjs <assets-dir> <owner/repo> <vX.Y.Z> <40-character-source-commit>");
+}
 
 async function filesUnder(directory) {
   const found = [];
@@ -32,10 +36,17 @@ const assets = {
   "linux-x64": find(name => /(amd64|x86_64).*\.AppImage$/i.test(name), "Linux AppImage")
 };
 const releaseBase = `https://github.com/${repo}/releases/download/${version}`;
+const artifacts = details.sort((a, b) => a.name.localeCompare(b.name)).map(asset => ({
+  name: asset.name,
+  url: `${releaseBase}/${encodeURIComponent(asset.name)}`,
+  sha256: asset.sha256,
+  sourceCommit
+}));
 const platforms = Object.fromEntries(Object.entries(assets).map(([key, asset]) => [key, {
   name: asset.name,
   url: `${releaseBase}/${encodeURIComponent(asset.name)}`,
-  sha256: asset.sha256
+  sha256: asset.sha256,
+  sourceCommit
 }]));
-await writeFile(join(assetsDir, "latest.json"), `${JSON.stringify({ version, sourceCommit, publishedAt: new Date().toISOString(), platforms }, null, 2)}\n`);
-await writeFile(join(assetsDir, "SHA256SUMS"), `${details.sort((a, b) => a.name.localeCompare(b.name)).map(item => `${item.sha256}  ${item.name}`).join("\n")}\n`);
+await writeFile(join(assetsDir, "latest.json"), `${JSON.stringify({ version, sourceCommit, publishedAt: new Date().toISOString(), platforms, artifacts }, null, 2)}\n`);
+await writeFile(join(assetsDir, "SHA256SUMS"), `${artifacts.map(item => `${item.sha256}  ${item.name}`).join("\n")}\n`);

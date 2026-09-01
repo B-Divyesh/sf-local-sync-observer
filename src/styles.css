@@ -105,6 +105,8 @@ tbody th small { max-width: 350px; overflow: hidden; color: var(--muted); font-w
 .registration-loader { width: 92px; height: 20px; margin-bottom: 24px; border: 2px solid var(--ink); background: linear-gradient(90deg, var(--signal) 0 30%, var(--link) 30% 62%, var(--danger) 62%); animation: inspect 1.2s steps(3) infinite; }
 @keyframes inspect { 50% { transform: translateX(24px); } }
 .app-footer { display: flex; min-height: 54px; align-items: center; justify-content: space-between; gap: 16px; padding: 5px 24px; border-top: 2px solid var(--ink); background: var(--panel); font-size: 13px; }
+.build-id { color: var(--muted); white-space: nowrap; }
+.build-id code { color: inherit; font-size: inherit; }
 dialog { width: min(680px, calc(100vw - 24px)); max-height: calc(100vh - 24px); padding: 0; overflow-y: auto; border: 3px solid var(--ink); border-radius: 0; background: var(--panel); box-shadow: 8px 8px 0 var(--ink); }
 dialog::backdrop { background: #171717a8; }
 .dialog-shell { padding: 24px; }
