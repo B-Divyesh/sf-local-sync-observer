@@ -1,0 +1,10 @@
+[package]
+name = "local-sync-observer-core"
+version = "0.1.2"
+edition = "2021"
+license = "MIT"
+description = "Dependency-free read-only folder evidence checks for Local Sync Observer"
+
+[lib]
+name = "local_sync_observer_core"
+path = "src/lib.rs"

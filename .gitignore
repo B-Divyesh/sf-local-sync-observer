@@ -6,4 +6,5 @@ graphify-out/
 test-results/
 playwright-report/
 src-tauri/target/
+crates/observer-core/target/
 .DS_Store

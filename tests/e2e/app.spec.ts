@@ -27,7 +27,7 @@ test("example exposes the conflict in one action", async ({ page }) => {
   await expect(page.getByRole("button", { name: /Open owning tool/ })).toBeVisible();
 });
 
-test("@claim:local-app-storage keeps source settings in the local app namespace", async ({ page }) => {
+test("@claim:local-app-storage keeps unencrypted source settings in the local app namespace", async ({ page }) => {
   const requests: string[] = [];
   page.on("request", request => requests.push(request.url()));
   await page.goto(appUrl);
@@ -37,6 +37,7 @@ test("@claim:local-app-storage keeps source settings in the local app namespace"
   await expect(page.getByRole("heading", { name: "Native checks run in the installed desktop app." })).toBeVisible();
   const saved = await page.evaluate(() => localStorage.getItem("local-sync-observer.v1"));
   expect(saved).toContain("test-only-key");
+  expect(JSON.parse(saved ?? "{}").sources[0].apiKey).toBe("test-only-key");
   expect(requests.every(url => new URL(url).origin === appUrl)).toBe(true);
   page.on("dialog", dialog => dialog.accept());
   await page.getByRole("button", { name: "Remove source" }).click();

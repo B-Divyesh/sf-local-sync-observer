@@ -31,26 +31,26 @@
     "id": "metadata-only-scan",
     "claim": "Folder scans inspect metadata without reading or changing file contents.",
     "where": "landing, desktop privacy dialog, privacy page, README",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_metadata_only_scan_preserves_contents_and_stays_unknown",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_metadata_only_scan_preserves_contents_and_stays_unknown",
     "sandbox": "scan a temporary file whose contents look like a conflict marker; assert it is not classified from contents, remains byte-identical, and convergence stays unknown"
   },
   {
     "id": "scan-bounds",
     "claim": "Folder scans stop at 50,000 entries and depth 16.",
     "where": "landing coverage, README",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen",
     "sandbox": "assert production scan bounds and prove a conflict filename below the depth boundary is not inspected"
   },
   {
     "id": "local-endpoint-only",
     "claim": "Syncthing checks accept loopback or .local endpoints and reject remote hosts.",
     "where": "desktop setup, privacy page, README",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints",
     "sandbox": "validate a fixture remote HTTPS endpoint is rejected and a loopback endpoint is accepted"
   },
   {
     "id": "local-app-storage",
-    "claim": "Source credentials, paths, and readings stay in local app storage with no telemetry request, and removal deletes the saved source.",
+    "claim": "Source credentials, paths, and readings stay in unencrypted local app storage with no telemetry request, and removal deletes the saved source.",
     "where": "desktop privacy dialog, privacy page, README",
     "test": "npm run test:e2e -- --grep @claim:local-app-storage",
     "sandbox": "save and remove a fixture source; assert its credential uses namespaced localStorage, every request is same-origin, and removal clears the saved source"
@@ -103,5 +103,12 @@
     "where": "/demo, README",
     "test": "npm run test:e2e -- --grep @claim:offline-demo-reload",
     "sandbox": "dedicated browser context; visit /demo, wait for its service worker, set offline, reload, and assert the sample conflict remains visible"
+  },
+  {
+    "id": "release-fallback",
+    "claim": "If GitHub cannot provide release details, the website shows a release-page link.",
+    "where": "landing download note, README",
+    "test": "npm run test:e2e -- --grep @claim:release-fallback",
+    "sandbox": "intercept the GitHub release request with a failure; assert the fallback message and release-page link"
   }
 ]

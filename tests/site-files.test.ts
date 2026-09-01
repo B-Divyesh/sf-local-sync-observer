@@ -16,7 +16,7 @@ describe("static hosting contract", () => {
     expect(config).toContain('"404"');
     expect(robots).toContain("Sitemap:");
     expect(sitemap).toContain("/demo/");
-    expect(notFound).toContain("That page is not on this board.");
+    expect(notFound).toContain("Page not found");
   });
 
   it("keeps unit test discovery independent of shell glob expansion", async () => {
@@ -25,12 +25,18 @@ describe("static hosting contract", () => {
     expect(await read("vitest.config.ts")).toContain('include: ["tests/*.test.ts"]');
   });
 
-  it("ships the required social, canonical, and icon metadata", async () => {
-    const home = await read("site/index.html");
-    expect(home).toContain('rel="canonical"');
-    expect(home).toContain('property="og:image"');
-    expect(home).toContain('name="twitter:card"');
-    expect(home).toContain('rel="apple-touch-icon"');
+  it("ships complete route metadata and the shared route shell", async () => {
+    const routes = await Promise.all(["site/index.html", "site/demo/index.html", "site/privacy/index.html", "site/terms/index.html", "site/404.html"].map(read));
+    for (const page of routes) {
+      expect(page).toContain('rel="canonical"');
+      expect(page).toContain('property="og:title"');
+      expect(page).toContain('property="og:image"');
+      expect(page).toContain('name="twitter:card"');
+      expect(page).toContain('rel="apple-touch-icon"');
+      expect(page).toContain('aria-label="Main navigation"');
+      expect(page).toContain('aria-label="Footer navigation"');
+      expect(page).toContain('src="/route-focus.ts"');
+    }
   });
 
   it("@claim:mit-license ships the promised MIT license", async () => {

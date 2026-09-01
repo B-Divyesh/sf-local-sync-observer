@@ -21,3 +21,4 @@ h1{font-size:clamp(36px,7vw,86px)}
 @media(max-width:320px){.site-header nav{display:none}.hero-copy,.hero-art,.problem-band,.method,.proof,.coverage,.install,.walkthrough,.legal-page,.demo-page{padding-right:12px;padding-left:12px}.hero-actions,.demo-actions{display:grid}.button{width:100%;white-space:normal}.steps li{grid-template-columns:1fr;gap:8px}.mock-row{grid-template-columns:1fr}.mock-row>*:not(:first-child){display:none}.site-footer{padding-right:12px;padding-left:12px}.site-footer nav{gap:8px}h1,.legal-page h1,.demo-page h1{font-size:32px}}
 .install-grid code{overflow:visible;white-space:normal}
 .download-note a{display:inline-flex;min-height:44px;align-items:center}
+.route-announcement{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

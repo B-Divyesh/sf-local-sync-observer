@@ -1,12 +1,9 @@
+use local_sync_observer_core::{is_local_endpoint, scan_folder as scan_metadata};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use tauri::{Manager, WindowEvent};
 use url::Url;
-use walkdir::WalkDir;
-
-const SCAN_MAX_ENTRIES: u64 = 50_000;
-const SCAN_MAX_DEPTH: usize = 16;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -57,23 +54,6 @@ fn now_ms() -> u64 {
         .as_millis() as u64
 }
 
-fn modified_ms(metadata: &std::fs::Metadata) -> Option<u64> {
-    metadata
-        .modified()
-        .ok()?
-        .duration_since(UNIX_EPOCH)
-        .ok()
-        .map(|duration| duration.as_millis() as u64)
-}
-
-fn is_conflict_name(name: &str) -> bool {
-    let lower = name.to_ascii_lowercase();
-    lower.contains(".sync-conflict-")
-        || lower.contains("conflicted copy")
-        || lower.contains("conflict copy")
-        || lower.ends_with(".conflict")
-}
-
 fn scan_folder(
     id: String,
     label: String,
@@ -88,36 +68,10 @@ fn scan_folder(
         return Err(format!("Path is not a folder: {path}"));
     }
 
-    let mut conflicts = 0_u64;
-    let mut newest = None;
-    let mut inspected = 0_u64;
-    let mut truncated = false;
-    for item in WalkDir::new(root)
-        .follow_links(false)
-        .max_depth(SCAN_MAX_DEPTH)
-        .into_iter()
-    {
-        let entry = match item {
-            Ok(entry) => entry,
-            Err(_) => continue,
-        };
-        if entry.path() == root {
-            continue;
-        }
-        inspected += 1;
-        if inspected > SCAN_MAX_ENTRIES {
-            truncated = true;
-            break;
-        }
-        if is_conflict_name(&entry.file_name().to_string_lossy()) {
-            conflicts += 1;
-        }
-        if let Ok(metadata) = entry.metadata() {
-            if let Some(modified) = modified_ms(&metadata) {
-                newest = Some(newest.map_or(modified, |current: u64| current.max(modified)));
-            }
-        }
-    }
+    let metadata = scan_metadata(root)?;
+    let conflicts = metadata.conflict_files;
+    let newest = metadata.newest_change_at;
+    let truncated = metadata.truncated;
 
     let (state, last_good_at, note) = if conflicts > 0 {
         ("conflict", None, format!("Found {conflicts} filename(s) matching common conflict-copy patterns. File contents were not opened."))
@@ -161,8 +115,7 @@ fn validate_local_endpoint(endpoint: &str) -> Result<Url, String> {
     if url.scheme() != "http" && url.scheme() != "https" {
         return Err("Only HTTP or HTTPS Syncthing endpoints are supported.".into());
     }
-    let host = url.host_str().unwrap_or_default();
-    if host != "localhost" && host != "127.0.0.1" && host != "::1" && !host.ends_with(".local") {
+    if !is_local_endpoint(endpoint) {
         return Err(
             "Use a loopback address or a .local host. Remote cloud endpoints are rejected.".into(),
         );
@@ -452,22 +405,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn detects_common_conflict_names() {
-        assert!(is_conflict_name(
-            "notes.sync-conflict-20260828-120000-DEVICE.md"
-        ));
-        assert!(is_conflict_name(
-            "notes (MacBook's conflicted copy 2026-08-28).md"
-        ));
-        assert!(!is_conflict_name("conflict-resolution-guide.md"));
-    }
-
-    #[test]
-    fn claim_local_endpoint_only_rejects_remote_endpoints() {
-        assert!(validate_local_endpoint("https://sync.example.com").is_err());
-        assert!(validate_local_endpoint("http://127.0.0.1:8384").is_ok());
-    }
-
     #[test]
     fn parses_syncthing_device_ids() {
         let folder: SyncthingFolder = serde_json::from_str(
@@ -475,58 +412,5 @@ mod tests {
         )
         .expect("valid Syncthing folder");
         assert_eq!(folder.devices[0].device_id, "ABC-123");
-    }
-
-    #[test]
-    fn claim_metadata_only_scan_preserves_contents_and_stays_unknown() {
-        let root = std::env::temp_dir().join(format!("lso-metadata-{}", now_ms()));
-        std::fs::create_dir_all(&root).expect("create fixture folder");
-        let ordinary = root.join("ordinary-note.txt");
-        let contents = b"a .sync-conflict- marker inside content is not filename evidence";
-        std::fs::write(&ordinary, contents).expect("write fixture file");
-
-        let reading = scan_folder(
-            "fixture".into(),
-            "Fixture".into(),
-            root.to_string_lossy().into_owned(),
-            None,
-        )
-        .expect("scan succeeds");
-
-        assert_eq!(reading.state, "unknown");
-        assert_eq!(reading.conflict_files, 0);
-        assert_eq!(
-            std::fs::read(&ordinary).expect("read fixture after scan"),
-            contents
-        );
-        std::fs::remove_dir_all(root).expect("remove fixture folder");
-    }
-
-    #[test]
-    fn claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen() {
-        assert_eq!(SCAN_MAX_ENTRIES, 50_000);
-        assert_eq!(SCAN_MAX_DEPTH, 16);
-        let root = std::env::temp_dir().join(format!("lso-depth-{}", now_ms()));
-        let mut nested = root.clone();
-        for level in 0..SCAN_MAX_DEPTH {
-            nested = nested.join(format!("level-{level}"));
-        }
-        std::fs::create_dir_all(&nested).expect("create deep fixture folder");
-        std::fs::write(nested.join("deep.sync-conflict-20260830.txt"), b"unchanged")
-            .expect("write deep fixture file");
-
-        let reading = scan_folder(
-            "fixture".into(),
-            "Fixture".into(),
-            root.to_string_lossy().into_owned(),
-            None,
-        )
-        .expect("scan succeeds");
-
-        assert_eq!(
-            reading.conflict_files, 0,
-            "entries deeper than 16 are not scanned"
-        );
-        std::fs::remove_dir_all(root).expect("remove fixture folder");
     }
 }

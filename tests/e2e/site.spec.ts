@@ -43,6 +43,13 @@ test("@claim:site-private uses no cookies, analytics, or undisclosed network ori
   expect(requests.every(url => ["http://127.0.0.1:4173", "https://api.github.com"].includes(new URL(url).origin))).toBe(true);
 });
 
+test("@claim:release-fallback shows the release page when GitHub is unavailable", async ({ page }) => {
+  await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
+  await page.goto("/");
+  await expect(page.getByText("Downloads are being published.")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Open the release page" })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
+});
+
 test("landing page has no serious accessibility violations", async ({ page }) => {
   await page.route("https://api.github.com/**", route => route.abort());
   await page.goto("/");
@@ -64,15 +71,32 @@ test("legal pages remain readable and named at mobile width", async ({ page }) =
   expect((await new AxeBuilder({ page: page as never }).analyze()).violations.filter(item => item.impact === "serious" || item.impact === "critical")).toEqual([]);
 });
 
-test("unknown-page artifact is styled and logs no browser errors", async ({ page }) => {
+test("unknown-page artifact is styled, focuses its recovery heading, and logs no browser errors", async ({ page }) => {
   const errors: string[] = [];
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
   page.on("pageerror", error => errors.push(error.message));
   await page.goto("/404.html");
   await expect(page).toHaveTitle("Page not found — Local Sync Observer");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("That page is not on this board.");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page not found");
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
   await expect(page.getByRole("link", { name: "Go to home" })).toHaveCSS("background-color", "rgb(23, 23, 23)");
   expect(errors).toEqual([]);
+});
+
+test("public routes use complete metadata, shared navigation, and route-heading focus", async ({ page }) => {
+  for (const route of ["/", "/demo/", "/privacy/", "/terms/", "/404.html"]) {
+    await page.goto(route);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator('meta[name="description"]')).toHaveCount(1);
+    await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+    await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
+    await expect(page.locator('meta[property="og:image"]')).toHaveCount(1);
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveCount(1);
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveCount(1);
+    await expect(page.locator("header nav")).toContainText("DemoHow it worksPrivacyDownload");
+    await expect(page.locator("footer nav")).toContainText("PrivacyTermsSource");
+    await expect(page.locator("h1")).toBeFocused();
+  }
 });
 
 test("landing page reflows at 200% and keeps visible controls at least 44px", async ({ page }) => {
