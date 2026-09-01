@@ -7,7 +7,7 @@ const sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf
 
 test("desktop build identifies its exact source commit", async ({ page }) => {
   await page.goto(appUrl);
-  await expect(page.getByLabel(`Version 0.1.4, source commit ${sourceCommit}`)).toBeVisible();
+  await expect(page.getByLabel(`Version 0.1.5, source commit ${sourceCommit}`)).toBeVisible();
 });
 
 test("desktop shell exposes an honest empty state and keyboard dialog", async ({ page }) => {

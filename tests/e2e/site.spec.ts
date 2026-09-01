@@ -155,7 +155,7 @@ test("@claim:isolated-demo loads, resets, and keeps sample data out of the real 
 test("@claim:demo-private sends no third-party requests", async ({ page }) => {
   const requests: string[] = [];
   page.on("request", request => requests.push(request.url()));
-  await page.goto("/demo/");
+  await page.goto("/demo/?demo=1");
   await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
   expect(requests.every(url => new URL(url).origin === "http://127.0.0.1:4173")).toBe(true);
 });
@@ -163,7 +163,7 @@ test("@claim:demo-private sends no third-party requests", async ({ page }) => {
 test("@claim:offline-demo-reload works offline after the first demo visit", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto("/demo/");
+  await page.goto("/demo/?demo=1");
   await page.waitForFunction(() => navigator.serviceWorker.ready.then(() => true));
   await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
   await context.setOffline(true);

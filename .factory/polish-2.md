@@ -1,6 +1,6 @@
 # Polish round 2 — finding closure
 
-Repair base: `bdd430cb1b6a5a0baf69c52007ee385d7e62c913`. Release: `v0.1.4`.
+Repair base: `bdd430cb1b6a5a0baf69c52007ee385d7e62c913`. Release: `v0.1.5`.
 
 | Finding | Change made | Evidence |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ Repair base: `bdd430cb1b6a5a0baf69c52007ee385d7e62c913`. Release: `v0.1.4`.
 ## Additional acceptance work
 
 - `/?demo=1` now redirects directly to `/demo/?demo=1`; the isolated banner, reset, exit, offline cache, and real-data sentinel behavior remain intact.
-- Release version advanced to `0.1.4` so the tray and probe repairs are tied to new desktop artifacts.
+- Release version advanced to `0.1.5` so the tray, probe, and exact demo-URL offline repairs are tied to new desktop artifacts.
 - The 390 × 844 and 1440 × 900 first screens retain the convergence-field-instrument identity and show the complete required first-screen content.
 - Local Lighthouse on the production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.8 s, CLS 0.002, TBT 0 ms.
 
