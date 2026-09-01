@@ -1,0 +1,10 @@
+Release: v0.1.5
+Release URL: https://github.com/B-Divyesh/sf-local-sync-observer/releases/tag/v0.1.5
+Release workflow run: 33570174733 — PASS
+Quality workflow run: 33570173270 — PASS
+Published assets: 8 (6 installers plus SHA256SUMS and latest.json)
+Manifest source commit: 375fd72f0b836e12e5deac74e18cd5dc13b928c8 — PASS
+Downloaded artifact: Local.Sync.Observer_0.1.5_amd64.deb
+Published SHA-256 verification: PASS
+Live Linux download button: v0.1.5 AppImage — PASS
+Live internal and disclosed external link crawl: PASS

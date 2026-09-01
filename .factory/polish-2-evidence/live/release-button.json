@@ -1,0 +1,17 @@
+{
+  "title": "Local Sync Observer — check local sync status",
+  "h1": "Check what synced after offline work.",
+  "downloadText": "Download for Linux from GitHub",
+  "downloadUrl": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_amd64.AppImage",
+  "facts": [
+    "✓ Demo reloads offline after your first visit",
+    "✓ No product account or telemetry",
+    "✓ Free under the MIT License"
+  ],
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "horizontalOverflow": false,
+  "consoleErrors": []
+}

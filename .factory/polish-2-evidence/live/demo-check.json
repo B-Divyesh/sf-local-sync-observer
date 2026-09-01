@@ -1,0 +1,9 @@
+{
+  "demoEntry": "/?demo=1",
+  "resolvedUrl": "/demo/?demo=1",
+  "errors": [],
+  "demoThirdPartyRequests": [],
+  "realNamespacePreserved": true,
+  "demoNamespaceDiscarded": true,
+  "offlineReload": true
+}

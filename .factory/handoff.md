@@ -1,49 +1,59 @@
-# Local Sync Observer — review 2 handoff
+# Local Sync Observer — polish round 2 handoff
 
-## Status: FAIL
+## Status: PASS
 
-Completed a fresh first-read product review of commit
-`ee01672c67ce8d8bcc57977759a99916b1c9cd00` and the live site at
-<https://local-sync-observer.sociobot.in/>. The full report is
-`.factory/review-2.md`.
+All findings in `.factory/review-1.md` and `.factory/review-2.md` are closed. The repaired source is commit `375fd72f0b836e12e5deac74e18cd5dc13b928c8`, released as `v0.1.5`.
 
-No product code was changed. Review evidence is in
-`.factory/review-2-evidence/`.
+## Delivered
 
-## What was checked
+- Moved the real Syncthing probe into the shared Rust core. Controlled fixture tests now cover configured folders, local and remote pending counts, offline devices, conflict priority, last-good values, missing fields, coverage, GET-only requests, and unchanged files.
+- Connected every rendered reading to the native Tauri tray. Its tooltip reports the state and attention count without paths or filenames.
+- Added all public promises to `.factory/claims.json`; there are 21 independently runnable claim tests.
+- Rewrote the first screen and remaining technical copy in plain words. The required action result and three facts remain visible on phone and desktop layouts.
+- Made `/?demo=1` enter the isolated sample directly. Reset restores the sample, leaving removes only the demo namespace, and the exact query URL reloads offline.
+- Preserved the product's black, field-paper, and safety-yellow visual system while fixing mobile flow, metadata, focus, external-link labels, legal navigation, and the styled 404 response.
+- Added the deterministic copy audit, final catalog description, cumulative finding map, and verification evidence.
 
-- Cold first screens at 390 × 844 and 1440 × 900.
-- One-click demo content, banner, reset, exit, storage separation, requests,
-  and offline reload.
-- Every registered claim command from a clean checkout.
-- Complete landing and README copy, headings, controls, and terminology.
-- Earlier review and polish findings against both live output and source.
-- Titles, headings, descriptions, canonicals, social metadata, icons, 404,
-  deep links, Back/Forward behavior, route focus, headers, footers, and links.
-- Live Axe checks and the repository's full desktop/mobile Playwright suite.
-- Product scope, tray behavior, and whether another feature is clearly implied.
+## Deployment and release
 
-## Verification results
+- Live site: <https://local-sync-observer.sociobot.in/>
+- Direct demo: <https://local-sync-observer.sociobot.in/?demo=1>
+- Release: <https://github.com/B-Divyesh/sf-local-sync-observer/releases/tag/v0.1.5>
+- GitHub quality run `33570173270`: success.
+- GitHub release run `33570174733`: success on Windows, Linux, Intel macOS, Apple silicon macOS, and manifest finalization.
+- Published assets: `.msi`, `.exe`, `.AppImage`, `.deb`, Intel `.dmg`, Apple silicon `.dmg`, `SHA256SUMS`, and `latest.json`.
+- `latest.json` identifies source commit `375fd72f0b836e12e5deac74e18cd5dc13b928c8`. A fresh download of `Local.Sync.Observer_0.1.5_amd64.deb` passed its published SHA-256 check.
+- A cold Linux browser resolved the live primary button to the `v0.1.5` AppImage.
 
-- All 16 commands in `.factory/claims.json`: pass independently.
-- `npm run check`: pass; 11 Vitest checks and both production builds.
-- `npm run test:e2e`: pass; 40/40 Playwright checks.
-- Live demo request origins: same origin only.
-- Live landing request origins: product origin and disclosed GitHub API only.
-- Live route Axe results: no serious or critical findings.
-- Normal crawled destinations: 200.
+## Verification
 
-## Remaining work
+- Fresh clone at the release commit: all 21 claim commands pass independently. See `.factory/polish-2-evidence/clean-claims-summary.txt`.
+- `npm run check`: pass; 11 Vitest tests and both production builds.
+- `npm run test:e2e`: pass; 44/44 desktop and 390 px browser tests.
+- `npm run audit:copy:check`: pass; no sentence exceeds 22 words and no banned term remains.
+- `cargo test --manifest-path crates/observer-core/Cargo.toml`: pass, 8/8.
+- `cargo test --manifest-path src-tauri/Cargo.toml -j 1`: pass.
+- `cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -j 1 -- -D warnings`: pass.
+- Both Rust formatting checks: pass.
+- Live `verify-url.sh`: pass with one `<h1>`, `lang`, `<main>`, alt text, and zero console errors.
+- Live Axe 4.10.3 on home, demo, privacy, and terms: zero violations.
+- Live Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.3 s, CLS 0.002, TBT 50 ms.
+- Live route crawl: home, demo, privacy, terms, 404 artifact, assets, repository, issues, and latest release all return 200. An unknown path returns the designed 404 with HTTP 404.
+- Cold live demo check: redirect, banner, sample, reset, storage separation, exit cleanup, same-origin requests, and offline reload all pass with no console errors.
+- Budgets: initial site JavaScript 3.3 KB raw total, CSS 12.5 KB raw, hero WebP 82.1 KB.
 
-The blocking issue is incomplete claim coverage. The live headline and feature
-copy promise a real Syncthing reading, detailed coverage fields, and broad
-non-changing behavior, but no registered claim runs the production Syncthing
-probe against a controlled local fixture.
+Evidence is in `.factory/polish-2.md` and `.factory/polish-2-evidence/`.
 
-The report also records incomplete Windows installer claim coverage, missing
-tray status, technical copy, an incomplete first-screen fact set, unlabeled
-external destinations, and errors in the committed copy-audit counts.
+## Known gaps and operator action
 
-Run the same clean-checkout claim commands, `npm run check`, and
-`npm run test:e2e` after those findings are addressed. Then repeat the entire
-live checklist; acceptance requires zero findings.
+No review or acceptance finding remains. Release binaries are intentionally unsigned because code-signing certificates were not provided. Future signing requires operator-managed `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` secrets and matching workflow support; the published checksums provide integrity verification meanwhile.
+
+## Run locally
+
+```sh
+npm ci
+npm run check
+npm run test:e2e
+cargo test --manifest-path crates/observer-core/Cargo.toml
+cargo test --manifest-path src-tauri/Cargo.toml -j 1
+```

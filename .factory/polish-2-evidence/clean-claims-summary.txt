@@ -1,5 +1,5 @@
-Clean clone: /tmp/lso-polish2-clean-RwTEbs
-Commit: 6b28de25681a8202474ff3290af2e1db51e3abf3
+Clean clone: /tmp/lso-final-clean-mwyhmp
+Commit: 375fd72f0b836e12e5deac74e18cd5dc13b928c8
 npm ci: PASS (67 packages, 0 vulnerabilities)
 release-downloads: PASS
 release-matrix: PASS
@@ -22,6 +22,7 @@ reading-details: PASS
 read-only-probe: PASS
 tray-status: PASS
 no-product-account: PASS
+Final worktree full suite:
 npm run check: PASS
 npm run test:e2e: PASS (44/44)
 cargo test --manifest-path crates/observer-core/Cargo.toml: PASS (8/8)

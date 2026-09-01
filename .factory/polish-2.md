@@ -24,7 +24,8 @@ Repair base: `bdd430cb1b6a5a0baf69c52007ee385d7e62c913`. Release: `v0.1.5`.
 - `/?demo=1` now redirects directly to `/demo/?demo=1`; the isolated banner, reset, exit, offline cache, and real-data sentinel behavior remain intact.
 - Release version advanced to `0.1.5` so the tray, probe, and exact demo-URL offline repairs are tied to new desktop artifacts.
 - The 390 × 844 and 1440 × 900 first screens retain the convergence-field-instrument identity and show the complete required first-screen content.
-- Local Lighthouse on the production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.8 s, CLS 0.002, TBT 0 ms.
+- The exact public demo URL now ignores its query string when matching cached navigation responses; the cold live offline reload passes.
+- Live Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.3 s, CLS 0.002, TBT 50 ms.
 
 ## Verification summary
 
@@ -34,5 +35,7 @@ Repair base: `bdd430cb1b6a5a0baf69c52007ee385d7e62c913`. Release: `v0.1.5`.
 - `cargo test --manifest-path src-tauri/Cargo.toml`: pass.
 - `cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings`: pass.
 - Both Rust formatting checks: pass.
-- `/opt/fleet/lib/verify-url.sh` on the local production build: pass, no console errors.
-- Live deployment and release evidence is recorded in `.factory/handoff.md` after publication.
+- `/opt/fleet/lib/verify-url.sh` on the live deployment: pass, no console errors.
+- Live Axe on home, demo, privacy, and terms: zero violations.
+- GitHub release `v0.1.5`: six platform installers plus `SHA256SUMS` and `latest.json`; downloaded Debian package checksum passes.
+- Live demo/release evidence is in `.factory/polish-2-evidence/live/` and `.factory/handoff.md`.
