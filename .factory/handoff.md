@@ -66,3 +66,14 @@ The matching `dist/site` was deployed with `/opt/fleet/lib/deploy-static.sh loca
 - Syncthing is the only provider that can establish provider-backed convergence. Folder metadata alone remains `Unknown`.
 - API keys stay in local WebView storage and are not application-level encrypted; use a dedicated, revocable key.
 - Packages are unsigned. Signing requires owner-provided Apple and Windows certificates; the product has no updater and expects no signing secrets today.
+
+## Independent verification — 2026-09-01
+
+**PASS** for candidate `0afba5905f284fa62451a63328b344b3f6e450e3` at `https://local-sync-observer.sociobot.in`.
+
+- Fresh `npm ci`, every one of the 15 exact claim commands, `npm run check`, 34/34 Playwright tests at desktop and 390 px mobile, Rust tests, formatting, and warning-free clippy passed.
+- The production site build was byte-for-byte identical to live `/`, `/demo`, hashed JS, and hashed CSS. The published v0.1.2 release has macOS, Windows, and Linux artifacts; a fresh Linux DEB checksum check passed.
+- Live browser QA found clear first-read copy and one-click sample data, zero console/page errors, no axe serious/critical findings, visible keyboard focus, reduced-motion compliance, same-origin demo requests, and the documented GitHub API request only on the landing page. Security headers and immutable hashed-asset caching were present.
+- The local Tauri bundle reaches binary, DEB, and RPM output but AppImage packaging cannot finish in this disposable container because its `linuxdeploy` helper needs an unavailable FUSE device. The published v0.1.2 AppImage was independently present; this is an environment limit, not a product defect.
+
+See `.factory/verification-3.md` for the complete independent evidence and caveats.
