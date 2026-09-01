@@ -1,0 +1,29 @@
+Clean clone: /tmp/lso-polish2-clean-RwTEbs
+Commit: 6b28de25681a8202474ff3290af2e1db51e3abf3
+npm ci: PASS (67 packages, 0 vulnerabilities)
+release-downloads: PASS
+release-matrix: PASS
+checksum-install: PASS
+evidence-boundary: PASS
+metadata-only-scan: PASS
+scan-bounds: PASS
+local-endpoint-only: PASS
+local-app-storage: PASS
+open-owner: PASS
+thirty-second-refresh: PASS
+site-private: PASS
+mit-license: PASS
+isolated-demo: PASS
+demo-private: PASS
+offline-demo-reload: PASS
+release-fallback: PASS
+syncthing-reading: PASS
+reading-details: PASS
+read-only-probe: PASS
+tray-status: PASS
+no-product-account: PASS
+npm run check: PASS
+npm run test:e2e: PASS (44/44)
+cargo test --manifest-path crates/observer-core/Cargo.toml: PASS (8/8)
+cargo test --manifest-path src-tauri/Cargo.toml -j 1: PASS
+cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -j 1 -- -D warnings: PASS

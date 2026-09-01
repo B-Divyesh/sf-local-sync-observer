@@ -5,7 +5,7 @@ Repair base: `bdd430cb1b6a5a0baf69c52007ee385d7e62c913`. Release: `v0.1.4`.
 | Finding | Change made | Evidence |
 | --- | --- | --- |
 | F-1-1 | Kept the three filesystem and address claims in `crates/observer-core`, which runs without GTK/WebKit. The real Syncthing probe now lives there too. | Exact registered Cargo commands in `.factory/claims.json`; full core suite passes 8/8. |
-| F-1-2 | Kept the earlier unprovable statements removed. Registered the release fallback, real Syncthing reading, displayed details, read-only behavior, tray status, and no-account behavior. | All 21 registered commands pass from the clean clone; claim logs in `.factory/polish-2-evidence/claims/`. |
+| F-1-2 | Kept the earlier unprovable statements removed. Registered the release fallback, real Syncthing reading, displayed details, read-only behavior, tray status, and no-account behavior. | All 21 registered commands pass from the clean clone; the exact commands and outcomes are in `.factory/polish-2-evidence/clean-claims-summary.txt`. |
 | F-1-3 | Retained route-specific titles, descriptions, canonicals, Open Graph, Twitter, favicon, and Apple touch metadata on all five public pages. | Playwright `public routes use complete metadata...`; live `verify-url.sh` report in `.factory/polish-2-evidence/live/verify.json`. |
 | F-1-4 | Retained one shared header and footer link set on home, demo, legal, and 404 pages. External source labels now name GitHub. | Playwright shared-navigation check across five routes. |
 | F-1-5 | Retained the descriptive section names and **View install options** from round 1. Replaced the remaining vague h3 and walkthrough labels. | `.factory/copy-audit.md`; Playwright heading and walkthrough checks. |
