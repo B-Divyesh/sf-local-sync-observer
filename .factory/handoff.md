@@ -77,3 +77,14 @@ The matching `dist/site` was deployed with `/opt/fleet/lib/deploy-static.sh loca
 - The local Tauri bundle reaches binary, DEB, and RPM output but AppImage packaging cannot finish in this disposable container because its `linuxdeploy` helper needs an unavailable FUSE device. The published v0.1.2 AppImage was independently present; this is an environment limit, not a product defect.
 
 See `.factory/verification-3.md` for the complete independent evidence and caveats.
+
+## Review 1 handoff — 2026-09-01
+
+This reviewer made no product-code changes. `.factory/review-1.md` records an adversarial first-read review of the live site and clean-clone test run.
+
+- Verified live cold loads at 390 px and desktop, demo isolation/reset/exit behavior, request origins, links, 195 CSS-pixel reflow, metadata, route behavior, Axe serious/critical findings, and all registered claim commands.
+- `npm ci`, `npm run check`, and `npm run test:e2e` (34/34) passed in a clean clone. Twelve registered claim commands passed.
+- The three registered Cargo claim commands for metadata scanning, scan bounds, and local endpoints failed before test startup because `glib-2.0` development files are unavailable in this clean sandbox.
+- The review result is **FAIL**. Blocking findings are the non-runnable registered claim commands and material live/README promises without individual claim registry entries/tests. Further findings cover missing route social metadata, inconsistent navigation, slogan headings, 404 console/focus behavior, and README copy.
+
+No deployment, settings, secrets, or product source were changed. The working tree is buildable; only this review and handoff documentation were added/updated.
