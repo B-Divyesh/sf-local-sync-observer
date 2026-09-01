@@ -110,5 +110,40 @@
     "where": "landing download note, README",
     "test": "npm run test:e2e -- --grep @claim:release-fallback",
     "sandbox": "intercept the GitHub release request with a failure; assert the fallback message and release-page link"
+  },
+  {
+    "id": "syncthing-reading",
+    "claim": "The production Syncthing check reports configured folders, local and connected-device pending items, offline devices, and conflicts.",
+    "where": "landing headline and Syncthing coverage, desktop board, README",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_syncthing_reading_reports_configured_folder_and_device_state",
+    "sandbox": "run the production probe against a controlled loopback Syncthing server; assert four configured folders, summed pending items, an offline device, and conflict priority"
+  },
+  {
+    "id": "reading-details",
+    "claim": "Each reading shows a last-good value when established, missing provider details, and the checks used.",
+    "where": "landing how-it-works and status limits, desktop board",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_reading_details_show_last_good_missing_fields_and_coverage",
+    "sandbox": "run the production probe against controlled complete and incomplete provider responses; assert last-good, unreported pending state, Unknown, and coverage text"
+  },
+  {
+    "id": "read-only-probe",
+    "claim": "The observer uses GET-only provider checks and does not rename, delete, or change observed files.",
+    "where": "landing method and figure, terms, README",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_observer_probe_is_get_only_and_does_not_change_files",
+    "sandbox": "snapshot controlled folder paths and bytes, run the production Syncthing probe, assert every provider request is GET and every fixture remains present and byte-identical"
+  },
+  {
+    "id": "tray-status",
+    "claim": "The desktop tray names the current overall reading without exposing filenames or paths.",
+    "where": "desktop tray, README",
+    "test": "npm run test:e2e -- --grep @claim:tray-status",
+    "sandbox": "inject a deterministic native Conflict reading; assert the UI sends only the overall state and attention count to the production tray command"
+  },
+  {
+    "id": "no-product-account",
+    "claim": "The demo and desktop observer require no product account.",
+    "where": "landing facts, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:no-product-account",
+    "sandbox": "open the demo from a fresh browser context; assert a working conflict reading without sign-in controls or cookies"
   }
 ]

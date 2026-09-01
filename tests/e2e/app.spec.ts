@@ -7,7 +7,7 @@ const sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf
 
 test("desktop build identifies its exact source commit", async ({ page }) => {
   await page.goto(appUrl);
-  await expect(page.getByLabel(`Version 0.1.3, source commit ${sourceCommit}`)).toBeVisible();
+  await expect(page.getByLabel(`Version 0.1.4, source commit ${sourceCommit}`)).toBeVisible();
 });
 
 test("desktop shell exposes an honest empty state and keyboard dialog", async ({ page }) => {
@@ -31,7 +31,7 @@ test("example exposes the conflict in one action", async ({ page }) => {
   await page.getByRole("button", { name: "Try sample data" }).click();
   await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
   await expect(page.getByText("Demo — sample data, nothing is saved to your real observer.")).toBeVisible();
-  await expect(page.getByRole("button", { name: /Open owning tool/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Open sync tool/ })).toBeVisible();
 });
 
 test("@claim:local-app-storage keeps unencrypted source settings in the local app namespace", async ({ page }) => {
@@ -57,7 +57,7 @@ test("@claim:open-owner opens the owning local tool without changing the sample"
   await page.goto(appUrl);
   await page.getByRole("button", { name: "Try sample data" }).click();
   const popupPromise = page.waitForEvent("popup");
-  await page.getByRole("button", { name: /Open owning tool/ }).click();
+  await page.getByRole("button", { name: /Open sync tool/ }).click();
   const popup = await popupPromise;
   expect(popup.url()).toBe("http://127.0.0.1:8384/");
   await popup.close();
@@ -84,6 +84,29 @@ test("@claim:thirty-second-refresh refreshes sources added after launch", async 
   await expect.poll(() => page.evaluate(() => (window as Window & { __probeCalls?: number }).__probeCalls ?? 0)).toBe(1);
   await page.clock.fastForward(30_000);
   await expect.poll(() => page.evaluate(() => (window as Window & { __probeCalls?: number }).__probeCalls ?? 0)).toBe(2);
+});
+
+test("@claim:tray-status sends the current reading to the operating system tray", async ({ page }) => {
+  await page.addInitScript(() => {
+    (window as Window & { __TAURI_INTERNALS__?: unknown; __trayUpdates?: unknown[] }).__trayUpdates = [];
+    (window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = {
+      invoke: async (command: string, args: Record<string, unknown>) => {
+        if (command === "update_tray_status") {
+          (window as Window & { __trayUpdates?: unknown[] }).__trayUpdates?.push(args);
+          return;
+        }
+        if (command === "probe_syncthing") {
+          return { sourceId: args.sourceId, provider: "Syncthing", state: "conflict", checkedAt: Date.now(), summary: "1 conflict file needs attention", folders: [], coverage: "fixture" };
+        }
+        throw new Error(`Unexpected command ${command}`);
+      }
+    };
+  });
+  await page.goto(appUrl);
+  await page.getByRole("button", { name: "Add first source" }).click();
+  await page.locator('input[name="apiKey"]').fill("fixture-key");
+  await page.getByRole("button", { name: "Save and inspect" }).click();
+  await expect.poll(() => page.evaluate(() => (window as Window & { __trayUpdates?: Array<{ state?: string; attentionCount?: number }> }).__trayUpdates?.at(-1))).toEqual({ state: "conflict", attentionCount: 1 });
 });
 
 test("inactive folder fields stay hidden when Syncthing is selected", async ({ page }) => {

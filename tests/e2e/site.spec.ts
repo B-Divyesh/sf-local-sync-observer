@@ -25,11 +25,12 @@ test("@claim:release-downloads landing page has one clear heading and a usable d
   await expect(page.locator("h1")).toHaveCount(1);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("synced after offline work");
   await expect(page.locator(".hero-art img")).toHaveAttribute("alt", /conflict lane/);
-  const primary = page.getByRole("link", { name: /Download for/ }).first();
+  const primary = page.getByRole("link", { name: /Download for.*GitHub/ }).first();
   const label = await primary.textContent();
   const expectedUrl = label?.includes("Windows") ? published.windows : label?.includes("Apple silicon") ? published.macArm : label?.includes("Intel") ? published.macX64 : published.linux;
   await expect(primary).toHaveAttribute("href", expectedUrl);
-  await expect(page.getByRole("link", { name: "Try it with sample data" })).toHaveAttribute("href", "/demo/");
+  await expect(page.getByRole("link", { name: "Try it with sample data" })).toHaveAttribute("href", "/demo/?demo=1");
+  await expect(page.getByText("Opens a sample conflict board; nothing is saved.")).toBeVisible();
   expect(errors).toEqual([]);
 });
 
@@ -43,11 +44,21 @@ test("@claim:site-private uses no cookies, analytics, or undisclosed network ori
   expect(requests.every(url => ["http://127.0.0.1:4173", "https://api.github.com"].includes(new URL(url).origin))).toBe(true);
 });
 
+test("@claim:no-product-account opens the working demo without sign-in", async ({ page }) => {
+  await page.goto("/demo/?demo=1");
+  await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
+  await expect(page.locator('input[type="email"], input[type="password"], a[href*="login"], a[href*="signup"]')).toHaveCount(0);
+  expect(await page.context().cookies()).toEqual([]);
+  await page.goto("http://127.0.0.1:4174/?demo=1");
+  await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
+  await expect(page.locator('input[type="email"], a[href*="login"], a[href*="signup"]')).toHaveCount(0);
+});
+
 test("@claim:release-fallback shows the release page when GitHub is unavailable", async ({ page }) => {
   await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
   await page.goto("/");
   await expect(page.getByText("Downloads are being published.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Open the release page" })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
+  await expect(page.getByRole("link", { name: /Open releases on GitHub/ })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
 });
 
 test("landing page has no serious accessibility violations", async ({ page }) => {
@@ -94,7 +105,7 @@ test("public routes use complete metadata, shared navigation, and route-heading 
     await expect(page.locator('meta[name="twitter:card"]')).toHaveCount(1);
     await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveCount(1);
     await expect(page.locator("header nav")).toContainText("DemoHow it worksPrivacyDownload");
-    await expect(page.locator("footer nav")).toContainText("PrivacyTermsSource");
+    await expect(page.locator("footer nav")).toContainText("PrivacyTermsSource on GitHub");
     await expect(page.locator("h1")).toBeFocused();
   }
 });
@@ -126,7 +137,8 @@ test("landing page includes three captioned product walkthrough frames", async (
 
 test("@claim:isolated-demo loads, resets, and keeps sample data out of the real namespace", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("local-sync-observer.v1", "real-sentinel"));
-  await page.goto("/demo/");
+  await page.goto("/?demo=1");
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
   await expect(page.getByText("Demo — sample data, nothing is saved to your real observer.")).toBeVisible();
   await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem("local-sync-observer.v1"))).toBe("real-sentinel");
@@ -134,7 +146,7 @@ test("@claim:isolated-demo loads, resets, and keeps sample data out of the real 
   await page.getByRole("button", { name: "Reset demo" }).click();
   await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem("local-sync-observer.v1"))).toBe("real-sentinel");
-  await page.getByRole("link", { name: "Start for real" }).click();
+  await page.getByRole("link", { name: "Choose a download" }).click();
   await expect(page).toHaveURL(/\/#download$/);
   expect(await page.evaluate(() => localStorage.getItem("demo:local-sync-observer.site.v1"))).toBeNull();
   expect(await page.evaluate(() => localStorage.getItem("local-sync-observer.v1"))).toBe("real-sentinel");

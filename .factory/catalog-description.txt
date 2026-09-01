@@ -1,1 +1,1 @@
-Check Syncthing folders after offline work with a read-only local status board.
+Check Syncthing pending files and conflicts after offline work without changing your files.

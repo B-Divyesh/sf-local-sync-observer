@@ -1,6 +1,6 @@
 {
   "name": "local-sync-observer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,8 @@
     "tauri": "tauri",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "audit:copy": "node scripts/copy-audit.mjs --write",
+    "audit:copy:check": "node scripts/copy-audit.mjs --check",
     "build:app": "vite build --config vite.app.config.ts",
     "build:site": "vite build --config vite.site.config.ts",
     "build": "npm run build:app && npm run build:site",

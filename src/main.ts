@@ -109,6 +109,16 @@ function render(): void {
     ${renderPrivacyDialog()}
   `;
   bindEvents();
+  void syncTrayStatus(overall, attentionCount);
+}
+
+async function syncTrayStatus(status: StatusKind, attentionCount: number): Promise<void> {
+  if (!isTauri()) return;
+  try {
+    await invoke<void>("update_tray_status", { state: status, attentionCount });
+  } catch {
+    // The board remains usable if the operating system tray is unavailable.
+  }
 }
 
 function renderEmpty(): string {
@@ -126,7 +136,7 @@ function renderEmpty(): string {
 }
 
 function renderDemoBanner(): string {
-  return `<section class="demo-banner" aria-label="Demo controls"><strong>Demo — sample data, nothing is saved to your real observer.</strong><div class="button-row"><button class="text-button" type="button" data-action="reset-demo">Reset demo</button><button class="text-button" type="button" data-action="start-real">Start for real</button></div></section>`;
+  return `<section class="demo-banner" aria-label="Demo controls"><strong>Demo — sample data, nothing is saved to your real observer.</strong><div class="button-row"><button class="text-button" type="button" data-action="reset-demo">Reset demo</button><button class="text-button" type="button" data-action="start-real">Add your sources</button></div></section>`;
 }
 
 function renderBoard(selected?: Source): string {
@@ -156,7 +166,7 @@ function renderEvidence(source: Source, reading?: SourceReading): string {
   const sourceLocation = source.kind === "syncthing" ? source.endpoint : source.path;
   return `<div class="evidence-heading">
       <div><p class="eyebrow">${source.kind === "syncthing" ? "Syncthing REST evidence" : "Local metadata evidence"}</p><h2>${escapeHtml(source.name)}</h2><p class="path" title="${escapeHtml(sourceLocation)}">${escapeHtml(sourceLocation)}</p></div>
-      <div class="button-row">${demoMode ? `<button class="button" type="button" data-action="reset-demo">Reset sample</button>` : `<button class="button" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">Refresh evidence</button>`}${source.ownerUrl ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open owning tool ↗</button>` : ""}</div>
+      <div class="button-row">${demoMode ? `<button class="button" type="button" data-action="reset-demo">Reset demo</button>` : `<button class="button" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">Refresh status</button>`}${source.ownerUrl ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open sync tool ↗</button>` : ""}</div>
     </div>
     ${reading ? renderReading(reading) : renderNeverChecked(source)}
     <div class="evidence-footer"><span>Coverage: ${escapeHtml(reading?.coverage ?? (source.kind === "syncthing" ? "Folder completion and connection metadata" : "Conflict filename patterns and timestamps"))}</span><button class="text-button danger-text" type="button" data-action="remove" data-source-id="${escapeHtml(source.id)}">Remove source</button></div>`;
@@ -182,15 +192,15 @@ function renderSourceDialog(): string {
       <fieldset class="kind-switch"><legend>Source type</legend><label><input type="radio" name="kind" value="syncthing" checked> Syncthing</label><label><input type="radio" name="kind" value="folder"> Folder metadata</label></fieldset>
       <div class="form-fields" data-fields="syncthing">
         <label>Display name<input name="syncName" value="My Syncthing" required></label>
-        <label>Local API endpoint<input name="endpoint" type="url" value="http://127.0.0.1:8384" required aria-describedby="endpoint-help"></label>
-        <small id="endpoint-help">Use a loopback/local endpoint. Remote hosts are rejected.</small>
+        <label>Local Syncthing address<input name="endpoint" type="url" value="http://127.0.0.1:8384" required aria-describedby="endpoint-help"></label>
+        <small id="endpoint-help">Use Syncthing on this computer or a .local address. Remote hosts are rejected.</small>
         <label>API key<input name="apiKey" type="password" autocomplete="off" required aria-describedby="api-help"></label>
         <small id="api-help">Stored only in this app’s local WebView storage. You can revoke it in Syncthing.</small>
       </div>
       <div class="form-fields" data-fields="folder" hidden aria-hidden="true">
         <label>Display name<input name="folderName" value="Observed folder" required disabled></label>
         <label>Folder path<span class="path-input"><input name="path" required disabled><button type="button" class="button" data-action="choose-folder">Choose…</button></span></label>
-        <label>Owning tool URL <span class="optional">optional</span><input name="ownerUrl" type="url" placeholder="http://127.0.0.1:8384" disabled></label>
+        <label>Sync tool URL <span class="optional">optional</span><input name="ownerUrl" type="url" placeholder="http://127.0.0.1:8384" disabled></label>
         <small>Only names, timestamps, and file sizes are inspected. File contents are never opened.</small>
       </div>
       <p class="form-error" id="form-error" role="alert"></p>
@@ -200,7 +210,7 @@ function renderSourceDialog(): string {
 }
 
 function renderPrivacyDialog(): string {
-  return `<dialog id="privacy-dialog" aria-labelledby="privacy-title"><div class="dialog-shell prose"><div class="dialog-heading"><h2 id="privacy-title">Your evidence stays here</h2><button class="icon-button" data-action="close-privacy" aria-label="Close privacy details">×</button></div><p>Local Sync Observer talks directly to endpoints and folders you choose. It stores source labels, paths, endpoints, and API keys in this app’s local storage. It sends no telemetry and reads no file contents.</p><p>Removing a source removes its saved settings and cached reading. Uninstalling the app removes data according to your operating system’s application-data rules.</p><button class="button button--primary" data-action="close-privacy">Understood</button></div></dialog>`;
+  return `<dialog id="privacy-dialog" aria-labelledby="privacy-title"><div class="dialog-shell prose"><div class="dialog-heading"><h2 id="privacy-title">Your evidence stays here</h2><button class="icon-button" data-action="close-privacy" aria-label="Close privacy details">×</button></div><p>Local Sync Observer talks directly to local addresses and folders you choose. It stores source labels, paths, addresses, and API keys in this app’s local storage. It sends no telemetry and reads no file contents.</p><p>Removing a source removes its saved settings and cached reading. Uninstalling the app removes data according to your operating system’s application-data rules.</p><button class="button button--primary" data-action="close-privacy">Understood</button></div></dialog>`;
 }
 
 function bindEvents(): void {
@@ -278,7 +288,7 @@ async function handleSourceSubmit(event: SubmitEvent): Promise<void> {
   let source: Source;
   if (kind === "syncthing") {
     const endpoint = String(data.get("endpoint") ?? "").replace(/\/$/, "");
-    if (!localEndpoint(endpoint)) { setFormError("Use a loopback address or a .local host. Cloud endpoints are outside this product’s scope."); return; }
+    if (!localEndpoint(endpoint)) { setFormError("Use Syncthing on this computer or a .local address. Remote addresses are outside this product’s scope."); return; }
     source = { id, kind: "syncthing", name: String(data.get("syncName")), endpoint, apiKey: String(data.get("apiKey")), ownerUrl: endpoint } satisfies SyncthingSource;
   } else {
     const path = String(data.get("path") ?? "");

@@ -17,10 +17,10 @@ function detectPlatform(): PlatformKey {
 }
 
 const labels: Record<PlatformKey, string> = {
-  "macos-arm64": "Download for macOS (Apple silicon)",
-  "macos-x64": "Download for macOS (Intel)",
-  "windows-x64": "Download for Windows",
-  "linux-x64": "Download for Linux"
+  "macos-arm64": "Download for macOS (Apple silicon) from GitHub",
+  "macos-x64": "Download for macOS (Intel) from GitHub",
+  "windows-x64": "Download for Windows from GitHub",
+  "linux-x64": "Download for Linux from GitHub"
 };
 
 async function resolveDownloads(): Promise<void> {
@@ -34,7 +34,7 @@ async function resolveDownloads(): Promise<void> {
     const asset = findAsset(release.assets, detected);
     if (!asset) throw new Error("Platform build unavailable");
     if (primary) primary.href = asset.browser_download_url;
-    if (note) note.textContent = `${release.tag_name} · ${asset.name} · SHA-256 published`;
+    if (note) note.textContent = `${release.tag_name} · ${asset.name}`;
     document.querySelectorAll<HTMLAnchorElement>(".platform-link").forEach((link) => {
       const platform = link.dataset.platform;
       const key: PlatformKey = platform === "windows" ? "windows-x64" : platform === "linux" ? "linux-x64" : detected.startsWith("macos") ? detected : "macos-arm64";
@@ -42,7 +42,7 @@ async function resolveDownloads(): Promise<void> {
       if (target) link.href = target.browser_download_url;
     });
   } catch {
-    if (note) note.innerHTML = `Downloads are being published. <a href="https://github.com/B-Divyesh/sf-local-sync-observer/releases">Open the release page</a>.`;
+    if (note) note.innerHTML = `Downloads are being published. <a href="https://github.com/B-Divyesh/sf-local-sync-observer/releases">Open releases on GitHub <span class="visually-hidden">(external site)</span></a>.`;
   }
 }
 
@@ -73,5 +73,10 @@ function findAsset(assets: GitHubAsset[], platform: PlatformKey): GitHubAsset | 
   return assets.find((asset) => patterns[platform].test(asset.name));
 }
 
-void resolveDownloads();
-if ("serviceWorker" in navigator && location.protocol === "https:") void navigator.serviceWorker.register("/sw.js");
+const requestedDemo = location.pathname === "/" && new URLSearchParams(location.search).get("demo") === "1";
+if (requestedDemo) {
+  location.replace("/demo/?demo=1");
+} else {
+  void resolveDownloads();
+  if ("serviceWorker" in navigator && location.protocol === "https:") void navigator.serviceWorker.register("/sw.js");
+}
