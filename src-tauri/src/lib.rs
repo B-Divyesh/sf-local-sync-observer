@@ -405,7 +405,6 @@ mod tests {
     use super::*;
 
     #[test]
-    #[test]
     fn parses_syncthing_device_ids() {
         let folder: SyncthingFolder = serde_json::from_str(
             r#"{"id":"notes","path":"/notes","devices":[{"deviceID":"ABC-123"}]}"#,
