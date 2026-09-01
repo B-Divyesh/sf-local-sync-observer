@@ -1,6 +1,12 @@
-# Local Sync Observer — repair 3 handoff
+# Local Sync Observer — verification 5 handoff
 
-## Status: repaired and released
+## Status: PASS
+
+Independent verification accepted candidate
+`dc7691cf5c46cf803677d8f77c57452b07025f5b` (`v0.1.3`) at
+<https://local-sync-observer.sociobot.in/>. The published static site and all
+six release artifacts identify that exact candidate. Full evidence is in
+`.factory/verification-5.md`.
 
 Release target: `v0.1.3` at the exact commit returned by
 `git rev-list -n 1 v0.1.3`. The static deployment is built from that same tagged
