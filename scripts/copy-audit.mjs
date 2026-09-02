@@ -23,6 +23,7 @@ const sentences = value => {
 const banned = /\b(leverage|seamless|effortless|robust|powerful|intuitive|reimagine|supercharge|unlock|delightful|journey|ecosystem|AI-powered)\b/i;
 const flag = value => words(value) > 22 ? "Over 22 words" : banned.test(value) ? "Banned word" : "—";
 const rows = values => values.map((value, index) => `| ${index + 1} | ${words(value)} | ${value.replaceAll("|", "\\|")} | ${flag(value)} |`).join("\n");
+const normalizeLineEndings = value => value.replace(/\r\n/g, "\n");
 
 function elements(html, tag) {
   return [...html.matchAll(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "g"))]
@@ -119,7 +120,10 @@ All complete sentences contain 22 words or fewer and no banned marketing word.
 
 const target = resolve(root, ".factory/copy-audit.md");
 if (process.argv.includes("--check")) {
-  const current = await readFile(target, "utf8");
+  // Git's Windows checkout may convert the committed Markdown to CRLF. The
+  // generated audit is intentionally LF-delimited, so compare its content,
+  // not the checkout's platform line ending.
+  const current = normalizeLineEndings(await readFile(target, "utf8"));
   if (current !== output) {
     console.error(".factory/copy-audit.md is stale; run npm run audit:copy");
     process.exit(1);

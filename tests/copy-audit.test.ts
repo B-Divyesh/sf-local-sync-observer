@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -14,5 +14,17 @@ describe("copy audit", () => {
     expect(audit).toContain("A folder check can find common conflict copies.");
     expect(audit).toContain("Only Syncthing’s pending count can establish “Converged.”");
     expect(audit).toContain("https://local-sync-observer.sociobot.in/?demo=1");
+  });
+
+  it("accepts the generated audit after a CRLF checkout conversion", async () => {
+    const target = resolve(root, ".factory/copy-audit.md");
+    const original = await readFile(target, "utf8");
+    await writeFile(target, original.replace(/\n/g, "\r\n"));
+    try {
+      const result = spawnSync(process.execPath, ["scripts/copy-audit.mjs", "--check"], { cwd: root, encoding: "utf8" });
+      expect(result.status, result.stderr).toBe(0);
+    } finally {
+      await writeFile(target, original);
+    }
   });
 });
