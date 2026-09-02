@@ -66,6 +66,8 @@ cargo test --manifest-path crates/observer-core/Cargo.toml
 
 The release workflow runs on `v*` tags and manual dispatch. It builds macOS, Windows, and Linux packages. It publishes `SHA256SUMS` and `latest.json` with the tagged source commit.
 
+The website shows downloads only when the release matches its source commit. Otherwise, it links to the GitHub release page.
+
 ## Demo and claims
 
 The one-click demo is documented in [`.factory/demo.md`](.factory/demo.md). Its observable product promises and exact test commands are in [`.factory/claims.json`](.factory/claims.json). The landing page asks GitHub which release is current. If GitHub is unavailable, it links to the release page.

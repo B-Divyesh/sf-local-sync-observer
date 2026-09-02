@@ -1,5 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
 import { devices, expect, test } from "@playwright/test";
+import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+
+const sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const appVersion = (JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string }).version;
 
 test("@claim:release-downloads landing page has one clear heading and a usable download path", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Android users receive the separately covered desktop-only handoff.");
@@ -11,10 +16,11 @@ test("@claim:release-downloads landing page has one clear heading and a usable d
   };
   const errors: string[] = [];
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
+  let releaseCommit = sourceCommit;
   await page.route("https://api.github.com/repos/B-Divyesh/sf-local-sync-observer/releases/latest", route => route.fulfill({
     status: 200,
     contentType: "application/json",
-    body: JSON.stringify({ tag_name: "v0.1.3", assets: [
+    body: JSON.stringify({ tag_name: `v${appVersion}`, target_commitish: releaseCommit, assets: [
       { name: "Local.Sync.Observer_0.1.3_amd64.AppImage", browser_download_url: published.linux },
       { name: "Local.Sync.Observer_0.1.3_x64_en-US.msi", browser_download_url: published.windows },
       { name: "Local.Sync.Observer_0.1.3_aarch64.dmg", browser_download_url: published.macArm },
@@ -33,6 +39,19 @@ test("@claim:release-downloads landing page has one clear heading and a usable d
   await expect(page.getByRole("link", { name: "Try it with sample data" })).toHaveAttribute("href", "/demo/?demo=1");
   await expect(page.getByText("Opens a sample conflict board; nothing is saved.")).toBeVisible();
   expect(errors).toEqual([]);
+
+  releaseCommit = "3782d78e04858fdc566f33665452f1a45025f4e8";
+  await page.evaluate(() => localStorage.removeItem("local-sync-observer.release.v1"));
+  await page.reload();
+  await expect(page.getByText("Downloads are being published.")).toBeVisible();
+  await expect(page.locator("#primary-download")).toBeHidden();
+  await expect(page.locator('.platform-link[href*="/releases/download/"]')).toHaveCount(0);
+  expect(await page.locator(".platform-link").evaluateAll(links => links.map(link => (link as HTMLAnchorElement).href))).toEqual([
+    "https://github.com/B-Divyesh/sf-local-sync-observer/releases",
+    "https://github.com/B-Divyesh/sf-local-sync-observer/releases",
+    "https://github.com/B-Divyesh/sf-local-sync-observer/releases"
+  ]);
+  expect(await page.evaluate(() => localStorage.getItem("local-sync-observer.release.v1"))).toBeNull();
 });
 
 test("@claim:mobile-desktop-handoff gives Android and iOS a truthful desktop-only download handoff", async ({ browser }) => {
@@ -91,7 +110,7 @@ test("@claim:release-fallback shows the release page when GitHub is unavailable"
   await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
   await page.goto("/");
   await expect(page.getByText("Downloads are being published.")).toBeVisible();
-  await expect(page.getByRole("link", { name: /Open releases on GitHub/ })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
+  await expect(page.locator("#download-note").getByRole("link", { name: /Open releases on GitHub/ })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
 });
 
 test("@claim:release-cache-retention removes an expired release cache when GitHub is unavailable", async ({ page }, testInfo) => {

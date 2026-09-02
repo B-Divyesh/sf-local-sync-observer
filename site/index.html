@@ -34,7 +34,7 @@
           <p class="lede">For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.</p>
           <div class="hero-actions" id="download">
             <a class="button button--primary" href="/demo/?demo=1">Try it with sample data</a>
-            <a class="button" id="primary-download" hidden href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download from GitHub</a>
+            <a class="button" id="primary-download" hidden>Download from GitHub</a>
             <a class="button" href="#install-options">View install options</a>
           </div>
           <p class="action-note">Opens a sample conflict board; nothing is saved.</p>
@@ -60,7 +60,7 @@
           <li><span class="step-number">03</span><div><h3>Open the sync tool</h3><p>Open the affected sync tool from its row. The observer uses read-only checks and does not change your files.</p></div></li>
         </ol>
       </section>
-      <section class="walkthrough" data-walkthrough-version="0.1.7" aria-labelledby="walkthrough-title">
+      <section class="walkthrough" data-walkthrough-version="0.1.8" aria-labelledby="walkthrough-title">
         <div class="section-heading"><p class="eyebrow">Demo walkthrough</p><h2 id="walkthrough-title">Sample conflict walkthrough</h2></div>
         <ol class="walkthrough-list">
           <li><figure><img src="/assets/walkthrough-empty.webp" width="900" height="600" loading="lazy" decoding="async" alt="Empty observer board with buttons to add a source or load sample data"><figcaption><strong>1. Start with no sync status</strong><span>The empty board waits for a local source before it reports a status.</span></figcaption></figure></li>
@@ -89,14 +89,14 @@
       <section class="install" id="install-options" aria-labelledby="install-title">
         <div><p class="eyebrow">Install the observer</p><h2 id="install-title">Install Local Sync Observer</h2><p>Choose a build for your operating system.</p></div>
         <div class="install-grid">
-          <article><h3>macOS</h3><p>Apple silicon and Intel disk images.</p><a class="button platform-link" data-platform="macos" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .dmg from GitHub</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
-          <article><h3>Windows</h3><p>64-bit Windows installer.</p><a class="button platform-link" data-platform="windows" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .msi from GitHub</a><code>irm https://local-sync-observer.sociobot.in/install.ps1 | iex</code></article>
-          <article><h3>Linux</h3><p>AppImage and Debian package.</p><a class="button platform-link" data-platform="linux" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .AppImage from GitHub</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+          <article><h3>macOS</h3><p>Apple silicon and Intel disk images.</p><a class="button platform-link" data-platform="macos" data-download-label="Download .dmg from GitHub" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases">Open releases on GitHub <span class="visually-hidden">(external site)</span></a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+          <article><h3>Windows</h3><p>64-bit Windows installer.</p><a class="button platform-link" data-platform="windows" data-download-label="Download .msi from GitHub" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases">Open releases on GitHub <span class="visually-hidden">(external site)</span></a><code>irm https://local-sync-observer.sociobot.in/install.ps1 | iex</code></article>
+          <article><h3>Linux</h3><p>AppImage and Debian package.</p><a class="button platform-link" data-platform="linux" data-download-label="Download .AppImage from GitHub" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases">Open releases on GitHub <span class="visually-hidden">(external site)</span></a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
         </div>
         <p class="checksum-note">The macOS and Linux shell installer checks the downloaded file before opening it.</p>
       </section>
     </main>
-    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Read-only local sync status · Built by Param Factory · v0.1.7</p><nav aria-label="Footer navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source on GitHub <span class="visually-hidden">(external site)</span></a></nav></footer>
+    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Read-only local sync status · Built by Param Factory · v0.1.8</p><nav aria-label="Footer navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source on GitHub <span class="visually-hidden">(external site)</span></a></nav></footer>
     <p class="route-announcement" data-route-announcement aria-live="polite" aria-atomic="true"></p>
     <script type="module" src="/site.ts"></script>
     <script type="module" src="/route-focus.ts"></script>

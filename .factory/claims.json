@@ -1,10 +1,10 @@
 [
   {
     "id": "release-downloads",
-    "claim": "Download buttons use the exact asset URL from the latest GitHub Release metadata.",
+    "claim": "Download buttons use exact asset URLs only when the latest GitHub release matches the website source commit.",
     "where": "landing download controls, README",
     "test": "npm run test:e2e -- --grep @claim:release-downloads",
-    "sandbox": "intercept the CORS-safe GitHub API response and require the detected Linux button to equal the fixture browser_download_url"
+    "sandbox": "intercept matching GitHub release metadata and require the detected button to equal the fixture asset URL; reject a stale source commit"
   },
   {
     "id": "release-matrix",

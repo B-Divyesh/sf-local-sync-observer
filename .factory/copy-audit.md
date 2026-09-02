@@ -80,19 +80,21 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 | 34 | 10 | The release workflow runs on v* tags and manual dispatch. | — |
 | 35 | 7 | It builds macOS, Windows, and Linux packages. | — |
 | 36 | 10 | It publishes SHA256SUMS and latest.json with the tagged source commit. | — |
-| 37 | 7 | The one-click demo is documented in .factory/demo.md. | — |
-| 38 | 11 | Its observable product promises and exact test commands are in .factory/claims.json. | — |
-| 39 | 9 | The landing page asks GitHub which release is current. | — |
-| 40 | 10 | If GitHub is unavailable, it links to the release page. | — |
-| 41 | 15 | Source labels, paths, local addresses, API keys, and readings stay in the app’s local storage. | — |
-| 42 | 6 | API keys stay on this device. | — |
-| 43 | 6 | Version 0.1 does not encrypt them. | — |
-| 44 | 5 | Use a separate Syncthing key. | — |
-| 45 | 9 | Remove the source when you no longer need it. | — |
-| 46 | 7 | The website has no analytics or cookies. | — |
-| 47 | 9 | It removes cached GitHub release details after one hour. | — |
-| 48 | 4 | See Privacy and Terms. | — |
-| 49 | 5 | Licensed under the MIT License. | — |
+| 37 | 12 | The website shows downloads only when the release matches its source commit. | — |
+| 38 | 8 | Otherwise, it links to the GitHub release page. | — |
+| 39 | 7 | The one-click demo is documented in .factory/demo.md. | — |
+| 40 | 11 | Its observable product promises and exact test commands are in .factory/claims.json. | — |
+| 41 | 9 | The landing page asks GitHub which release is current. | — |
+| 42 | 10 | If GitHub is unavailable, it links to the release page. | — |
+| 43 | 15 | Source labels, paths, local addresses, API keys, and readings stay in the app’s local storage. | — |
+| 44 | 6 | API keys stay on this device. | — |
+| 45 | 6 | Version 0.1 does not encrypt them. | — |
+| 46 | 5 | Use a separate Syncthing key. | — |
+| 47 | 9 | Remove the source when you no longer need it. | — |
+| 48 | 7 | The website has no analytics or cookies. | — |
+| 49 | 9 | It removes cached GitHub release details after one hour. | — |
+| 50 | 4 | See Privacy and Terms. | — |
+| 51 | 5 | Licensed under the MIT License. | — |
 
 ## Headings and controls
 
@@ -121,9 +123,9 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 - Try it with sample data
 - Download from GitHub
 - View install options
-- Download .dmg from GitHub
-- Download .msi from GitHub
-- Download .AppImage from GitHub
+- Open releases on GitHub (external site)
+- Open releases on GitHub (external site)
+- Open releases on GitHub (external site)
 - Privacy
 - Terms
 - Source on GitHub (external site)

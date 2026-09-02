@@ -1,10 +1,11 @@
 type DesktopPlatformKey = "macos-arm64" | "macos-x64" | "windows-x64" | "linux-x64";
 type PlatformKey = DesktopPlatformKey | "mobile";
 interface GitHubAsset { name: string; browser_download_url: string; }
-interface GitHubRelease { tag_name: string; assets: GitHubAsset[]; }
+interface GitHubRelease { tag_name: string; target_commitish: string; assets: GitHubAsset[]; }
 interface CachedRelease { cachedAt: number; release: GitHubRelease; }
 
 const releaseApiUrl = "https://api.github.com/repos/B-Divyesh/sf-local-sync-observer/releases/latest";
+const releasePageUrl = "https://github.com/B-Divyesh/sf-local-sync-observer/releases";
 const releaseCacheKey = "local-sync-observer.release.v1";
 const cacheMs = 60 * 60 * 1000;
 
@@ -52,9 +53,20 @@ async function resolveDownloads(): Promise<void> {
       const platform = link.dataset.platform;
       const key: PlatformKey = platform === "windows" ? "windows-x64" : platform === "linux" ? "linux-x64" : detected.startsWith("macos") ? detected : "macos-arm64";
       const target = findAsset(release.assets, key);
-      if (target) link.href = target.browser_download_url;
+      if (target) {
+        link.href = target.browser_download_url;
+        if (link.dataset.downloadLabel) link.textContent = link.dataset.downloadLabel;
+      }
     });
   } catch {
+    if (primary) {
+      primary.hidden = true;
+      primary.removeAttribute("href");
+    }
+    document.querySelectorAll<HTMLAnchorElement>(".platform-link").forEach((link) => {
+      link.href = releasePageUrl;
+      link.innerHTML = `Open releases on GitHub <span class="visually-hidden">(external site)</span>`;
+    });
     if (note) note.innerHTML = `Downloads are being published. <a href="https://github.com/B-Divyesh/sf-local-sync-observer/releases">Open releases on GitHub <span class="visually-hidden">(external site)</span></a>.`;
   }
 }
@@ -70,6 +82,10 @@ function readCachedRelease(): GitHubRelease | null {
       localStorage.removeItem(releaseCacheKey);
       return null;
     }
+    if (!isCurrentRelease(cached.release)) {
+      localStorage.removeItem(releaseCacheKey);
+      return null;
+    }
     return cached.release;
   } catch {
     localStorage.removeItem(releaseCacheKey);
@@ -81,8 +97,13 @@ async function fetchRelease(): Promise<GitHubRelease> {
   const response = await fetch(releaseApiUrl, { headers: { Accept: "application/vnd.github+json" } });
   if (!response.ok) throw new Error("Release metadata unavailable");
   const release = await response.json() as GitHubRelease;
+  if (!isCurrentRelease(release)) throw new Error("Release does not match this site build");
   localStorage.setItem(releaseCacheKey, JSON.stringify({ cachedAt: Date.now(), release } satisfies CachedRelease));
   return release;
+}
+
+function isCurrentRelease(release: GitHubRelease): boolean {
+  return release.tag_name === `v${__APP_VERSION__}` && release.target_commitish === __SOURCE_COMMIT__;
 }
 
 function findAsset(assets: GitHubAsset[], platform: DesktopPlatformKey): GitHubAsset | undefined {

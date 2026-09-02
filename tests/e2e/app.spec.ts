@@ -1,13 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 
 const appUrl = "http://127.0.0.1:4174";
 const sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const appVersion = (JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string }).version;
 
 test("desktop build identifies its exact source commit", async ({ page }) => {
   await page.goto(appUrl);
-  await expect(page.getByLabel(`Version 0.1.7, source commit ${sourceCommit}`)).toBeVisible();
+  await expect(page.getByLabel(`Version ${appVersion}, source commit ${sourceCommit}`)).toBeVisible();
 });
 
 test("desktop shell exposes an honest empty state and keyboard dialog", async ({ page }) => {

@@ -36,10 +36,10 @@ describe("release manifest", () => {
 
   it("rejects the reproduced stale-release commit mismatch", async () => {
     const directory = await mkdtemp(join(tmpdir(), "lso-stale-release-"));
-    const candidate = "e883742f0ad167371033eaa9b2f27f25b957d1b2";
-    const stale = "39df651917f50f887a25123575d7f9d82c2e6a21";
-    await writeFile(join(directory, "latest.json"), JSON.stringify({ version: "v0.1.2", sourceCommit: stale, platforms: {}, artifacts: [] }));
-    const result = spawnSync(process.execPath, [join(root, "scripts/verify-release-identity.mjs"), join(directory, "latest.json"), "v0.1.2", candidate], { encoding: "utf8" });
+    const candidate = "a83cfb8a6bcf126bdd66b2ef443106f52c061786";
+    const stale = "3782d78e04858fdc566f33665452f1a45025f4e8";
+    await writeFile(join(directory, "latest.json"), JSON.stringify({ version: "v0.1.7", sourceCommit: stale, platforms: {}, artifacts: [] }));
+    const result = spawnSync(process.execPath, [join(root, "scripts/verify-release-identity.mjs"), join(directory, "latest.json"), "v0.1.7", candidate], { encoding: "utf8" });
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain(`expected ${candidate}, received ${stale}`);
   });
