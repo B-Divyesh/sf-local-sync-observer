@@ -19,7 +19,7 @@ describe("copy audit", () => {
   it("accepts the generated audit after a CRLF checkout conversion", async () => {
     const target = resolve(root, ".factory/copy-audit.md");
     const original = await readFile(target, "utf8");
-    await writeFile(target, original.replace(/\n/g, "\r\n"));
+    await writeFile(target, original.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n"));
     try {
       const result = spawnSync(process.execPath, ["scripts/copy-audit.mjs", "--check"], { cwd: root, encoding: "utf8" });
       expect(result.status, result.stderr).toBe(0);
