@@ -1,0 +1,178 @@
+{
+  "checkedAt": "2026-09-02T06:28:37.327Z",
+  "base": "https://local-sync-observer.sociobot.in",
+  "phones": {
+    "pixel5": {
+      "handoff": "This app runs on macOS, Windows, and Linux. Open this site on a computer to download it.",
+      "duplicateVisible": false,
+      "primaryHidden": true,
+      "facts": [
+        {
+          "text": "✓ Demo reloads offline after your first visit",
+          "bottom": 690.734375
+        },
+        {
+          "text": "✓ No product account or telemetry",
+          "bottom": 722.875
+        },
+        {
+          "text": "✓ Free under the MIT License",
+          "bottom": 755.015625
+        }
+      ],
+      "viewportBottom": 844,
+      "h1Focused": true,
+      "horizontalOverflow": false,
+      "requestOrigins": [
+        "https://local-sync-observer.sociobot.in"
+      ],
+      "errors": []
+    },
+    "iphone13": {
+      "handoff": "This app runs on macOS, Windows, and Linux. Open this site on a computer to download it.",
+      "duplicateVisible": false,
+      "primaryHidden": true,
+      "facts": [
+        {
+          "text": "✓ Demo reloads offline after your first visit",
+          "bottom": 690.734375
+        },
+        {
+          "text": "✓ No product account or telemetry",
+          "bottom": 722.875
+        },
+        {
+          "text": "✓ Free under the MIT License",
+          "bottom": 755.015625
+        }
+      ],
+      "viewportBottom": 844,
+      "h1Focused": true,
+      "horizontalOverflow": false,
+      "requestOrigins": [
+        "https://local-sync-observer.sociobot.in"
+      ],
+      "errors": []
+    }
+  },
+  "history": {
+    "before": 1000,
+    "privacy": {
+      "y": 0,
+      "focused": true
+    },
+    "back": {
+      "url": "https://local-sync-observer.sociobot.in/",
+      "y": 1000,
+      "focused": true
+    },
+    "forward": {
+      "url": "https://local-sync-observer.sociobot.in/privacy/",
+      "y": 0,
+      "focused": true
+    }
+  },
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Local Sync Observer — check local sync status",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "focused": true,
+      "description": true,
+      "canonical": true,
+      "openGraph": true,
+      "twitter": true,
+      "appleTouch": true,
+      "horizontalOverflow": false,
+      "seriousOrCriticalAxe": [],
+      "consoleErrors": []
+    },
+    "/demo/?demo=1": {
+      "status": 200,
+      "title": "Demo — Local Sync Observer",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "focused": true,
+      "description": true,
+      "canonical": true,
+      "openGraph": true,
+      "twitter": true,
+      "appleTouch": true,
+      "horizontalOverflow": false,
+      "seriousOrCriticalAxe": [],
+      "consoleErrors": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Local Sync Observer",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "focused": true,
+      "description": true,
+      "canonical": true,
+      "openGraph": true,
+      "twitter": true,
+      "appleTouch": true,
+      "horizontalOverflow": false,
+      "seriousOrCriticalAxe": [],
+      "consoleErrors": []
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Local Sync Observer",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "focused": true,
+      "description": true,
+      "canonical": true,
+      "openGraph": true,
+      "twitter": true,
+      "appleTouch": true,
+      "horizontalOverflow": false,
+      "seriousOrCriticalAxe": [],
+      "consoleErrors": []
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "title": "Page not found — Local Sync Observer",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "focused": true,
+      "description": true,
+      "canonical": true,
+      "openGraph": true,
+      "twitter": true,
+      "appleTouch": true,
+      "horizontalOverflow": false,
+      "seriousOrCriticalAxe": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ]
+    }
+  },
+  "demo": {
+    "directUrl": "https://local-sync-observer.sociobot.in/demo/?demo=1",
+    "beforeReset": {
+      "real": "real-sentinel",
+      "demo": "{\"checkedAt\":1788330527649}"
+    },
+    "afterReset": {
+      "real": "real-sentinel",
+      "demo": "{\"checkedAt\":1788330528199}"
+    },
+    "offlineSample": true,
+    "afterExit": {
+      "real": "real-sentinel",
+      "demo": null
+    },
+    "requestOrigins": [
+      "https://local-sync-observer.sociobot.in"
+    ]
+  }
+}

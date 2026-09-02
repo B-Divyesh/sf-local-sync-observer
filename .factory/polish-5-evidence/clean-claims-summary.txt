@@ -1,0 +1,33 @@
+Clean-clone claim verification — 2026-09-02 UTC
+Clone: /tmp/local-sync-observer-polish-5.R2Gus9/repo
+Commit: 416bc59486cf37bf68974f064772d067cc171620
+Bootstrap: npm ci --include=dev (67 packages, 0 vulnerabilities)
+
+PASS 01/26 release-downloads
+PASS 02/26 release-matrix
+PASS 03/26 checksum-install
+PASS 04/26 evidence-boundary
+PASS 05/26 metadata-only-scan
+PASS 06/26 scan-bounds
+PASS 07/26 local-endpoint-only
+PASS 08/26 mobile-desktop-handoff
+PASS 09/26 local-app-storage
+PASS 10/26 open-owner
+PASS 11/26 thirty-second-refresh
+PASS 12/26 site-private
+PASS 13/26 mit-license
+PASS 14/26 isolated-demo
+PASS 15/26 demo-private
+PASS 16/26 offline-demo-reload
+PASS 17/26 release-fallback
+PASS 18/26 syncthing-reading
+PASS 19/26 reading-details
+PASS 20/26 read-only-probe
+PASS 21/26 tray-status
+PASS 22/26 no-product-account
+PASS 23/26 release-cache-retention
+PASS 24/26 nextcloud-desktop-log
+PASS 25/26 mixed-provider-demo
+PASS 26/26 checks-require-source
+
+Result: every exact command registered in .factory/claims.json passed independently.
