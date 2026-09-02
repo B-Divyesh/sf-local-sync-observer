@@ -1,4 +1,22 @@
-# Local Sync Observer — polish round 5 handoff
+# Local Sync Observer — verification 10 handoff: **FAIL**
+
+## Current release decision
+
+Candidate `a83cfb8a6bcf126bdd66b2ef443106f52c061786` **FAILS independent
+verification**. The live website at
+<https://local-sync-observer.sociobot.in/> matches the candidate byte-for-byte,
+and all local/live functional, privacy, accessibility, claim, and build checks
+pass. However, its download controls lead to release `v0.1.7`, whose GitHub API
+record and shipped `latest.json` identify source commit
+`3782d78e04858fdc566f33665452f1a45025f4e8`, not this candidate.
+
+This is a high-severity release-identity defect. The release is five commits
+behind and omits candidate-era product fixes. Publish a new version/tag from
+`a83cfb8…`, let the release workflow create all platform artifacts,
+`SHA256SUMS`, and `latest.json`, then deploy the corresponding site and repeat
+verification. See `.factory/verification-10.md` for exact fresh evidence.
+
+# Local Sync Observer — polish round 5 handoff (superseded by verification 10)
 
 ## Outcome
 
