@@ -82,7 +82,7 @@ function render(): void {
   const attentionCount = state.sources.filter((source) => ["conflict", "error", "offline"].includes(state.readings[source.id]?.state ?? "unknown")).length;
   app.innerHTML = `
     <header class="app-header">
-      <a class="brand" href="#main" aria-label="Local Sync Observer home"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></a>
+      <a class="brand" href="#main" aria-label="LS/O — Local Sync Observer home"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></a>
       <div class="header-actions">
         <span class="privacy-mark"><span aria-hidden="true">●</span> Local only</span>
         <button class="button button--small" type="button" data-action="configure">Configure sources</button>
@@ -297,7 +297,7 @@ function setFormError(message: string): void {
 
 function localEndpoint(value: string): boolean {
   try {
-    const host = new URL(value).hostname;
+    const host = new URL(value).hostname.toLowerCase().replace(/^\[|\]$/g, "");
     return host === "127.0.0.1" || host === "localhost" || host === "::1" || host.endsWith(".local");
   } catch { return false; }
 }
