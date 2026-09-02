@@ -41,7 +41,12 @@ function auditLanding(html) {
     .filter((sentence, index, all) => all.indexOf(sentence) === index);
   // These strings are rendered by site.ts after the release check, so they
   // belong in the audit even though they are not present in the HTML markup.
-  ordered.push("Downloads are being published.", "Open releases on GitHub.");
+  ordered.push(
+    "Downloads are being published.",
+    "Open releases on GitHub.",
+    "Desktop downloads are available for macOS, Windows, and Linux.",
+    "This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it."
+  );
   return ordered;
 }
 
@@ -101,7 +106,7 @@ ${rows(plainReadme)}
 
 ${[...headings, ...controls].map(value => `- ${value}`).join("\n")}
 
-Runtime download variants are \`Download for <operating system> from GitHub\`, \`<version> · <asset name>\`, and \`Open releases on GitHub (external site)\`.
+Runtime download variants are \`Download for <operating system> from GitHub\`, \`<version> · <asset name>\`, \`Open releases on GitHub (external site)\`, and the desktop-only handoff for Android and iPhone visitors.
 
 ## Terminology
 

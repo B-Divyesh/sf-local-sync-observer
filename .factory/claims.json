@@ -45,8 +45,15 @@
     "id": "local-endpoint-only",
     "claim": "Syncthing checks accept loopback or .local endpoints and reject remote hosts.",
     "where": "desktop setup, privacy page, README",
-    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints",
-    "sandbox": "validate a fixture remote HTTPS endpoint is rejected and a loopback endpoint is accepted"
+    "test": "npm run test:claim:local-endpoint",
+    "sandbox": "validate remote HTTPS, IPv4, IPv6-loopback, and .local endpoints in the production core; submit http://[::1]:8384 through an instrumented desktop form and require one production probe"
+  },
+  {
+    "id": "mobile-desktop-handoff",
+    "claim": "Android and iPhone visitors are told the observer is desktop-only and are not offered an unusable Linux download.",
+    "where": "landing download controls, README",
+    "test": "npm run test:e2e -- --grep @claim:mobile-desktop-handoff",
+    "sandbox": "fresh Android and iPhone user-agent contexts; assert the desktop-only message, hidden primary download, and no GitHub release lookup"
   },
   {
     "id": "local-app-storage",

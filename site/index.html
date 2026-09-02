@@ -34,11 +34,12 @@
           <p class="lede">For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.</p>
           <div class="hero-actions" id="download">
             <a class="button button--primary" href="/demo/?demo=1">Try it with sample data</a>
-            <a class="button" id="primary-download" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download from GitHub</a>
+            <a class="button" id="primary-download" hidden href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download from GitHub</a>
             <a class="button" href="#install-options">View install options</a>
           </div>
           <p class="action-note">Opens a sample conflict board; nothing is saved.</p>
           <p class="download-note" id="download-note" aria-live="polite">Choose a build for your computer.</p>
+          <p class="download-note" id="mobile-handoff" aria-live="polite" hidden>This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it.</p>
           <ul class="trust-list" aria-label="Product facts"><li><span aria-hidden="true">✓</span> Demo reloads offline after your first visit</li><li><span aria-hidden="true">✓</span> No product account or telemetry</li><li><span aria-hidden="true">✓</span> Free under the MIT License</li></ul>
         </div>
         <figure class="hero-art">
@@ -59,7 +60,7 @@
           <li><span class="step-number">03</span><div><h3>Open the sync tool</h3><p>Open the affected sync tool from its row. The observer uses read-only checks and does not change your files.</p></div></li>
         </ol>
       </section>
-      <section class="walkthrough" data-walkthrough-version="0.1.6" aria-labelledby="walkthrough-title">
+      <section class="walkthrough" data-walkthrough-version="0.1.7" aria-labelledby="walkthrough-title">
         <div class="section-heading"><p class="eyebrow">Demo walkthrough</p><h2 id="walkthrough-title">Sample conflict walkthrough</h2></div>
         <ol class="walkthrough-list">
           <li><figure><img src="/assets/walkthrough-empty.webp" width="900" height="600" loading="lazy" decoding="async" alt="Empty observer board with buttons to add a source or load sample data"><figcaption><strong>1. Start with no sync status</strong><span>The empty board waits for a local source before it reports a status.</span></figcaption></figure></li>
@@ -95,7 +96,7 @@
         <p class="checksum-note">The macOS and Linux shell installer checks the downloaded file before opening it.</p>
       </section>
     </main>
-    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Read-only local sync status · Built by Param Factory · v0.1.6</p><nav aria-label="Footer navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source on GitHub <span class="visually-hidden">(external site)</span></a></nav></footer>
+    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Read-only local sync status · Built by Param Factory · v0.1.7</p><nav aria-label="Footer navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source on GitHub <span class="visually-hidden">(external site)</span></a></nav></footer>
     <p class="route-announcement" data-route-announcement aria-live="polite" aria-atomic="true"></p>
     <script type="module" src="/site.ts"></script>
     <script type="module" src="/route-focus.ts"></script>

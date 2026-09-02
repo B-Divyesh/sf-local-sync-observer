@@ -631,6 +631,7 @@ mod tests {
     fn claim_local_endpoint_only_rejects_remote_endpoints() {
         assert!(!is_local_endpoint("https://sync.example.com"));
         assert!(is_local_endpoint("http://127.0.0.1:8384"));
+        assert!(is_local_endpoint("http://[::1]:8384"));
         assert!(is_local_endpoint("https://observer.local/status"));
     }
 

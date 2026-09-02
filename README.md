@@ -12,6 +12,8 @@ Try the isolated demo before installing: <https://local-sync-observer.sociobot.i
 
 Download the build for your operating system from the website. You can also run:
 
+Local Sync Observer runs on macOS, Windows, and Linux, not Android or iPhone.
+
 ```sh
 curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh
 ```

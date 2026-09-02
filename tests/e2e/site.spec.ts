@@ -1,7 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-test("@claim:release-downloads landing page has one clear heading and a usable download path", async ({ page }) => {
+test("@claim:release-downloads landing page has one clear heading and a usable download path", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Android users receive the separately covered desktop-only handoff.");
   const published = {
     linux: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.3/observer.AppImage",
     windows: "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.3/observer.msi",
@@ -34,12 +35,36 @@ test("@claim:release-downloads landing page has one clear heading and a usable d
   expect(errors).toEqual([]);
 });
 
-test("@claim:site-private uses no cookies, analytics, or undisclosed network origin", async ({ page }) => {
+test("@claim:mobile-desktop-handoff gives Android and iOS a truthful desktop-only download handoff", async ({ browser }) => {
+  const mobileUserAgents = [
+    "Mozilla/5.0 (Linux; Android 14; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+  ];
+  for (const userAgent of mobileUserAgents) {
+    const context = await browser.newContext({ userAgent });
+    const page = await context.newPage();
+    const githubRequests: string[] = [];
+    page.on("request", request => {
+      if (new URL(request.url()).origin === "https://api.github.com") githubRequests.push(request.url());
+    });
+    await page.goto("http://127.0.0.1:4173/");
+    await expect(page.getByText("This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it.")).toBeVisible();
+    await expect(page.locator("#primary-download")).toBeHidden();
+    expect(githubRequests).toEqual([]);
+    await context.close();
+  }
+});
+
+test("@claim:site-private uses no cookies, analytics, or undisclosed network origin", async ({ page }, testInfo) => {
   const requests: string[] = [];
   page.on("request", request => requests.push(request.url()));
   await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
   await page.goto("/");
-  await expect(page.getByText("Downloads are being published.")).toBeVisible();
+  if (testInfo.project.name === "mobile") {
+    await expect(page.getByText("This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it.")).toBeVisible();
+  } else {
+    await expect(page.getByText("Downloads are being published.")).toBeVisible();
+  }
   expect(await page.context().cookies()).toEqual([]);
   expect(requests.every(url => ["http://127.0.0.1:4173", "https://api.github.com"].includes(new URL(url).origin))).toBe(true);
 });
@@ -54,14 +79,16 @@ test("@claim:no-product-account opens the working demo without sign-in", async (
   await expect(page.locator('input[type="email"], a[href*="login"], a[href*="signup"]')).toHaveCount(0);
 });
 
-test("@claim:release-fallback shows the release page when GitHub is unavailable", async ({ page }) => {
+test("@claim:release-fallback shows the release page when GitHub is unavailable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Android users receive the separately covered desktop-only handoff.");
   await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
   await page.goto("/");
   await expect(page.getByText("Downloads are being published.")).toBeVisible();
   await expect(page.getByRole("link", { name: /Open releases on GitHub/ })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
 });
 
-test("@claim:release-cache-retention removes an expired release cache when GitHub is unavailable", async ({ page }) => {
+test("@claim:release-cache-retention removes an expired release cache when GitHub is unavailable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Android users do not request release metadata.");
   await page.addInitScript(() => localStorage.setItem("local-sync-observer.release.v1", JSON.stringify({
     cachedAt: Date.now() - 2 * 60 * 60 * 1000,
     release: { tag_name: "v0.0.0", assets: [] }

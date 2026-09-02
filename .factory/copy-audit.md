@@ -10,33 +10,37 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 | 2 | 17 | For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place. | — |
 | 3 | 8 | Opens a sample conflict board; nothing is saved. | — |
 | 4 | 6 | Choose a build for your computer. | — |
-| 5 | 9 | The observer checks sync status without handling your files. | — |
-| 6 | 9 | After reconnecting, “idle” may not mean every device agrees. | — |
-| 7 | 11 | The observer combines Syncthing status, Nextcloud desktop logs, and conflict-copy names. | — |
-| 8 | 9 | Add Syncthing, a Nextcloud desktop log, or a folder. | — |
-| 9 | 9 | Credentials and paths stay in the app’s local storage. | — |
-| 10 | 17 | See pending activity, conflicts, the last completed sync, and any details your sync tool did not report. | — |
-| 11 | 8 | Open the affected sync tool from its row. | — |
-| 12 | 11 | The observer uses read-only checks and does not change your files. | — |
-| 13 | 12 | If a check cannot show that syncing finished, the board says so. | — |
-| 14 | 10 | Every status lists its checks and any missing Syncthing details. | — |
-| 15 | 8 | Reads Syncthing’s local folder list and pending-file count. | — |
-| 16 | 8 | It also checks folder names for conflict copies. | — |
-| 17 | 13 | Reads its local log for conflicts, connection problems, pending activity, and completed syncs. | — |
-| 18 | 13 | Reads names, sizes, and timestamps only, capped at 50,000 entries and 16 levels. | — |
-| 19 | 4 | Never opens file content. | — |
-| 20 | 7 | Choose a build for your operating system. | — |
-| 21 | 6 | Apple silicon and Intel disk images. | — |
-| 22 | 3 | 64-bit Windows installer. | — |
-| 23 | 4 | AppImage and Debian package. | — |
-| 24 | 13 | The macOS and Linux shell installer checks the downloaded file before opening it. | — |
-| 25 | 13 | The empty board waits for a local source before it reports a status. | — |
-| 26 | 11 | Add Syncthing, choose a Nextcloud desktop log, or choose a folder. | — |
-| 27 | 11 | The board shows the conflict and lists the checks it used. | — |
-| 28 | 8 | A folder check can find common conflict copies. | — |
-| 29 | 7 | Only Syncthing’s pending count can establish “Converged.” | — |
-| 30 | 4 | Downloads are being published. | — |
-| 31 | 4 | Open releases on GitHub. | — |
+| 5 | 9 | This desktop app runs on macOS, Windows, and Linux. | — |
+| 6 | 9 | Open this site on a computer to download it. | — |
+| 7 | 9 | The observer checks sync status without handling your files. | — |
+| 8 | 9 | After reconnecting, “idle” may not mean every device agrees. | — |
+| 9 | 11 | The observer combines Syncthing status, Nextcloud desktop logs, and conflict-copy names. | — |
+| 10 | 9 | Add Syncthing, a Nextcloud desktop log, or a folder. | — |
+| 11 | 9 | Credentials and paths stay in the app’s local storage. | — |
+| 12 | 17 | See pending activity, conflicts, the last completed sync, and any details your sync tool did not report. | — |
+| 13 | 8 | Open the affected sync tool from its row. | — |
+| 14 | 11 | The observer uses read-only checks and does not change your files. | — |
+| 15 | 12 | If a check cannot show that syncing finished, the board says so. | — |
+| 16 | 10 | Every status lists its checks and any missing Syncthing details. | — |
+| 17 | 8 | Reads Syncthing’s local folder list and pending-file count. | — |
+| 18 | 8 | It also checks folder names for conflict copies. | — |
+| 19 | 13 | Reads its local log for conflicts, connection problems, pending activity, and completed syncs. | — |
+| 20 | 13 | Reads names, sizes, and timestamps only, capped at 50,000 entries and 16 levels. | — |
+| 21 | 4 | Never opens file content. | — |
+| 22 | 7 | Choose a build for your operating system. | — |
+| 23 | 6 | Apple silicon and Intel disk images. | — |
+| 24 | 3 | 64-bit Windows installer. | — |
+| 25 | 4 | AppImage and Debian package. | — |
+| 26 | 13 | The macOS and Linux shell installer checks the downloaded file before opening it. | — |
+| 27 | 13 | The empty board waits for a local source before it reports a status. | — |
+| 28 | 11 | Add Syncthing, choose a Nextcloud desktop log, or choose a folder. | — |
+| 29 | 11 | The board shows the conflict and lists the checks it used. | — |
+| 30 | 8 | A folder check can find common conflict copies. | — |
+| 31 | 7 | Only Syncthing’s pending count can establish “Converged.” | — |
+| 32 | 4 | Downloads are being published. | — |
+| 33 | 4 | Open releases on GitHub. | — |
+| 34 | 9 | Desktop downloads are available for macOS, Windows, and Linux. | — |
+| 35 | 18 | This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it. | — |
 
 ## README sentences
 
@@ -52,44 +56,45 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 | 8 | 10 | The demo keeps sample data separate from your saved settings. | — |
 | 9 | 8 | It never reads or changes real observer data. | — |
 | 10 | 10 | Download the build for your operating system from the website. | — |
-| 11 | 8 | The shell installer fetches the release file list. | — |
-| 12 | 7 | It checks the download before opening it. | — |
-| 13 | 7 | See releases on GitHub for install details. | — |
-| 14 | 3 | Open **Configure sources**. | — |
-| 15 | 10 | Choose Syncthing and enter its local address and API key. | — |
-| 16 | 11 | You can also choose a Nextcloud desktop log or folder check. | — |
-| 17 | 4 | Select **Save and inspect**. | — |
-| 18 | 9 | The board checks again every 30 seconds while running. | — |
-| 19 | 4 | Review the listed checks. | — |
-| 20 | 9 | Use **Open sync tool** to resolve a finding there. | — |
-| 21 | 8 | The tray tooltip shows the current overall reading. | — |
-| 22 | 6 | It never includes filenames or paths. | — |
-| 23 | 12 | Use Syncthing on this computer, such as http://127.0.0.1:8384, or a .local address. | — |
-| 24 | 7 | Nextcloud checks read its local desktop log. | — |
-| 25 | 10 | They show conflicts, connection problems, pending activity, and completed syncs. | — |
-| 26 | 9 | The log does not provide a reliable pending-file count. | — |
-| 27 | 14 | Folder checks inspect names and metadata for at most 50,000 entries and 16 levels. | — |
-| 28 | 6 | They can flag common conflict copies. | — |
-| 29 | 13 | They do not show that syncing finished unless Syncthing reports no files waiting. | — |
-| 30 | 8 | Prerequisites: Node.js 22, npm, and current stable Rust. | — |
-| 31 | 12 | Tauri development also needs the Tauri 2 system dependencies on its website. | — |
-| 32 | 8 | npm run build builds both dist/app and dist/site. | — |
-| 33 | 10 | The release workflow runs on v* tags and manual dispatch. | — |
-| 34 | 7 | It builds macOS, Windows, and Linux packages. | — |
-| 35 | 10 | It publishes SHA256SUMS and latest.json with the tagged source commit. | — |
-| 36 | 7 | The one-click demo is documented in .factory/demo.md. | — |
-| 37 | 11 | Its observable product promises and exact test commands are in .factory/claims.json. | — |
-| 38 | 9 | The landing page asks GitHub which release is current. | — |
-| 39 | 10 | If GitHub is unavailable, it links to the release page. | — |
-| 40 | 15 | Source labels, paths, local addresses, API keys, and readings stay in the app’s local storage. | — |
-| 41 | 6 | API keys stay on this device. | — |
-| 42 | 6 | Version 0.1 does not encrypt them. | — |
-| 43 | 5 | Use a separate Syncthing key. | — |
-| 44 | 9 | Remove the source when you no longer need it. | — |
-| 45 | 7 | The website has no analytics or cookies. | — |
-| 46 | 9 | It removes cached GitHub release details after one hour. | — |
-| 47 | 4 | See Privacy and Terms. | — |
-| 48 | 5 | Licensed under the MIT License. | — |
+| 11 | 13 | Local Sync Observer runs on macOS, Windows, and Linux, not Android or iPhone. | — |
+| 12 | 8 | The shell installer fetches the release file list. | — |
+| 13 | 7 | It checks the download before opening it. | — |
+| 14 | 7 | See releases on GitHub for install details. | — |
+| 15 | 3 | Open **Configure sources**. | — |
+| 16 | 10 | Choose Syncthing and enter its local address and API key. | — |
+| 17 | 11 | You can also choose a Nextcloud desktop log or folder check. | — |
+| 18 | 4 | Select **Save and inspect**. | — |
+| 19 | 9 | The board checks again every 30 seconds while running. | — |
+| 20 | 4 | Review the listed checks. | — |
+| 21 | 9 | Use **Open sync tool** to resolve a finding there. | — |
+| 22 | 8 | The tray tooltip shows the current overall reading. | — |
+| 23 | 6 | It never includes filenames or paths. | — |
+| 24 | 12 | Use Syncthing on this computer, such as http://127.0.0.1:8384, or a .local address. | — |
+| 25 | 7 | Nextcloud checks read its local desktop log. | — |
+| 26 | 10 | They show conflicts, connection problems, pending activity, and completed syncs. | — |
+| 27 | 9 | The log does not provide a reliable pending-file count. | — |
+| 28 | 14 | Folder checks inspect names and metadata for at most 50,000 entries and 16 levels. | — |
+| 29 | 6 | They can flag common conflict copies. | — |
+| 30 | 13 | They do not show that syncing finished unless Syncthing reports no files waiting. | — |
+| 31 | 8 | Prerequisites: Node.js 22, npm, and current stable Rust. | — |
+| 32 | 12 | Tauri development also needs the Tauri 2 system dependencies on its website. | — |
+| 33 | 8 | npm run build builds both dist/app and dist/site. | — |
+| 34 | 10 | The release workflow runs on v* tags and manual dispatch. | — |
+| 35 | 7 | It builds macOS, Windows, and Linux packages. | — |
+| 36 | 10 | It publishes SHA256SUMS and latest.json with the tagged source commit. | — |
+| 37 | 7 | The one-click demo is documented in .factory/demo.md. | — |
+| 38 | 11 | Its observable product promises and exact test commands are in .factory/claims.json. | — |
+| 39 | 9 | The landing page asks GitHub which release is current. | — |
+| 40 | 10 | If GitHub is unavailable, it links to the release page. | — |
+| 41 | 15 | Source labels, paths, local addresses, API keys, and readings stay in the app’s local storage. | — |
+| 42 | 6 | API keys stay on this device. | — |
+| 43 | 6 | Version 0.1 does not encrypt them. | — |
+| 44 | 5 | Use a separate Syncthing key. | — |
+| 45 | 9 | Remove the source when you no longer need it. | — |
+| 46 | 7 | The website has no analytics or cookies. | — |
+| 47 | 9 | It removes cached GitHub release details after one hour. | — |
+| 48 | 4 | See Privacy and Terms. | — |
+| 49 | 5 | Licensed under the MIT License. | — |
 
 ## Headings and controls
 
@@ -125,7 +130,7 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 - Terms
 - Source on GitHub (external site)
 
-Runtime download variants are `Download for <operating system> from GitHub`, `<version> · <asset name>`, and `Open releases on GitHub (external site)`.
+Runtime download variants are `Download for <operating system> from GitHub`, `<version> · <asset name>`, `Open releases on GitHub (external site)`, and the desktop-only handoff for Android and iPhone visitors.
 
 ## Terminology
 

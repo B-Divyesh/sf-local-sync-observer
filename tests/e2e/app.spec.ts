@@ -7,7 +7,7 @@ const sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf
 
 test("desktop build identifies its exact source commit", async ({ page }) => {
   await page.goto(appUrl);
-  await expect(page.getByLabel(`Version 0.1.6, source commit ${sourceCommit}`)).toBeVisible();
+  await expect(page.getByLabel(`Version 0.1.7, source commit ${sourceCommit}`)).toBeVisible();
 });
 
 test("desktop shell exposes an honest empty state and keyboard dialog", async ({ page }) => {
@@ -60,6 +60,40 @@ test("@claim:checks-require-source makes no provider check before Save and inspe
 
   await page.getByRole("button", { name: "Save and inspect" }).click();
   await expect.poll(() => page.evaluate(() => (window as Window & { __providerProbes?: string[] }).__providerProbes)).toEqual(["probe_syncthing"]);
+});
+
+test("@claim:local-endpoint-only accepts bracketed IPv6 loopback through the desktop setup form", async ({ page }) => {
+  await page.addInitScript(() => {
+    (window as Window & { __TAURI_INTERNALS__?: unknown; __probeArguments?: Record<string, unknown>[] }).__probeArguments = [];
+    (window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = {
+      invoke: async (command: string, args: Record<string, unknown>) => {
+        if (command === "update_tray_status") return;
+        if (command === "probe_syncthing") {
+          (window as Window & { __probeArguments?: Record<string, unknown>[] }).__probeArguments?.push(args);
+          return {
+            sourceId: args.sourceId,
+            provider: "Syncthing",
+            state: "converged",
+            checkedAt: Date.now(),
+            summary: "Every reported folder has zero pending items",
+            folders: [],
+            coverage: "fixture"
+          };
+        }
+        throw new Error(`Unexpected command ${command}`);
+      }
+    };
+  });
+
+  await page.goto(appUrl);
+  await page.getByRole("button", { name: "Add first source" }).click();
+  await page.locator('input[name="endpoint"]').fill("http://[::1]:8384");
+  await page.locator('input[name="apiKey"]').fill("fixture-key");
+  await page.getByRole("button", { name: "Save and inspect" }).click();
+  await expect.poll(() => page.evaluate(() => (window as Window & { __probeArguments?: Record<string, unknown>[] }).__probeArguments)).toEqual([
+    expect.objectContaining({ endpoint: "http://[::1]:8384" })
+  ]);
+  await expect(page.getByRole("dialog", { name: "Add a source" })).toBeHidden();
 });
 
 test("example exposes the conflict in one action", async ({ page }) => {
@@ -164,4 +198,21 @@ test("desktop shell has no serious accessibility violations or mobile overflow",
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter(violation => violation.impact === "serious" || violation.impact === "critical")).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
+test("desktop app reflows at 200% and keeps the home target and controls usable", async ({ page }) => {
+  await page.setViewportSize({ width: 195, height: 422 });
+  await page.goto(appUrl);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+  const failures = await page.locator('a[href], button, [tabindex]:not([tabindex="-1"])').evaluateAll(elements => elements.flatMap(element => {
+    const rect = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    if (style.display === "none" || style.visibility === "hidden" || rect.width === 0 || rect.height === 0) return [];
+    const viewport = document.documentElement.clientWidth;
+    if (rect.width + 0.1 < 44 || rect.height + 0.1 < 44) return [`too small: ${element.tagName}:${element.textContent?.trim()}=${rect.width}x${rect.height}`];
+    if (rect.left < -0.1 || rect.right > viewport + 0.1) return [`clipped: ${element.tagName}:${element.textContent?.trim()}=${rect.left}-${rect.right}`];
+    return [];
+  }));
+  expect(failures).toEqual([]);
+  await expect(page.locator(".app-header .brand")).toHaveAccessibleName(/LS\/O/);
 });

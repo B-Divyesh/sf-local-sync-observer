@@ -1,6 +1,6 @@
 {
   "name": "local-sync-observer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "tauri": "tauri",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:claim:local-endpoint": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints && npm run test:e2e -- --grep @claim:local-endpoint-only",
     "audit:copy": "node scripts/copy-audit.mjs --write",
     "audit:copy:check": "node scripts/copy-audit.mjs --check",
     "build:app": "vite build --config vite.app.config.ts",

@@ -1,4 +1,5 @@
-type PlatformKey = "macos-arm64" | "macos-x64" | "windows-x64" | "linux-x64";
+type DesktopPlatformKey = "macos-arm64" | "macos-x64" | "windows-x64" | "linux-x64";
+type PlatformKey = DesktopPlatformKey | "mobile";
 interface GitHubAsset { name: string; browser_download_url: string; }
 interface GitHubRelease { tag_name: string; assets: GitHubAsset[]; }
 interface CachedRelease { cachedAt: number; release: GitHubRelease; }
@@ -9,14 +10,15 @@ const cacheMs = 60 * 60 * 1000;
 
 function detectPlatform(): PlatformKey {
   const nav = navigator as Navigator & { userAgentData?: { platform?: string } };
-  const platform = nav.userAgentData?.platform ?? navigator.platform ?? navigator.userAgent;
-  const value = platform.toLowerCase();
+  const platform = nav.userAgentData?.platform ?? navigator.platform ?? "";
+  const value = `${platform} ${navigator.userAgent}`.toLowerCase();
+  if (/android|iphone|ipad|ipod/.test(value)) return "mobile";
   if (value.includes("win")) return "windows-x64";
   if (value.includes("mac")) return /arm|aarch64/.test(navigator.userAgent.toLowerCase()) ? "macos-arm64" : "macos-x64";
   return "linux-x64";
 }
 
-const labels: Record<PlatformKey, string> = {
+const labels: Record<DesktopPlatformKey, string> = {
   "macos-arm64": "Download for macOS (Apple silicon) from GitHub",
   "macos-x64": "Download for macOS (Intel) from GitHub",
   "windows-x64": "Download for Windows from GitHub",
@@ -26,8 +28,19 @@ const labels: Record<PlatformKey, string> = {
 async function resolveDownloads(): Promise<void> {
   const primary = document.querySelector<HTMLAnchorElement>("#primary-download");
   const note = document.querySelector<HTMLElement>("#download-note");
+  const mobileHandoff = document.querySelector<HTMLElement>("#mobile-handoff");
   const detected = detectPlatform();
-  if (primary) primary.textContent = labels[detected];
+  if (detected === "mobile") {
+    primary?.removeAttribute("href");
+    if (primary) primary.hidden = true;
+    if (mobileHandoff) mobileHandoff.hidden = false;
+    if (note) note.textContent = "Desktop downloads are available for macOS, Windows, and Linux.";
+    return;
+  }
+  if (primary) {
+    primary.hidden = false;
+    primary.textContent = labels[detected];
+  }
   try {
     const cached = readCachedRelease();
     const release = cached ?? await fetchRelease();
@@ -72,8 +85,8 @@ async function fetchRelease(): Promise<GitHubRelease> {
   return release;
 }
 
-function findAsset(assets: GitHubAsset[], platform: PlatformKey): GitHubAsset | undefined {
-  const patterns: Record<PlatformKey, RegExp> = {
+function findAsset(assets: GitHubAsset[], platform: DesktopPlatformKey): GitHubAsset | undefined {
+  const patterns: Record<DesktopPlatformKey, RegExp> = {
     "macos-arm64": /aarch64.*\.dmg$/i,
     "macos-x64": /(x64|x86_64).*\.dmg$/i,
     "windows-x64": /x64.*\.msi$/i,
