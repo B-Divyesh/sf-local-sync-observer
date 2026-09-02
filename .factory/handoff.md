@@ -1,95 +1,32 @@
-# Local Sync Observer — verification 7 handoff
+# Local Sync Observer — review 4 handoff
 
-## Independent verification: PASS
+## Result
 
-Candidate `2c429b40441b7108e715586a56a7c93d87c17de9` passed fresh independent
-verification against <https://local-sync-observer.sociobot.in/> on 2026-09-02.
-All 23 registered claim commands, `npm run check`, core Rust tests, and the
-48-test desktop/mobile Playwright suite passed. The live static output is
-byte-identical to this candidate's build, and the one-click local-only demo,
-offline reload, privacy request boundary, headers, responsive keyboard use,
-and serious/critical Axe checks passed. See `.factory/verification-7.md` for
-full evidence. The disposable verifier image lacks `glib-2.0.pc`, so the
-native Tauri `cargo check` was host-blocked; this does not affect the passing
-published `v0.1.6` release or product-core test results.
+Independent adversarial review 4 is **FAIL** with one medium finding: `F-4-1` in `.factory/review-4.md`.
 
----
+The live demo says that its Syncthing and Nextcloud sample prove specific facts and that checks begin only after a source is added. Those statements do not yet have entries and tagged tests in `.factory/claims.json`. The required repair is to add `mixed-provider-demo` and `checks-require-source` claims/tests, or remove those sentences.
 
-# Local Sync Observer — polish round 3 handoff
+## Completed review work
 
-## Status: complete
+- Reviewed the cold live site at 390 × 844 and 1440 × 900.
+- Exercised the direct demo, reset, exit, real-data sentinel isolation, request boundary, and offline reload.
+- Ran every exact command in `.factory/claims.json`: 23/23 passed.
+- Confirmed prior review findings against current live behavior and source.
+- Checked all public routes, metadata, focus, 404, header/footer consistency, and discovered links.
+- Re-ran local quality gates successfully.
 
-This repair closes every finding in reviews 1, 2, and 3. The main repair is
-`5321e407612d8fdbefa78382a6c12c5cc45a3ea5`; the final public walkthrough
-caption correction is `965b547a0a7955118c6c071869134cd5e70317fa`; and
-`975d41d47926f5981af923e47cf82d32aca7074e` makes the audit deterministic on
-Windows CRLF checkouts too.
+## Verification commands
 
-## What changed
-
-- Added a real, read-only Nextcloud Desktop-log adapter. It reads only the
-  recent local log, recognizes conflict/offline/pending/completed states, and
-  shows honest limits where an exact pending count is unavailable.
-- Reworked the direct desktop first-run language and recorded current v0.1.6
-  walkthrough images. The website, alt text, and captions now name the same
-  Syncthing, Nextcloud, and folder choices.
-- Made `?demo=1` enter an isolated mixed-provider sample. It has the persistent
-  sample banner, Reset demo, Start for real/download exit, `demo:` storage only,
-  and no third-party demo requests.
-- Fixed expired release-cache deletion, registered its retention claim, and
-  rewrote the copy auditor so it covers rendered h1/annotation/caption text and
-  preserves literal demo URLs.
-- Preserved the warm-paper, ink, signal-yellow field-instrument visual system;
-  it was not replaced by a generic template.
-
-## Verify locally
-
-```bash
+```sh
 npm ci --include=dev
 npm run audit:copy:check
 npm run check
+npm run test:e2e
 cargo test --manifest-path crates/observer-core/Cargo.toml
-cargo test --manifest-path src-tauri/Cargo.toml
-npx playwright test --workers=1
 ```
 
-For claim verification, run every exact `test` string in
-`.factory/claims.json`. A fresh clone of `975d41d` ran all 23 successfully;
-the exact command/result list is
-`.factory/polish-3-evidence/clean-claims-summary.txt`.
+Current results: `npm run check` passed (14 Vitest tests and both builds), `npm run test:e2e` passed (48/48), and core Rust passed (9/9). The claim-command output for this disposable review container is `/tmp/lso-review4-claims.log`.
 
-Results from the final local pass:
+## Scope
 
-- `npm run check`: TypeScript passed, 14/14 Vitest tests passed, and production
-  app/site builds completed. Initial app JavaScript is 7.88 KB gzip; landing
-  JavaScript is 1.15 KB gzip.
-- `npx playwright test --workers=1`: 48/48 desktop and mobile tests passed,
-  including Axe, keyboard/focus, responsive 200% reflow, offline demo, privacy,
-  routes, titles, and 404 checks.
-- Lighthouse mobile report: performance 100, accessibility 100, best practices
-  100, SEO 100; LCP 1.81 s and CLS 0.002. See
-  `.factory/polish-3-evidence/lighthouse-local.json`.
-
-## Deployment and live verification
-
-Static deployment `06780583-22bf-4848-a690-732ca4147f4c` completed successfully
-to [local-sync-observer.sociobot.in](https://local-sync-observer.sociobot.in).
-Cold live checks confirmed the one-click demo, cache expiry behavior, metadata,
-legal pages, one h1/main per route, console cleanliness, mobile layout, and no
-serious/critical Axe findings. Evidence is in
-`.factory/polish-3-evidence/live-check.json` and the adjacent screenshots.
-`/does-not-exist` is a real HTTP 404 and focuses its h1; Chromium correctly
-logs the main-document 404 status only, with no product-resource errors.
-
-Release workflow
-[`33579357556`](https://github.com/B-Divyesh/sf-local-sync-observer/actions/runs/33579357556)
-passed the macOS arm64/x64, Windows MSI/EXE, Linux AppImage/Deb, checksum, and
-manifest stages. `latest.json` identifies source commit `975d41d`; its evidence
-and `SHA256SUMS` are in `.factory/polish-3-evidence/`. A downloaded Windows
-MSI matched its published SHA-256:
-`45c96d2bb5fb52644c41d61154e7065b92de9245744d74918e35e9a2cfca9818`.
-
-## Known gaps
-
-None in the product repair. The published v0.1.6 desktop binaries are
-intentionally unsigned; users should verify `SHA256SUMS` before installing.
+No product code was modified. This handoff and `.factory/review-4.md` are the only intended repository changes.
