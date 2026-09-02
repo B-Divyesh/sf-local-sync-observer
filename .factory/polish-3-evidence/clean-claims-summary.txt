@@ -1,4 +1,4 @@
-Clean-clone candidate: 965b547a0a7955118c6c071869134cd5e70317fa
+Clean-clone candidate: 975d41d47926f5981af923e47cf82d32aca7074e
 Install: npm ci --include=dev
 
 PASS release-downloads :: npm run test:e2e -- --grep @claim:release-downloads

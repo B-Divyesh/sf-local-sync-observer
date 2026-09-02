@@ -2,12 +2,13 @@
 
 Candidate product code commits: `5321e407612d8fdbefa78382a6c12c5cc45a3ea5`
 and `965b547a0a7955118c6c071869134cd5e70317fa`; the final cross-platform
-audit check is `f5c719c806ba2f921a5eeb49be21c2d01e1fdee9`. This pass read
-every prior review and polish record. All review findings are closed below.
+audit check and regression test are
+`975d41d47926f5981af923e47cf82d32aca7074e`. This pass read every prior
+review and polish record. All review findings are closed below.
 
 ## Common final evidence
 
-- Fresh clone of `965b547`: all 23 exact commands in `.factory/claims.json`
+- Fresh clone of `975d41d`: all 23 exact commands in `.factory/claims.json`
   passed after `npm ci --include=dev`; see
   `.factory/polish-3-evidence/clean-claims-summary.txt`.
 - Final local suite: `npm run audit:copy:check`, `npm run check` (14 Vitest
@@ -48,4 +49,10 @@ every prior review and polish record. All review findings are closed below.
 
 The live static deployment was uploaded successfully on 2026-09-02 UTC as
 deployment `06780583-22bf-4848-a690-732ca4147f4c` to
-`https://local-sync-observer.sociobot.in`.
+`https://local-sync-observer.sociobot.in`. Release workflow
+[`33579357556`](https://github.com/B-Divyesh/sf-local-sync-observer/actions/runs/33579357556)
+then passed all four desktop build legs and its manifest finalizer. The public
+v0.1.6 `latest.json` identifies commit `975d41d`; its platform matrix and
+SHA256SUMS are saved as `release-latest.json` and `release-SHA256SUMS`.
+`live-release-check.json` records the cold landing page resolving the real
+Linux AppImage URL without console errors.

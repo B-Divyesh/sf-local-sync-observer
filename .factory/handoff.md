@@ -5,7 +5,7 @@
 This repair closes every finding in reviews 1, 2, and 3. The main repair is
 `5321e407612d8fdbefa78382a6c12c5cc45a3ea5`; the final public walkthrough
 caption correction is `965b547a0a7955118c6c071869134cd5e70317fa`; and
-`f5c719c806ba2f921a5eeb49be21c2d01e1fdee9` makes the audit deterministic on
+`975d41d47926f5981af923e47cf82d32aca7074e` makes the audit deterministic on
 Windows CRLF checkouts too.
 
 ## What changed
@@ -37,7 +37,7 @@ npx playwright test --workers=1
 ```
 
 For claim verification, run every exact `test` string in
-`.factory/claims.json`. A fresh clone of `965b547` ran all 23 successfully;
+`.factory/claims.json`. A fresh clone of `975d41d` ran all 23 successfully;
 the exact command/result list is
 `.factory/polish-3-evidence/clean-claims-summary.txt`.
 
@@ -64,8 +64,15 @@ serious/critical Axe findings. Evidence is in
 `/does-not-exist` is a real HTTP 404 and focuses its h1; Chromium correctly
 logs the main-document 404 status only, with no product-resource errors.
 
+Release workflow
+[`33579357556`](https://github.com/B-Divyesh/sf-local-sync-observer/actions/runs/33579357556)
+passed the macOS arm64/x64, Windows MSI/EXE, Linux AppImage/Deb, checksum, and
+manifest stages. `latest.json` identifies source commit `975d41d`; its evidence
+and `SHA256SUMS` are in `.factory/polish-3-evidence/`. A downloaded Windows
+MSI matched its published SHA-256:
+`45c96d2bb5fb52644c41d61154e7065b92de9245744d74918e35e9a2cfca9818`.
+
 ## Known gaps
 
-None in the product repair. Desktop release binaries are built by the pushed
-`v0.1.6` GitHub Actions tag workflow. They are intentionally unsigned; users
-should verify `SHA256SUMS` before installing.
+None in the product repair. The published v0.1.6 desktop binaries are
+intentionally unsigned; users should verify `SHA256SUMS` before installing.
