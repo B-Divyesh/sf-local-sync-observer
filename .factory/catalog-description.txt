@@ -1,1 +1,1 @@
-Check Syncthing pending files and conflicts after offline work without changing your files.
+Check Syncthing and Nextcloud status after offline work without changing files.

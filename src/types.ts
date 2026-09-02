@@ -17,7 +17,14 @@ export interface FolderSource {
   ownerUrl?: string;
 }
 
-export type Source = SyncthingSource | FolderSource;
+export interface NextcloudSource {
+  id: string;
+  kind: "nextcloud";
+  name: string;
+  logPath: string;
+}
+
+export type Source = SyncthingSource | FolderSource | NextcloudSource;
 
 export interface FolderReading {
   id: string;

@@ -1,6 +1,6 @@
 [package]
 name = "local-sync-observer"
-version = "0.1.5"
+version = "0.1.6"
 description = "A read-only convergence dashboard for local-first tools"
 authors = ["Sociobot"]
 edition = "2021"

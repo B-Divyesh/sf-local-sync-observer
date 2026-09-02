@@ -65,7 +65,7 @@ Generation command: `/opt/fleet/lib/gen-image.sh` using the factory `factory-ima
 
 The social preview at `public/assets/social-card.png` is a 1200×630 center crop composed from the reviewed original convergence-board artwork on 2026-08-30. The 180 px Apple touch icon is a raster derivative of the hand-authored `app-icon.svg`.
 
-The three walkthrough images in `public/assets/walkthrough-*.webp` are original 900×600 captures of this candidate's real desktop UI, recorded in Chromium on 2026-08-30. They show the empty state, source setup, and bundled sample conflict; no stock or third-party imagery is used.
+The three walkthrough images in `public/assets/walkthrough-*.webp` are original 900×600 captures of the v0.1.6 desktop UI, recorded in Chromium on 2026-09-02. They show the empty state, source setup, and bundled mixed-provider sample; no stock or third-party imagery is used.
 
 ## Why this fits
 

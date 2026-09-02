@@ -20,7 +20,7 @@ describe("evidence status", () => {
     expect(worstState(["converged", "pending", "conflict"])).toBe("conflict");
     expect(summarizeFolders([folder({ state: "unknown", pendingFiles: null })])).toEqual({
       state: "unknown",
-      summary: "Not enough evidence to claim convergence"
+      summary: "Not enough information to show syncing finished"
     });
   });
 

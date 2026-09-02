@@ -24,7 +24,7 @@ export function summarizeFolders(folders: FolderReading[]): Pick<SourceReading, 
   if (state === "offline") return { state, summary: "Provider cannot be reached" };
   if (pending > 0) return { state: "pending", summary: `${pending} ${pending === 1 ? "item" : "items"} still pending` };
   if (state === "converged" && pendingKnown.length === folders.length) return { state, summary: "All reported items are up to date" };
-  return { state: "unknown", summary: "Not enough evidence to claim convergence" };
+  return { state: "unknown", summary: "Not enough information to show syncing finished" };
 }
 
 export function relativeTime(timestamp: number | null, now = Date.now()): string {

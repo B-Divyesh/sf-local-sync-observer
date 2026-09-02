@@ -1,12 +1,12 @@
 # Local Sync Observer
 
-Local Sync Observer checks Syncthing after offline work. It shows whether your folders and devices finished syncing.
+Local Sync Observer checks Syncthing and Nextcloud after offline work. It shows whether your folders and devices finished syncing.
 
-It observes sync evidence and does not sync files. It reads Syncthing status and selected folder metadata. It never opens file contents or changes a file. When something needs attention, it opens the sync tool for the fix.
+It observes sync status and does not sync files. It reads Syncthing status, Nextcloud desktop logs, and selected folder metadata. It never opens synced file contents or changes a file. When something needs attention, it opens the sync tool for the fix.
 
 Live site: <https://local-sync-observer.sociobot.in>
 
-Try the isolated demo before installing: <https://local-sync-observer.sociobot.in/?demo=1>. The demo uses a separate browser key. It never reads or changes real observer data.
+Try the isolated demo before installing: <https://local-sync-observer.sociobot.in/?demo=1>. The demo keeps sample data separate from your saved settings. It never reads or changes real observer data.
 
 ## Install
 
@@ -27,13 +27,13 @@ The shell installer fetches the release file list. It checks the download before
 ## Use Local Sync Observer
 
 1. Open **Configure sources**.
-2. Choose Syncthing and enter its local address and API key. You can also choose a folder for a names-and-timestamps check.
+2. Choose Syncthing and enter its local address and API key. You can also choose a Nextcloud desktop log or folder check.
 3. Select **Save and inspect**. The board checks again every 30 seconds while running.
 4. Review the listed checks. Use **Open sync tool** to resolve a finding there.
 
 The tray tooltip shows the current overall reading. It never includes filenames or paths.
 
-Use Syncthing on this computer, such as `http://127.0.0.1:8384`, or a `.local` address. Folder checks inspect names and metadata for at most 50,000 entries and 16 levels. They can flag common conflict copies. They do not show that syncing finished unless Syncthing reports no files waiting.
+Use Syncthing on this computer, such as `http://127.0.0.1:8384`, or a `.local` address. Nextcloud checks read its local desktop log. They show conflicts, connection problems, pending activity, and completed syncs. The log does not provide a reliable pending-file count. Folder checks inspect names and metadata for at most 50,000 entries and 16 levels. They can flag common conflict copies. They do not show that syncing finished unless Syncthing reports no files waiting.
 
 ## Develop Local Sync Observer
 
@@ -70,7 +70,7 @@ The one-click demo is documented in [`.factory/demo.md`](.factory/demo.md). Its 
 
 ## Privacy and security
 
-Source labels, paths, local addresses, API keys, and readings stay in the app’s local storage. API keys stay on this device. Version 0.1 does not encrypt them. Use a separate Syncthing key. Remove the source when you no longer need it. The website has no analytics or cookies. See [Privacy](https://local-sync-observer.sociobot.in/privacy/) and [Terms](https://local-sync-observer.sociobot.in/terms/).
+Source labels, paths, local addresses, API keys, and readings stay in the app’s local storage. API keys stay on this device. Version 0.1 does not encrypt them. Use a separate Syncthing key. Remove the source when you no longer need it. The website has no analytics or cookies. It removes cached GitHub release details after one hour. See [Privacy](https://local-sync-observer.sociobot.in/privacy/) and [Terms](https://local-sync-observer.sociobot.in/terms/).
 
 ## Scope and design files
 

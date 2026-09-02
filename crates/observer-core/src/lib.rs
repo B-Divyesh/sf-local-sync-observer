@@ -3,12 +3,14 @@
 
 use serde::{Deserialize, Serialize};
 use std::fs;
+use std::io::{Read, Seek, SeekFrom};
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 use url::Url;
 
 pub const SCAN_MAX_ENTRIES: u64 = 50_000;
 pub const SCAN_MAX_DEPTH: usize = 16;
+pub const NEXTCLOUD_LOG_MAX_BYTES: u64 = 2 * 1024 * 1024;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct FolderScan {
@@ -340,6 +342,195 @@ pub fn probe_syncthing(
     })
 }
 
+/// Reads recent status records from a local Nextcloud Desktop log. This never
+/// contacts a Nextcloud server or alters the log, the client, or synced files.
+/// Nextcloud's desktop log does not contain a reliable pending-file count, so
+/// that limit is made explicit in each returned reading.
+pub fn probe_nextcloud_log(
+    source_id: String,
+    name: String,
+    log_path: String,
+) -> Result<SourceReading, String> {
+    let path = Path::new(&log_path);
+    let metadata = fs::metadata(path).map_err(|_| {
+        "The Nextcloud desktop log could not be opened. Choose the current nextcloud.log file."
+            .to_string()
+    })?;
+    if !metadata.is_file() {
+        return Err("Choose the Nextcloud desktop log file, not a folder.".into());
+    }
+    let mut file = fs::File::open(path)
+        .map_err(|error| format!("Could not read the Nextcloud desktop log: {error}"))?;
+    let length = metadata.len();
+    if length > NEXTCLOUD_LOG_MAX_BYTES {
+        file.seek(SeekFrom::Start(length - NEXTCLOUD_LOG_MAX_BYTES))
+            .map_err(|error| format!("Could not read the recent Nextcloud desktop log: {error}"))?;
+    }
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)
+        .map_err(|_| "The Nextcloud desktop log is not readable text.".to_string())?;
+
+    let mut latest: Option<(&str, Option<u64>)> = None;
+    let mut active_conflicts = 0_u64;
+    for line in contents.lines() {
+        let lower = line.to_ascii_lowercase();
+        let event = if lower.contains("conflict") || lower.contains("conflicted") {
+            Some("conflict")
+        } else if [
+            "network error",
+            "connection refused",
+            "could not connect",
+            "host not found",
+            "server unreachable",
+            "is offline",
+        ]
+        .iter()
+        .any(|needle| lower.contains(needle))
+        {
+            Some("offline")
+        } else if [
+            "still unsynced",
+            "sync is running",
+            "syncing",
+            "pending",
+            "waiting to sync",
+        ]
+        .iter()
+        .any(|needle| lower.contains(needle))
+        {
+            Some("pending")
+        } else if [
+            "sync run took",
+            "sync finished",
+            "synchronization finished",
+            "all sync folders are up to date",
+            "all files are up to date",
+        ]
+        .iter()
+        .any(|needle| lower.contains(needle))
+        {
+            Some("converged")
+        } else {
+            None
+        };
+        if let Some(event) = event {
+            if event == "conflict" {
+                active_conflicts += 1;
+            } else {
+                active_conflicts = 0;
+            }
+            latest = Some((event, parse_nextcloud_log_timestamp(line)));
+        }
+    }
+
+    let (state, summary, last_good_at, note) = match latest {
+        Some(("conflict", _)) => (
+            "conflict",
+            format!(
+                "Nextcloud reported {active_conflicts} conflict {}",
+                if active_conflicts == 1 { "message" } else { "messages" }
+            ),
+            None,
+            "The latest Nextcloud desktop log status reports a conflict. Open Nextcloud to resolve it there.".to_string(),
+        ),
+        Some(("offline", _)) => (
+            "offline",
+            "Nextcloud reported that it cannot reach the server".to_string(),
+            None,
+            "The latest Nextcloud desktop log status is a connection problem. Pending-file counts are not available from this log.".to_string(),
+        ),
+        Some(("pending", _)) => (
+            "pending",
+            "Nextcloud reported sync activity still pending".to_string(),
+            None,
+            "The Nextcloud desktop log reports pending activity but not a reliable pending-file count.".to_string(),
+        ),
+        Some(("converged", timestamp)) => (
+            "converged",
+            "Nextcloud logged a completed sync".to_string(),
+            timestamp,
+            "The latest recognised Nextcloud desktop log status is a completed sync. Per-folder and pending-file details are not available from this log.".to_string(),
+        ),
+        _ => (
+            "unknown",
+            "The Nextcloud log does not show current sync status".to_string(),
+            None,
+            "No recognised Nextcloud conflict, pending, connection, or completed-sync status was found in the recent log.".to_string(),
+        ),
+    };
+    let folder = FolderReading {
+        id: "nextcloud-desktop-log".into(),
+        label: "Nextcloud desktop client".into(),
+        path: log_path,
+        state: state.into(),
+        pending_files: None,
+        conflict_files: if state == "conflict" {
+            active_conflicts
+        } else {
+            0
+        },
+        last_good_at,
+        newest_change_at: metadata
+            .modified()
+            .ok()
+            .and_then(|modified| modified.duration_since(UNIX_EPOCH).ok())
+            .map(|duration| duration.as_millis() as u64),
+        note,
+    };
+    Ok(SourceReading {
+        source_id,
+        provider: format!("Nextcloud desktop log · {name}"),
+        state: state.into(),
+        checked_at: now_ms(),
+        summary,
+        folders: vec![folder],
+        coverage: "Nextcloud desktop log status: conflicts, connection problems, pending activity, and completed syncs. It does not provide reliable pending-file counts, per-folder details, or device state.".into(),
+    })
+}
+
+fn parse_nextcloud_log_timestamp(line: &str) -> Option<u64> {
+    let bytes = line.as_bytes();
+    if bytes.len() < 19
+        || !matches!(bytes.get(4), Some(b'-'))
+        || !matches!(bytes.get(7), Some(b'-'))
+        || !matches!(bytes.get(10), Some(b' ') | Some(b'T'))
+        || !matches!(bytes.get(13), Some(b':'))
+        || !matches!(bytes.get(16), Some(b':'))
+    {
+        return None;
+    }
+    let number = |start: usize, end: usize| {
+        std::str::from_utf8(&bytes[start..end])
+            .ok()?
+            .parse::<i64>()
+            .ok()
+    };
+    let (year, month, day, hour, minute, second) = (
+        number(0, 4)?,
+        number(5, 7)?,
+        number(8, 10)?,
+        number(11, 13)?,
+        number(14, 16)?,
+        number(17, 19)?,
+    );
+    if !(1..=12).contains(&month)
+        || !(1..=31).contains(&day)
+        || hour > 23
+        || minute > 59
+        || second > 59
+    {
+        return None;
+    }
+    let year = year - if month <= 2 { 1 } else { 0 };
+    let era = if year >= 0 { year } else { year - 399 } / 400;
+    let yoe = year - era * 400;
+    let adjusted_month = month + if month > 2 { -3 } else { 9 };
+    let day_of_year = (153 * adjusted_month + 2) / 5 + day - 1;
+    let day_of_era = yoe * 365 + yoe / 4 - yoe / 100 + day_of_year;
+    let days_since_epoch = era * 146_097 + day_of_era - 719_468;
+    Some(((days_since_epoch * 86_400 + hour * 3_600 + minute * 60 + second) * 1_000) as u64)
+}
+
 pub fn tray_tooltip(state: &str, attention_count: usize) -> String {
     let label = match state {
         "converged" => "Converged",
@@ -614,6 +805,51 @@ mod tests {
                 bytes,
                 "fixture bytes remain unchanged"
             );
+        }
+        fs::remove_dir_all(root).expect("remove fixture folder");
+    }
+
+    #[test]
+    fn claim_nextcloud_desktop_log_reports_status_and_preserves_log() {
+        let root = fixture("nextcloud-log");
+        fs::create_dir_all(&root).expect("create fixture folder");
+        let log = root.join("nextcloud.log");
+        let cases = [
+            (
+                "2026-09-02 10:00:01,250 [ info nextcloud.sync ]: Sync run took 910 ms\n",
+                "converged",
+            ),
+            (
+                "2026-09-02 10:01:01,250 [ info nextcloud.sync ]: Sync is running; changes pending\n",
+                "pending",
+            ),
+            (
+                "2026-09-02 10:02:01,250 [ warning nextcloud.sync ]: Conflict while uploading field-notes.md\n",
+                "conflict",
+            ),
+            (
+                "2026-09-02 10:03:01,250 [ warning nextcloud.sync ]: Network error: server unreachable\n",
+                "offline",
+            ),
+        ];
+        for (contents, expected_state) in cases {
+            fs::write(&log, contents).expect("write Nextcloud fixture log");
+            let before = fs::read(&log).expect("read fixture before probe");
+            let reading = probe_nextcloud_log(
+                "nextcloud-fixture".into(),
+                "Fixture Nextcloud".into(),
+                log.display().to_string(),
+            )
+            .expect("Nextcloud log probe succeeds");
+            assert_eq!(reading.state, expected_state);
+            assert_eq!(reading.folders[0].pending_files, None);
+            assert!(reading
+                .coverage
+                .contains("does not provide reliable pending-file counts"));
+            if expected_state == "converged" {
+                assert_eq!(reading.folders[0].last_good_at, Some(1_788_343_201_000));
+            }
+            assert_eq!(fs::read(&log).expect("read fixture after probe"), before);
         }
         fs::remove_dir_all(root).expect("remove fixture folder");
     }

@@ -7,7 +7,7 @@ const sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf
 
 test("desktop build identifies its exact source commit", async ({ page }) => {
   await page.goto(appUrl);
-  await expect(page.getByLabel(`Version 0.1.5, source commit ${sourceCommit}`)).toBeVisible();
+  await expect(page.getByLabel(`Version 0.1.6, source commit ${sourceCommit}`)).toBeVisible();
 });
 
 test("desktop shell exposes an honest empty state and keyboard dialog", async ({ page }) => {
@@ -16,9 +16,9 @@ test("desktop shell exposes an honest empty state and keyboard dialog", async ({
   await page.goto(appUrl);
   await expect(page.locator("main")).toBeVisible();
   await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.getByText("NO SOURCES / NO CLAIM")).toBeVisible();
+  await expect(page.getByText("NO SOURCES ADDED")).toBeVisible();
   await page.getByRole("button", { name: "Add first source" }).click();
-  const dialog = page.getByRole("dialog", { name: "Add an evidence source" });
+  const dialog = page.getByRole("dialog", { name: "Add a source" });
   await expect(dialog).toBeVisible();
   await expect(page.locator('input[name="syncName"]')).toBeFocused();
   await page.keyboard.press("Escape");
@@ -30,8 +30,11 @@ test("example exposes the conflict in one action", async ({ page }) => {
   await page.goto(appUrl);
   await page.getByRole("button", { name: "Try sample data" }).click();
   await expect(page.getByText("1 conflict file needs attention")).toBeVisible();
+  await expect(page.getByText("Example: shared research")).toBeVisible();
+  await page.getByRole("button", { name: /Example: shared research/ }).click();
+  await expect(page.getByText("Nextcloud reported sync activity still pending")).toBeVisible();
   await expect(page.getByText("Demo — sample data, nothing is saved to your real observer.")).toBeVisible();
-  await expect(page.getByRole("button", { name: /Open sync tool/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Open (sync tool|Nextcloud)/ })).toBeVisible();
 });
 
 test("@claim:local-app-storage keeps unencrypted source settings in the local app namespace", async ({ page }) => {
@@ -48,7 +51,7 @@ test("@claim:local-app-storage keeps unencrypted source settings in the local ap
   expect(requests.every(url => new URL(url).origin === appUrl)).toBe(true);
   page.on("dialog", dialog => dialog.accept());
   await page.getByRole("button", { name: "Remove source" }).click();
-  await expect(page.getByText("NO SOURCES / NO CLAIM")).toBeVisible();
+  await expect(page.getByText("NO SOURCES ADDED")).toBeVisible();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("local-sync-observer.v1") ?? "null")?.sources)).toEqual([]);
 });
 
@@ -112,10 +115,10 @@ test("@claim:tray-status sends the current reading to the operating system tray"
 test("inactive folder fields stay hidden when Syncthing is selected", async ({ page }) => {
   await page.goto(appUrl);
   await page.getByRole("button", { name: "Add first source" }).click();
-  const dialog = page.getByRole("dialog", { name: "Add an evidence source" });
+  const dialog = page.getByRole("dialog", { name: "Add a source" });
   await expect(dialog.locator('[data-fields="folder"]')).toBeHidden();
   await expect(dialog.getByRole("button", { name: "Choose…" })).toBeHidden();
-  await dialog.getByLabel("Folder metadata").check();
+  await dialog.getByLabel("Folder names and metadata").check();
   await expect(dialog.locator('[data-fields="folder"]')).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Choose…" })).toBeVisible();
 });

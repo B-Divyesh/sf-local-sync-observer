@@ -61,6 +61,17 @@ test("@claim:release-fallback shows the release page when GitHub is unavailable"
   await expect(page.getByRole("link", { name: /Open releases on GitHub/ })).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-local-sync-observer/releases");
 });
 
+test("@claim:release-cache-retention removes an expired release cache when GitHub is unavailable", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("local-sync-observer.release.v1", JSON.stringify({
+    cachedAt: Date.now() - 2 * 60 * 60 * 1000,
+    release: { tag_name: "v0.0.0", assets: [] }
+  })));
+  await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
+  await page.goto("/");
+  await expect(page.getByText("Downloads are being published.")).toBeVisible();
+  expect(await page.evaluate(() => localStorage.getItem("local-sync-observer.release.v1"))).toBeNull();
+});
+
 test("landing page has no serious accessibility violations", async ({ page }) => {
   await page.route("https://api.github.com/**", route => route.abort());
   await page.goto("/");
@@ -133,6 +144,12 @@ test("landing page includes three captioned product walkthrough frames", async (
     await expect(image).toHaveJSProperty("complete", true);
     expect(await image.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   }
+});
+
+test("one-click demo shows isolated mixed-provider sample data", async ({ page }) => {
+  await page.goto("/demo/?demo=1");
+  await expect(page.getByText("Syncthing conflict plus Nextcloud pending activity")).toBeVisible();
+  await expect(page.getByText("Nextcloud: Shared research")).toBeVisible();
 });
 
 test("@claim:isolated-demo loads, resets, and keeps sample data out of the real namespace", async ({ page }) => {

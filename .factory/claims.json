@@ -60,7 +60,7 @@
     "claim": "A finding opens the owning local tool for the fix without changing the observer reading.",
     "where": "landing how-it-works section, desktop sample, README",
     "test": "npm run test:e2e -- --grep @claim:open-owner",
-    "sandbox": "load the desktop sample, click Open owning tool, require the fixture local URL in a new window, and assert the conflict reading remains"
+    "sandbox": "load the desktop sample, click Open sync tool, require the fixture local URL in a new window, and assert the conflict reading remains"
   },
   {
     "id": "thirty-second-refresh",
@@ -145,5 +145,19 @@
     "where": "landing facts, privacy page, README",
     "test": "npm run test:e2e -- --grep @claim:no-product-account",
     "sandbox": "open the demo from a fresh browser context; assert a working conflict reading without sign-in controls or cookies"
+  },
+  {
+    "id": "release-cache-retention",
+    "claim": "The website removes a cached GitHub release response after one hour.",
+    "where": "privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:release-cache-retention",
+    "sandbox": "seed an expired release entry, make the GitHub request fail, then assert the fallback appears and the expired localStorage entry is deleted"
+  },
+  {
+    "id": "nextcloud-desktop-log",
+    "claim": "Nextcloud desktop log checks report conflicts, offline status, pending activity, and completed syncs without changing the log.",
+    "where": "landing coverage, desktop source setup, privacy page, README",
+    "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_nextcloud_desktop_log_reports_status_and_preserves_log",
+    "sandbox": "read four controlled Nextcloud desktop-log fixtures; assert conflict, offline, pending, and completed states, a last-good value, missing pending counts, and unchanged log bytes"
   }
 ]

@@ -1,5 +1,6 @@
 use local_sync_observer_core::{
-    now_ms, probe_syncthing as read_syncthing, read_folder, tray_tooltip, SourceReading,
+    now_ms, probe_nextcloud_log as read_nextcloud_log, probe_syncthing as read_syncthing,
+    read_folder, tray_tooltip, SourceReading,
 };
 use tauri::{Manager, WindowEvent};
 
@@ -13,6 +14,38 @@ async fn probe_syncthing(
     tauri::async_runtime::spawn_blocking(move || read_syncthing(source_id, name, endpoint, api_key))
         .await
         .map_err(|error| error.to_string())?
+}
+
+#[tauri::command]
+async fn probe_nextcloud_log(
+    source_id: String,
+    name: String,
+    log_path: String,
+) -> Result<SourceReading, String> {
+    tauri::async_runtime::spawn_blocking(move || read_nextcloud_log(source_id, name, log_path))
+        .await
+        .map_err(|error| error.to_string())?
+}
+
+#[tauri::command]
+async fn open_nextcloud() -> Result<(), String> {
+    tauri::async_runtime::spawn_blocking(|| {
+        #[cfg(target_os = "macos")]
+        let result = std::process::Command::new("open")
+            .args(["-a", "Nextcloud"])
+            .spawn();
+        #[cfg(target_os = "windows")]
+        let result = std::process::Command::new("cmd")
+            .args(["/C", "start", "", "nextcloud"])
+            .spawn();
+        #[cfg(target_os = "linux")]
+        let result = std::process::Command::new("nextcloud").spawn();
+        result.map(|_| ()).map_err(|_| {
+            "Could not open Nextcloud automatically. Open the Nextcloud desktop app and resolve the status there.".to_string()
+        })
+    })
+    .await
+    .map_err(|error| error.to_string())?
 }
 
 #[tauri::command]
@@ -97,8 +130,10 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             probe_syncthing,
+            probe_nextcloud_log,
             inspect_folder,
-            update_tray_status
+            update_tray_status,
+            open_nextcloud
         ])
         .run(tauri::generate_context!())
         .expect("failed to run Local Sync Observer");

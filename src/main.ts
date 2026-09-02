@@ -1,5 +1,5 @@
 import "./styles.css";
-import type { FolderReading, FolderSource, Source, SourceReading, StatusKind, StoredState, SyncthingSource } from "./types";
+import type { FolderReading, FolderSource, NextcloudSource, Source, SourceReading, StatusKind, StoredState, SyncthingSource } from "./types";
 import { relativeTime, summarizeFolders, worstState } from "./status";
 
 const STORAGE_KEY = "local-sync-observer.v1";
@@ -92,13 +92,13 @@ function render(): void {
       ${demoMode ? renderDemoBanner() : ""}
       <section class="summary-strip" aria-labelledby="board-title">
         <div>
-          <p class="eyebrow">Read-only convergence board</p>
-          <h1 id="board-title">What has actually converged?</h1>
+          <p class="eyebrow">Sync status</p>
+          <h1 id="board-title">Check whether your folders finished syncing.</h1>
         </div>
         <div class="overall-reading">
           <span class="overall-label">Overall reading</span>
           ${statusChip(overall)}
-          <span>${state.sources.length === 0 ? "Add a source to begin" : attentionCount ? `${attentionCount} ${attentionCount === 1 ? "source needs" : "sources need"} attention` : overall === "converged" ? "Every reporting source agrees" : "Evidence is incomplete"}</span>
+          <span>${state.sources.length === 0 ? "Add a source to begin" : attentionCount ? `${attentionCount} ${attentionCount === 1 ? "source needs" : "sources need"} attention` : overall === "converged" ? "Every reporting source agrees" : "Status details are incomplete"}</span>
         </div>
       </section>
       ${state.notice ? `<div class="notice" role="status">${escapeHtml(state.notice)}<button type="button" data-action="dismiss-notice" aria-label="Dismiss message">×</button></div>` : ""}
@@ -124,14 +124,14 @@ async function syncTrayStatus(status: StatusKind, attentionCount: number): Promi
 function renderEmpty(): string {
   return `<section class="empty-state" aria-labelledby="empty-title">
     <div class="empty-register" aria-hidden="true"><span></span><span></span><span></span></div>
-    <p class="ticket">NO SOURCES / NO CLAIM</p>
-    <h2 id="empty-title">Connect evidence, not your files.</h2>
-    <p>Add Syncthing’s read-only REST status or inspect folder metadata for common conflict copies. Nothing is uploaded, edited, or resolved here.</p>
+    <p class="ticket">NO SOURCES ADDED</p>
+    <h2 id="empty-title">Add Syncthing or choose a folder.</h2>
+    <p>Connect Syncthing on this computer, add a Nextcloud desktop log, or choose a folder to check names and timestamps. Nothing is changed.</p>
     <div class="button-row">
       <button class="button button--primary" type="button" data-action="configure">Add first source</button>
       <button class="button" type="button" data-action="sample">Try sample data</button>
     </div>
-    <p class="fineprint">A green result is shown only when a provider reports zero pending items. Folder observation alone stays “Unknown” unless it finds a conflict.</p>
+    <p class="fineprint">A green result appears only after Syncthing reports zero pending items or Nextcloud logs a completed sync. Folder checks alone stay “Unknown” unless they find a conflict.</p>
   </section>`;
 }
 
@@ -148,7 +148,7 @@ function renderBoard(selected?: Source): string {
         const sourceReading = state.readings[source.id];
         const status = state.loading.has(source.id) ? "unknown" : sourceReading?.state ?? "unknown";
         return `<li><button class="source-button${source.id === state.selectedId ? " is-selected" : ""}" type="button" data-source-id="${escapeHtml(source.id)}" aria-current="${source.id === state.selectedId ? "true" : "false"}">
-          <span class="source-provider">${source.kind === "syncthing" ? "SYNCTHING" : "FOLDER WATCH"}</span>
+          <span class="source-provider">${source.kind === "syncthing" ? "SYNCTHING" : source.kind === "nextcloud" ? "NEXTCLOUD LOG" : "FOLDER CHECK"}</span>
           <strong>${escapeHtml(source.name)}</strong>
           <span class="source-state"><span class="dot dot--${status}" aria-hidden="true"></span>${state.loading.has(source.id) ? "Checking…" : statusMeta[status].label}</span>
         </button></li>`;
@@ -163,17 +163,21 @@ function renderBoard(selected?: Source): string {
 
 function renderEvidence(source: Source, reading?: SourceReading): string {
   if (state.loading.has(source.id)) return `<div class="loading-state" role="status"><div class="registration-loader" aria-hidden="true"></div><h2>Inspecting ${escapeHtml(source.name)}</h2><p>Reading provider metadata. No file content leaves this device.</p></div>`;
-  const sourceLocation = source.kind === "syncthing" ? source.endpoint : source.path;
+  const sourceLocation = source.kind === "syncthing" ? source.endpoint : source.kind === "nextcloud" ? source.logPath : source.path;
+  const sourceLabel = source.kind === "syncthing" ? "Syncthing status" : source.kind === "nextcloud" ? "Nextcloud desktop log" : "Folder names and metadata";
+  const ownerAction = source.kind === "nextcloud"
+    ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open Nextcloud ↗</button>`
+    : source.ownerUrl ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open sync tool ↗</button>` : "";
   return `<div class="evidence-heading">
-      <div><p class="eyebrow">${source.kind === "syncthing" ? "Syncthing REST evidence" : "Local metadata evidence"}</p><h2>${escapeHtml(source.name)}</h2><p class="path" title="${escapeHtml(sourceLocation)}">${escapeHtml(sourceLocation)}</p></div>
-      <div class="button-row">${demoMode ? `<button class="button" type="button" data-action="reset-demo">Reset demo</button>` : `<button class="button" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">Refresh status</button>`}${source.ownerUrl ? `<button class="button button--primary" type="button" data-action="open-owner" data-source-id="${escapeHtml(source.id)}">Open sync tool ↗</button>` : ""}</div>
+      <div><p class="eyebrow">${sourceLabel}</p><h2>${escapeHtml(source.name)}</h2><p class="path" title="${escapeHtml(sourceLocation)}">${escapeHtml(sourceLocation)}</p></div>
+      <div class="button-row">${demoMode ? `<button class="button" type="button" data-action="reset-demo">Reset demo</button>` : `<button class="button" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">Refresh status</button>`}${ownerAction}</div>
     </div>
     ${reading ? renderReading(reading) : renderNeverChecked(source)}
-    <div class="evidence-footer"><span>Coverage: ${escapeHtml(reading?.coverage ?? (source.kind === "syncthing" ? "Folder completion and connection metadata" : "Conflict filename patterns and timestamps"))}</span><button class="text-button danger-text" type="button" data-action="remove" data-source-id="${escapeHtml(source.id)}">Remove source</button></div>`;
+    <div class="evidence-footer"><span>Coverage: ${escapeHtml(reading?.coverage ?? (source.kind === "syncthing" ? "Folder completion and connection metadata" : source.kind === "nextcloud" ? "Desktop log status messages" : "Conflict filename patterns and timestamps"))}</span><button class="text-button danger-text" type="button" data-action="remove" data-source-id="${escapeHtml(source.id)}">Remove source</button></div>`;
 }
 
 function renderNeverChecked(source: Source): string {
-  return `<div class="state-panel state-panel--unknown"><div class="state-symbol" aria-hidden="true">?</div><div><h3>Evidence not checked yet</h3><p>${isTauri() ? "Run a read-only check to establish the current state." : "Install and open the desktop app to perform native checks."}</p></div></div>
+  return `<div class="state-panel state-panel--unknown"><div class="state-symbol" aria-hidden="true">?</div><div><h3>Status not checked yet</h3><p>${isTauri() ? "Run a read-only check to see the current status." : "Install and open the desktop app to run local checks."}</p></div></div>
     <button class="button button--primary check-first" type="button" data-action="refresh" data-source-id="${escapeHtml(source.id)}">${isTauri() ? "Check now" : "Try check"}</button>`;
 }
 
@@ -182,14 +186,14 @@ function renderReading(reading: SourceReading): string {
       <div class="state-symbol" aria-hidden="true">${statusMeta[reading.state].symbol}</div>
       <div><p class="eyebrow">${statusMeta[reading.state].label}</p><h3>${escapeHtml(reading.summary)}</h3><p>Checked ${relativeTime(reading.checkedAt)}</p></div>
     </div>
-    ${reading.folders.length ? `<div class="reading-table" role="region" aria-label="Folder readings" tabindex="0"><table><thead><tr><th scope="col">Folder</th><th scope="col">State</th><th scope="col">Pending</th><th scope="col">Conflicts</th><th scope="col">Last good</th></tr></thead><tbody>${reading.folders.map((folder) => `<tr><th scope="row"><span>${escapeHtml(folder.label)}</span><small>${escapeHtml(folder.path)}</small></th><td>${statusChip(folder.state)}</td><td>${folder.pendingFiles ?? "Not reported"}</td><td>${folder.conflictFiles}</td><td>${relativeTime(folder.lastGoodAt)}</td></tr><tr class="folder-note"><td colspan="5">${escapeHtml(folder.note)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="no-folders"><h3>No folder evidence returned</h3><p>The provider connected, but did not expose any folder state. Open the owning tool to verify its configuration.</p></div>`}`;
+    ${reading.folders.length ? `<div class="reading-table" role="region" aria-label="Folder readings" tabindex="0"><table><thead><tr><th scope="col">Folder</th><th scope="col">State</th><th scope="col">Pending</th><th scope="col">Conflicts</th><th scope="col">Last good</th></tr></thead><tbody>${reading.folders.map((folder) => `<tr><th scope="row"><span>${escapeHtml(folder.label)}</span><small>${escapeHtml(folder.path)}</small></th><td>${statusChip(folder.state)}</td><td>${folder.pendingFiles ?? "Not reported"}</td><td>${folder.conflictFiles}</td><td>${relativeTime(folder.lastGoodAt)}</td></tr><tr class="folder-note"><td colspan="5">${escapeHtml(folder.note)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="no-folders"><h3>No folder status returned</h3><p>The sync tool connected, but did not report any folder status. Open the sync tool to check its setup.</p></div>`}`;
 }
 
 function renderSourceDialog(): string {
   return `<dialog id="source-dialog" aria-labelledby="source-dialog-title">
     <form method="dialog" class="dialog-shell" id="source-form">
-      <div class="dialog-heading"><div><p class="eyebrow">Read-only setup</p><h2 id="source-dialog-title">Add an evidence source</h2></div><button class="icon-button" type="button" data-action="close-source" aria-label="Close source setup">×</button></div>
-      <fieldset class="kind-switch"><legend>Source type</legend><label><input type="radio" name="kind" value="syncthing" checked> Syncthing</label><label><input type="radio" name="kind" value="folder"> Folder metadata</label></fieldset>
+      <div class="dialog-heading"><div><p class="eyebrow">Read-only setup</p><h2 id="source-dialog-title">Add a source</h2></div><button class="icon-button" type="button" data-action="close-source" aria-label="Close source setup">×</button></div>
+      <fieldset class="kind-switch"><legend>Source type</legend><label><input type="radio" name="kind" value="syncthing" checked> Syncthing</label><label><input type="radio" name="kind" value="nextcloud"> Nextcloud desktop log</label><label><input type="radio" name="kind" value="folder"> Folder names and metadata</label></fieldset>
       <div class="form-fields" data-fields="syncthing">
         <label>Display name<input name="syncName" value="My Syncthing" required></label>
         <label>Local Syncthing address<input name="endpoint" type="url" value="http://127.0.0.1:8384" required aria-describedby="endpoint-help"></label>
@@ -203,6 +207,11 @@ function renderSourceDialog(): string {
         <label>Sync tool URL <span class="optional">optional</span><input name="ownerUrl" type="url" placeholder="http://127.0.0.1:8384" disabled></label>
         <small>Only names, timestamps, and file sizes are inspected. File contents are never opened.</small>
       </div>
+      <div class="form-fields" data-fields="nextcloud" hidden aria-hidden="true">
+        <label>Display name<input name="nextcloudName" value="My Nextcloud" required disabled></label>
+        <label>Nextcloud desktop log path<span class="path-input"><input name="logPath" required disabled aria-describedby="nextcloud-help"><button type="button" class="button" data-action="choose-nextcloud-log">Choose log…</button></span></label>
+        <small id="nextcloud-help">Choose Nextcloud’s current <code>nextcloud.log</code>. The observer reads status lines only and never changes the log or synced files.</small>
+      </div>
       <p class="form-error" id="form-error" role="alert"></p>
       <div class="dialog-actions"><button class="button" type="button" data-action="close-source">Cancel</button><button class="button button--primary" type="submit">Save and inspect</button></div>
     </form>
@@ -210,7 +219,7 @@ function renderSourceDialog(): string {
 }
 
 function renderPrivacyDialog(): string {
-  return `<dialog id="privacy-dialog" aria-labelledby="privacy-title"><div class="dialog-shell prose"><div class="dialog-heading"><h2 id="privacy-title">Your evidence stays here</h2><button class="icon-button" data-action="close-privacy" aria-label="Close privacy details">×</button></div><p>Local Sync Observer talks directly to local addresses and folders you choose. It stores source labels, paths, addresses, and API keys in this app’s local storage. It sends no telemetry and reads no file contents.</p><p>Removing a source removes its saved settings and cached reading. Uninstalling the app removes data according to your operating system’s application-data rules.</p><button class="button button--primary" data-action="close-privacy">Understood</button></div></dialog>`;
+  return `<dialog id="privacy-dialog" aria-labelledby="privacy-title"><div class="dialog-shell prose"><div class="dialog-heading"><h2 id="privacy-title">Your settings stay here</h2><button class="icon-button" data-action="close-privacy" aria-label="Close privacy details">×</button></div><p>Local Sync Observer checks local addresses, folders, and Nextcloud logs that you choose. It stores source labels, paths, addresses, and API keys in this app’s local storage. It sends no telemetry and never changes synced files.</p><p>Removing a source removes its saved settings and cached reading. Uninstalling the app removes data according to your operating system’s application-data rules.</p><button class="button button--primary" data-action="close-privacy">Understood</button></div></dialog>`;
 }
 
 function bindEvents(): void {
@@ -236,6 +245,7 @@ async function handleAction(event: Event): Promise<void> {
   if (action === "show-privacy") document.querySelector<HTMLDialogElement>("#privacy-dialog")?.showModal();
   if (action === "close-privacy") document.querySelector<HTMLDialogElement>("#privacy-dialog")?.close();
   if (action === "choose-folder") await chooseFolder();
+  if (action === "choose-nextcloud-log") await chooseNextcloudLog();
   if (action === "refresh" && element.dataset.sourceId) await refreshSource(element.dataset.sourceId);
   if (action === "open-owner" && element.dataset.sourceId) await openOwner(element.dataset.sourceId);
   if (action === "remove" && element.dataset.sourceId) removeSource(element.dataset.sourceId);
@@ -267,6 +277,19 @@ async function chooseFolder(): Promise<void> {
   }
 }
 
+async function chooseNextcloudLog(): Promise<void> {
+  if (!isTauri()) {
+    setFormError("Log selection is available in the installed desktop app.");
+    return;
+  }
+  const { open } = await import("@tauri-apps/plugin-dialog");
+  const selected = await open({ multiple: false, title: "Choose Nextcloud desktop log", filters: [{ name: "Log files", extensions: ["log", "txt"] }] });
+  if (typeof selected === "string") {
+    const input = document.querySelector<HTMLInputElement>('input[name="logPath"]');
+    if (input) input.value = selected;
+  }
+}
+
 function setFormError(message: string): void {
   const error = document.querySelector<HTMLElement>("#form-error");
   if (error) error.textContent = message;
@@ -290,6 +313,10 @@ async function handleSourceSubmit(event: SubmitEvent): Promise<void> {
     const endpoint = String(data.get("endpoint") ?? "").replace(/\/$/, "");
     if (!localEndpoint(endpoint)) { setFormError("Use Syncthing on this computer or a .local address. Remote addresses are outside this product’s scope."); return; }
     source = { id, kind: "syncthing", name: String(data.get("syncName")), endpoint, apiKey: String(data.get("apiKey")), ownerUrl: endpoint } satisfies SyncthingSource;
+  } else if (kind === "nextcloud") {
+    const logPath = String(data.get("logPath") ?? "");
+    if (!logPath) { setFormError("Choose the current Nextcloud desktop log before saving."); return; }
+    source = { id, kind: "nextcloud", name: String(data.get("nextcloudName")), logPath } satisfies NextcloudSource;
   } else {
     const path = String(data.get("path") ?? "");
     if (!path) { setFormError("Choose a folder before saving."); return; }
@@ -305,7 +332,7 @@ async function handleSourceSubmit(event: SubmitEvent): Promise<void> {
 
 async function refreshSource(id: string): Promise<void> {
   if (demoMode) {
-    state.notice = "Sample evidence is fixed so it never contacts a provider.";
+    state.notice = "Sample status is fixed so it never contacts a sync tool.";
     render();
     return;
   }
@@ -316,12 +343,14 @@ async function refreshSource(id: string): Promise<void> {
   try {
     const reading = source.kind === "syncthing"
       ? await invoke<SourceReading>("probe_syncthing", { sourceId: source.id, name: source.name, endpoint: source.endpoint, apiKey: source.apiKey })
-      : await invoke<SourceReading>("inspect_folder", { sourceId: source.id, name: source.name, path: source.path });
+      : source.kind === "nextcloud"
+        ? await invoke<SourceReading>("probe_nextcloud_log", { sourceId: source.id, name: source.name, logPath: source.logPath })
+        : await invoke<SourceReading>("inspect_folder", { sourceId: source.id, name: source.name, path: source.path });
     state.readings[id] = reading;
     state.notice = `${source.name}: ${reading.summary}`;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    state.readings[id] = { sourceId: id, provider: source.kind, state: message.includes("Native checks") ? "offline" : "error", checkedAt: Date.now(), summary: message, folders: [], coverage: "Check failed before evidence could be collected" };
+    state.readings[id] = { sourceId: id, provider: source.kind, state: message.includes("Native checks") ? "offline" : "error", checkedAt: Date.now(), summary: message, folders: [], coverage: "Check failed before status details could be collected" };
     state.notice = `${source.name}: ${message}`;
   } finally {
     state.loading.delete(id);
@@ -332,6 +361,20 @@ async function refreshSource(id: string): Promise<void> {
 
 async function openOwner(id: string): Promise<void> {
   const source = state.sources.find((candidate) => candidate.id === id);
+  if (source?.kind === "nextcloud") {
+    if (!isTauri()) {
+      state.notice = "Open Nextcloud in the installed desktop app to resolve this status.";
+      render();
+      return;
+    }
+    try {
+      await invoke<void>("open_nextcloud", {});
+    } catch (error) {
+      state.notice = error instanceof Error ? error.message : String(error);
+      render();
+    }
+    return;
+  }
   const url = source?.ownerUrl;
   if (!url) return;
   if (isTauri()) {
@@ -357,13 +400,20 @@ function addSample(): void {
   state.sources = [];
   state.readings = {};
   const id = "sample-evidence";
-  const source: FolderSource = { id, kind: "folder", name: "Example: field notes", path: "/Users/you/Documents/Field notes", ownerUrl: "http://127.0.0.1:8384" };
+  const source: SyncthingSource = { id, kind: "syncthing", name: "Example: field notes", endpoint: "http://127.0.0.1:8384", apiKey: "demo-only", ownerUrl: "http://127.0.0.1:8384" };
+  const nextcloud: NextcloudSource = { id: "sample-nextcloud", kind: "nextcloud", name: "Example: shared research", logPath: "~/Library/Application Support/Nextcloud/nextcloud.log" };
   const folders: FolderReading[] = [
-    { id: "field-notes", label: "Field notes", path: source.path, state: "conflict", pendingFiles: null, conflictFiles: 1, lastGoodAt: Date.now() - 42 * 60_000, newestChangeAt: Date.now() - 3 * 60_000, note: "Found a filename matching Syncthing’s conflict-copy pattern. Open the owning tool to compare versions." }
+    { id: "field-notes", label: "Field notes", path: "/Users/you/Documents/Field notes", state: "conflict", pendingFiles: null, conflictFiles: 1, lastGoodAt: Date.now() - 42 * 60_000, newestChangeAt: Date.now() - 3 * 60_000, note: "Found a filename matching Syncthing’s conflict-copy pattern. Open the sync tool to compare versions." }
   ];
   const summary = summarizeFolders(folders);
-  state.sources = [source];
-  state.readings = { [id]: { sourceId: id, provider: "Example only", checkedAt: Date.now(), folders, coverage: "Example conflict filename and timestamps", ...summary } };
+  const nextcloudFolders: FolderReading[] = [
+    { id: "shared-research", label: "Shared research", path: nextcloud.logPath, state: "pending", pendingFiles: null, conflictFiles: 0, lastGoodAt: null, newestChangeAt: Date.now() - 2 * 60_000, note: "Sample Nextcloud desktop log reports sync activity still pending. It does not provide a reliable pending-file count." }
+  ];
+  state.sources = [source, nextcloud];
+  state.readings = {
+    [id]: { sourceId: id, provider: "Example Syncthing", checkedAt: Date.now(), folders, coverage: "Sample Syncthing conflict filename and status", ...summary },
+    [nextcloud.id]: { sourceId: nextcloud.id, provider: "Example Nextcloud desktop log", checkedAt: Date.now(), folders: nextcloudFolders, coverage: "Sample Nextcloud desktop log status; no reliable pending-file count", state: "pending", summary: "Nextcloud reported sync activity still pending" }
+  };
   state.selectedId = id;
   state.notice = "Sample board loaded in an isolated demo. It cannot change your real observer.";
   save();

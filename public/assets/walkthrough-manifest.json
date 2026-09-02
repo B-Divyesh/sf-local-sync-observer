@@ -1,0 +1,10 @@
+{
+  "appVersion": "0.1.6",
+  "capturedAt": "2026-09-02",
+  "source": "Chromium capture of the production desktop UI",
+  "frames": [
+    "walkthrough-empty.webp",
+    "walkthrough-setup.webp",
+    "walkthrough-conflict.webp"
+  ]
+}

@@ -8,7 +8,7 @@ on:
       tag:
         description: Existing v* tag to release
         required: true
-        default: v0.1.5
+        default: v0.1.6
 
 env:
   RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
@@ -66,7 +66,7 @@ jobs:
         with:
           tagName: ${{ env.RELEASE_TAG }}
           releaseName: Local Sync Observer ${{ env.RELEASE_TAG }}
-          releaseBody: "Read-only local convergence checks for Syncthing and folder metadata. Builds are unsigned; verify SHA256SUMS before installing."
+          releaseBody: "Read-only local status checks for Syncthing, Nextcloud desktop logs, and folder metadata. Builds are unsigned; verify SHA256SUMS before installing."
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}

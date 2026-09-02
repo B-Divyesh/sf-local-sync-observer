@@ -49,8 +49,17 @@ async function resolveDownloads(): Promise<void> {
 function readCachedRelease(): GitHubRelease | null {
   try {
     const cached = JSON.parse(localStorage.getItem(releaseCacheKey) ?? "null") as CachedRelease | null;
-    return cached && Date.now() - cached.cachedAt < cacheMs ? cached.release : null;
+    if (!cached || !Number.isFinite(cached.cachedAt) || !cached.release) {
+      localStorage.removeItem(releaseCacheKey);
+      return null;
+    }
+    if (Date.now() - cached.cachedAt >= cacheMs) {
+      localStorage.removeItem(releaseCacheKey);
+      return null;
+    }
+    return cached.release;
   } catch {
+    localStorage.removeItem(releaseCacheKey);
     return null;
   }
 }

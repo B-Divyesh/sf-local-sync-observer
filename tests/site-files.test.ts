@@ -39,6 +39,17 @@ describe("static hosting contract", () => {
     }
   });
 
+  it("documents walkthrough frames from the current desktop app version", async () => {
+    const [packageJson, landing, manifestText] = await Promise.all([
+      read("package.json"), read("site/index.html"), read("public/assets/walkthrough-manifest.json")
+    ]);
+    const version = (JSON.parse(packageJson) as { version: string }).version;
+    const manifest = JSON.parse(manifestText) as { appVersion: string; frames: string[] };
+    expect(landing).toContain(`data-walkthrough-version="${version}"`);
+    expect(manifest.appVersion).toBe(version);
+    expect(manifest.frames).toEqual(["walkthrough-empty.webp", "walkthrough-setup.webp", "walkthrough-conflict.webp"]);
+  });
+
   it("@claim:mit-license ships the promised MIT license", async () => {
     expect(await read("LICENSE")).toContain("Permission is hereby granted, free of charge");
   });
