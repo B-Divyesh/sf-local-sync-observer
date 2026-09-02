@@ -10,7 +10,7 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 | 2 | 17 | For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place. | — |
 | 3 | 8 | Opens a sample conflict board; nothing is saved. | — |
 | 4 | 6 | Choose a build for your computer. | — |
-| 5 | 9 | This desktop app runs on macOS, Windows, and Linux. | — |
+| 5 | 8 | This app runs on macOS, Windows, and Linux. | — |
 | 6 | 9 | Open this site on a computer to download it. | — |
 | 7 | 9 | The observer checks sync status without handling your files. | — |
 | 8 | 9 | After reconnecting, “idle” may not mean every device agrees. | — |
@@ -39,8 +39,6 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 | 31 | 7 | Only Syncthing’s pending count can establish “Converged.” | — |
 | 32 | 4 | Downloads are being published. | — |
 | 33 | 4 | Open releases on GitHub. | — |
-| 34 | 9 | Desktop downloads are available for macOS, Windows, and Linux. | — |
-| 35 | 18 | This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it. | — |
 
 ## README sentences
 

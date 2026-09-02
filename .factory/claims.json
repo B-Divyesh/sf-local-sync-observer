@@ -53,7 +53,7 @@
     "claim": "Android and iPhone visitors are told the observer is desktop-only and are not offered an unusable Linux download.",
     "where": "landing download controls, README",
     "test": "npm run test:e2e -- --grep @claim:mobile-desktop-handoff",
-    "sandbox": "fresh Android and iPhone user-agent contexts; assert the desktop-only message, hidden primary download, and no GitHub release lookup"
+    "sandbox": "fresh Pixel 5 and iPhone 13 contexts at 390 x 844; assert one desktop-only message, hidden primary download, all three facts inside the viewport, and no GitHub release lookup"
   },
   {
     "id": "local-app-storage",

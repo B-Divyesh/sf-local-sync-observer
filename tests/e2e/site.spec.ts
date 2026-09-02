@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { devices, expect, test } from "@playwright/test";
 
 test("@claim:release-downloads landing page has one clear heading and a usable download path", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Android users receive the separately covered desktop-only handoff.");
@@ -36,20 +36,27 @@ test("@claim:release-downloads landing page has one clear heading and a usable d
 });
 
 test("@claim:mobile-desktop-handoff gives Android and iOS a truthful desktop-only download handoff", async ({ browser }) => {
-  const mobileUserAgents = [
-    "Mozilla/5.0 (Linux; Android 14; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+  const phones = [
+    { name: "Pixel 5", options: devices["Pixel 5"] },
+    { name: "iPhone 13", options: devices["iPhone 13"] }
   ];
-  for (const userAgent of mobileUserAgents) {
-    const context = await browser.newContext({ userAgent });
+  for (const phone of phones) {
+    const context = await browser.newContext({ ...phone.options, viewport: { width: 390, height: 844 } });
     const page = await context.newPage();
     const githubRequests: string[] = [];
     page.on("request", request => {
       if (new URL(request.url()).origin === "https://api.github.com") githubRequests.push(request.url());
     });
     await page.goto("http://127.0.0.1:4173/");
-    await expect(page.getByText("This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it.")).toBeVisible();
+    await expect(page.getByText("This app runs on macOS, Windows, and Linux. Open this site on a computer to download it.")).toBeVisible();
+    await expect(page.locator("#download-note")).toBeHidden();
     await expect(page.locator("#primary-download")).toBeHidden();
+    const firstScreen = await page.locator(".trust-list li").evaluateAll(items => ({
+      factBottoms: items.map(item => item.getBoundingClientRect().bottom),
+      viewportBottom: window.innerHeight
+    }));
+    expect(firstScreen.factBottoms, `${phone.name} must show every first-screen fact`).toHaveLength(3);
+    expect(firstScreen.factBottoms.every(bottom => bottom <= firstScreen.viewportBottom)).toBe(true);
     expect(githubRequests).toEqual([]);
     await context.close();
   }
@@ -61,7 +68,7 @@ test("@claim:site-private uses no cookies, analytics, or undisclosed network ori
   await page.route("https://api.github.com/**", route => route.fulfill({ status: 503, body: "unavailable" }));
   await page.goto("/");
   if (testInfo.project.name === "mobile") {
-    await expect(page.getByText("This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it.")).toBeVisible();
+    await expect(page.getByText("This app runs on macOS, Windows, and Linux. Open this site on a computer to download it.")).toBeVisible();
   } else {
     await expect(page.getByText("Downloads are being published.")).toBeVisible();
   }
@@ -146,6 +153,32 @@ test("public routes use complete metadata, shared navigation, and route-heading 
     await expect(page.locator("footer nav")).toContainText("PrivacyTermsSource on GitHub");
     await expect(page.locator("h1")).toBeFocused();
   }
+});
+
+test("Back and Forward restore each route's scroll position and heading focus", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "The reviewed history path uses the desktop header link.");
+  await page.route("https://api.github.com/**", route => route.abort());
+  await page.goto("/");
+  await expect(page.getByText("Downloads are being published.")).toBeVisible();
+  await page.evaluate(() => window.scrollTo({ top: 1000, behavior: "instant" as ScrollBehavior }));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(1000);
+
+  // Activate the header link without Playwright first scrolling it into view;
+  // the saved position must be the user's position, not automation's.
+  await page.locator("header").getByRole("link", { name: "Privacy" }).evaluate((link: HTMLAnchorElement) => link.click());
+  await expect(page).toHaveURL(/\/privacy\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(1000);
+
+  await page.goForward();
+  await expect(page).toHaveURL(/\/privacy\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 });
 
 test("landing page reflows at 200% and keeps visible controls at least 44px", async ({ page }) => {

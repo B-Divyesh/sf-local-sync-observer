@@ -24,6 +24,7 @@ const banned = /\b(leverage|seamless|effortless|robust|powerful|intuitive|reimag
 const flag = value => words(value) > 22 ? "Over 22 words" : banned.test(value) ? "Banned word" : "—";
 const rows = values => values.map((value, index) => `| ${index + 1} | ${words(value)} | ${value.replaceAll("|", "\\|")} | ${flag(value)} |`).join("\n");
 const normalizeLineEndings = value => value.replace(/\r\n/g, "\n");
+const unique = values => values.filter((value, index, all) => all.indexOf(value) === index);
 
 function elements(html, tag) {
   return [...html.matchAll(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "g"))]
@@ -37,21 +38,18 @@ function auditLanding(html) {
     .flatMap(match => sentences(decode(match[1])));
   const annotations = [...html.matchAll(/<div[^>]*class="[^"]*\bannotation\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g)]
     .flatMap(match => sentences(decode(match[1].replace(/<span[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/span>/g, ""))));
-  const ordered = [...found, ...captions, ...annotations]
-    .filter((sentence, index, all) => all.indexOf(sentence) === index);
   // These strings are rendered by site.ts after the release check, so they
   // belong in the audit even though they are not present in the HTML markup.
-  ordered.push(
+  const runtime = [
     "Downloads are being published.",
     "Open releases on GitHub.",
-    "Desktop downloads are available for macOS, Windows, and Linux.",
-    "This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it."
-  );
-  return ordered;
+    "This app runs on macOS, Windows, and Linux. Open this site on a computer to download it."
+  ].flatMap(sentences);
+  return unique([...found, ...captions, ...annotations, ...runtime]);
 }
 
 function auditReadme(markdown) {
-  return markdown
+  return unique(markdown
     .replace(/```[\s\S]*?```/g, "")
     .replace(/<https?:\/\/([^>]+)>/g, "https://$1")
     .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
@@ -59,7 +57,7 @@ function auditReadme(markdown) {
     .split("\n")
     .filter(line => line.trim() && !/^\s*#/.test(line) && !/^\s*[-*]\s/.test(line))
     .map(line => line.replace(/^\s*\d+\.\s+/, ""))
-    .flatMap(sentences);
+    .flatMap(sentences));
 }
 
 function requireCoverage(values, required, source) {

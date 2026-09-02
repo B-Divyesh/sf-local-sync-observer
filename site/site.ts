@@ -34,7 +34,7 @@ async function resolveDownloads(): Promise<void> {
     primary?.removeAttribute("href");
     if (primary) primary.hidden = true;
     if (mobileHandoff) mobileHandoff.hidden = false;
-    if (note) note.textContent = "Desktop downloads are available for macOS, Windows, and Linux.";
+    if (note) note.hidden = true;
     return;
   }
   if (primary) {
@@ -99,6 +99,6 @@ const requestedDemo = location.pathname === "/" && new URLSearchParams(location.
 if (requestedDemo) {
   location.replace("/demo/?demo=1");
 } else {
-  void resolveDownloads();
+  void resolveDownloads().finally(() => document.dispatchEvent(new Event("local-sync-observer:layout-ready")));
   if ("serviceWorker" in navigator && location.protocol === "https:") void navigator.serviceWorker.register("/sw.js");
 }

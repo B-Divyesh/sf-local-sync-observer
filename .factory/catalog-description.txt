@@ -1,1 +1,1 @@
-Check Syncthing and Nextcloud after offline work without opening or changing files.
+Check Syncthing and Nextcloud sync status after offline work without opening files.
