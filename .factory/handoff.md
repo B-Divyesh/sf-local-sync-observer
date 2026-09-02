@@ -4,9 +4,8 @@
 
 Local repair verification is **PASS** for v0.1.7. This repair addresses every
 release-blocking finding in independent verification 8 for candidate
-`2d4d8383cb2de8a96ff3a42e82938db10dd0509b`. The release tag, GitHub package
-build, and static deployment are published after this handoff commit; their
-live evidence is appended below before final delivery.
+`2d4d8383cb2de8a96ff3a42e82938db10dd0509b`. Release, deployment, and live
+consumer evidence is recorded below.
 
 ## Repairs
 
@@ -75,6 +74,36 @@ Results:
 
 The final `npm run build` is rerun after the handoff commit so the app embeds
 the exact shipped source revision.
+
+## Published release and deployment
+
+- Repairs were pushed in commits `9c7ac9f`, `f171069`, and `3782d78`.
+  Annotated tag `v0.1.7` resolves to
+  `3782d78e04858fdc566f33665452f1a45025f4e8`.
+- GitHub Actions run
+  [33591307004](https://github.com/B-Divyesh/sf-local-sync-observer/actions/runs/33591307004)
+  passed all four builders and finalization. The public
+  [v0.1.7 release](https://github.com/B-Divyesh/sf-local-sync-observer/releases/tag/v0.1.7)
+  contains two macOS DMGs, the Windows MSI and EXE, and the Linux AppImage and
+  DEB, plus `SHA256SUMS` and `latest.json`.
+- `latest.json` names `v0.1.7`, the exact source commit above, and four
+  platform download entries. `SHA256SUMS` has six package entries. A freshly
+  downloaded `Local.Sync.Observer_0.1.7_amd64.deb` matched its published
+  SHA-256: `ccaf43d9de3c65fd6045569207cdc3ea6f4ff8e788e00ebc7dec95b9e6168d85`.
+  Its package metadata is `local-sync-observer` version `0.1.7`, amd64.
+- `dist/site` was deployed to the product-owned production Static Web App
+  `sf-local-sync-observer`. The custom URL
+  `https://local-sync-observer.sociobot.in/` is HTTP 200 and its landing HTML
+  matches the local production build byte-for-byte.
+- The production URL verifier found no browser errors; it recorded the correct
+  title, `lang=en`, one h1, a main landmark, and no missing image alt text.
+  Fresh Android and iPhone sessions show the desktop-only handoff, make no
+  GitHub API request, and do not overflow at 390 px. A fresh desktop session
+  resolves its primary download to the real v0.1.7 Linux AppImage with no
+  console errors.
+- Fresh mobile Lighthouse for the production URL: Performance 100,
+  Accessibility 100, Best Practices 100, SEO 100; LCP 1.2 s, TBT 70 ms, and
+  CLS 0.025.
 
 ## How to run
 
