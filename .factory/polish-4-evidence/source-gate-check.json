@@ -1,0 +1,8 @@
+{
+  "before": [],
+  "duringSetup": [],
+  "afterSave": [
+    "probe_syncthing"
+  ],
+  "sourceCommitLabel": "Version 0.1.6, source commit 42d96d3a4ec70bbc28e2f86415cb07d06e92750a"
+}

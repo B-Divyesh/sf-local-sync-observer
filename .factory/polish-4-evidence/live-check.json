@@ -1,0 +1,182 @@
+{
+  "checkedAt": "2026-09-02T03:05:14.514Z",
+  "base": "https://local-sync-observer.sociobot.in",
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Local Sync Observer — check local sync status",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "h1Focused": true,
+      "description": "Check whether your Syncthing folders agree after offline work, without opening file contents.",
+      "canonical": "https://local-sync-observer.sociobot.in/",
+      "ogTitle": "Local Sync Observer — check local sync status",
+      "twitterCard": "summary_large_image",
+      "consoleErrors": [],
+      "axeSeriousCritical": []
+    },
+    "/demo/?demo=1": {
+      "status": 200,
+      "title": "Demo — Local Sync Observer",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "h1Focused": true,
+      "description": "Try Local Sync Observer with isolated sample data.",
+      "canonical": "https://local-sync-observer.sociobot.in/demo/",
+      "ogTitle": "Demo — Local Sync Observer",
+      "twitterCard": "summary_large_image",
+      "consoleErrors": [],
+      "axeSeriousCritical": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Local Sync Observer",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "h1Focused": true,
+      "description": "How Local Sync Observer stores local settings and checks sync status.",
+      "canonical": "https://local-sync-observer.sociobot.in/privacy/",
+      "ogTitle": "Privacy — Local Sync Observer",
+      "twitterCard": "summary_large_image",
+      "consoleErrors": [],
+      "axeSeriousCritical": []
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Local Sync Observer",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "h1Focused": true,
+      "description": "Terms for the Local Sync Observer desktop utility.",
+      "canonical": "https://local-sync-observer.sociobot.in/terms/",
+      "ogTitle": "Terms — Local Sync Observer",
+      "twitterCard": "summary_large_image",
+      "consoleErrors": [],
+      "axeSeriousCritical": []
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "title": "Page not found — Local Sync Observer",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "h1Focused": true,
+      "description": "Return to Local Sync Observer or try its isolated demo.",
+      "canonical": "https://local-sync-observer.sociobot.in/404.html",
+      "ogTitle": "Page not found — Local Sync Observer",
+      "twitterCard": "summary_large_image",
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "axeSeriousCritical": []
+    }
+  },
+  "firstScreen": {
+    "desktop": {
+      "status": 200,
+      "title": "Local Sync Observer — check local sync status",
+      "h1": "Check what synced after offline work.",
+      "lede": "For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.",
+      "actionHref": "/demo/?demo=1",
+      "actionNote": "Opens a sample conflict board; nothing is saved.",
+      "facts": [
+        "✓ Demo reloads offline after your first visit",
+        "✓ No product account or telemetry",
+        "✓ Free under the MIT License"
+      ],
+      "allWithinViewport": true,
+      "horizontalOverflow": false,
+      "h1Focused": true,
+      "origins": [
+        "https://local-sync-observer.sociobot.in",
+        "https://api.github.com"
+      ],
+      "consoleErrors": [],
+      "axeSeriousCritical": []
+    },
+    "mobile": {
+      "status": 200,
+      "title": "Local Sync Observer — check local sync status",
+      "h1": "Check what synced after offline work.",
+      "lede": "For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.",
+      "actionHref": "/demo/?demo=1",
+      "actionNote": "Opens a sample conflict board; nothing is saved.",
+      "facts": [
+        "✓ Demo reloads offline after your first visit",
+        "✓ No product account or telemetry",
+        "✓ Free under the MIT License"
+      ],
+      "allWithinViewport": true,
+      "horizontalOverflow": false,
+      "h1Focused": true,
+      "origins": [
+        "https://local-sync-observer.sociobot.in",
+        "https://api.github.com"
+      ],
+      "consoleErrors": [],
+      "axeSeriousCritical": []
+    }
+  },
+  "demo": {
+    "status": 200,
+    "finalUrl": "https://local-sync-observer.sociobot.in/demo/?demo=1",
+    "title": "Demo — Local Sync Observer",
+    "banner": "Demo — sample data, nothing is saved to your real observer.",
+    "note": "The Syncthing sample has a conflict-copy filename. The Nextcloud sample has a desktop-log message that work is still pending. The desktop app checks a sync tool only after you add a local source.",
+    "rows": [
+      "SourceStatePending",
+      "Syncthing: Field notes! Conflict0",
+      "Nextcloud: Shared research↻ PendingNot reported"
+    ],
+    "before": {
+      "real": "real-sentinel",
+      "demo": "{\"checkedAt\":1788318319074}"
+    },
+    "afterReset": {
+      "real": "real-sentinel",
+      "demo": "{\"checkedAt\":1788318319750}"
+    },
+    "origins": [
+      "https://local-sync-observer.sociobot.in"
+    ],
+    "consoleErrors": [],
+    "h1FocusedAfterReset": false,
+    "horizontalOverflow": false,
+    "axeSeriousCritical": [],
+    "afterExit": {
+      "url": "https://local-sync-observer.sociobot.in/#download",
+      "real": "real-sentinel",
+      "demo": null
+    }
+  },
+  "offline": {
+    "url": "https://local-sync-observer.sociobot.in/demo/?demo=1",
+    "sampleVisible": true
+  },
+  "links": {
+    "release": {
+      "status": 200,
+      "tag": "v0.1.6",
+      "assets": [
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/Local.Sync.Observer_0.1.6_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/Local.Sync.Observer_0.1.6_x64.dmg",
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/Local.Sync.Observer_0.1.6_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/Local.Sync.Observer_0.1.6_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/Local.Sync.Observer_0.1.6_amd64.deb",
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/SHA256SUMS",
+        "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.6/latest.json"
+      ]
+    }
+  },
+  "privacy": {
+    "cookies": [],
+    "origins": [
+      "https://local-sync-observer.sociobot.in",
+      "https://api.github.com"
+    ]
+  }
+}

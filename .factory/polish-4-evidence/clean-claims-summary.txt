@@ -1,0 +1,31 @@
+Clean clone: /tmp/lso-polish4-clean.T97Wn2/repo
+Remote HEAD: 42d96d3a4ec70bbc28e2f86415cb07d06e92750a
+Setup: npm ci --include=dev
+
+PASS release-downloads
+PASS release-matrix
+PASS checksum-install
+PASS evidence-boundary
+PASS metadata-only-scan
+PASS scan-bounds
+PASS local-endpoint-only
+PASS local-app-storage
+PASS open-owner
+PASS thirty-second-refresh
+PASS site-private
+PASS mit-license
+PASS isolated-demo
+PASS demo-private
+PASS offline-demo-reload
+PASS release-fallback
+PASS syncthing-reading
+PASS reading-details
+PASS read-only-probe
+PASS tray-status
+PASS no-product-account
+PASS release-cache-retention
+PASS nextcloud-desktop-log
+PASS mixed-provider-demo
+PASS checks-require-source
+
+Result: all 25 exact commands from .factory/claims.json passed independently.
