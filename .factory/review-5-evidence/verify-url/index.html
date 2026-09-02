@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f0e6" />
+    <meta name="description" content="Check whether your Syncthing folders agree after offline work, without opening file contents." />
+    <link rel="canonical" href="https://local-sync-observer.sociobot.in/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Local Sync Observer — check local sync status" />
+    <meta property="og:description" content="Check whether your Syncthing folders agree after offline work." />
+    <meta property="og:image" content="https://local-sync-observer.sociobot.in/assets/social-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Local Sync Observer — check local sync status" />
+    <meta name="twitter:description" content="Check whether your Syncthing folders agree after offline work." />
+    <meta name="twitter:image" content="https://local-sync-observer.sociobot.in/assets/social-card.png" />
+    <title>Local Sync Observer — check local sync status</title>
+    <link rel="icon" href="/assets/app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="preload" as="image" href="/assets/convergence-board.webp" type="image/webp" fetchpriority="high" />
+    <script type="module" crossorigin src="/assets/home-BI7_i056.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/route-focus-D1bkA1xD.js">
+    <link rel="stylesheet" crossorigin href="/assets/route-focus-DIOytBow.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="LS/O — Local Sync Observer home"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></a>
+      <nav aria-label="Main navigation"><a href="/demo/?demo=1">Demo</a><a href="#how">How it works</a><a href="/privacy/">Privacy</a><a class="nav-download" href="#download">Download</a></nav>
+    </header>
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">A read-only desktop app</p>
+          <h1 tabindex="-1">Check what synced after offline work.</h1>
+          <p class="lede">For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.</p>
+          <div class="hero-actions" id="download">
+            <a class="button button--primary" href="/demo/?demo=1">Try it with sample data</a>
+            <a class="button" id="primary-download" hidden href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download from GitHub</a>
+            <a class="button" href="#install-options">View install options</a>
+          </div>
+          <p class="action-note">Opens a sample conflict board; nothing is saved.</p>
+          <p class="download-note" id="download-note" aria-live="polite">Choose a build for your computer.</p>
+          <p class="download-note" id="mobile-handoff" aria-live="polite" hidden>This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it.</p>
+          <ul class="trust-list" aria-label="Product facts"><li><span aria-hidden="true">✓</span> Demo reloads offline after your first visit</li><li><span aria-hidden="true">✓</span> No product account or telemetry</li><li><span aria-hidden="true">✓</span> Free under the MIT License</li></ul>
+        </div>
+        <figure class="hero-art">
+          <div class="figure-label"><span>HOW IT WORKS</span><span>THREE FOLDERS, ONE SYNC READING</span></div>
+          <picture><source srcset="/assets/convergence-board.webp" type="image/webp"><img src="/assets/convergence-board.jpg" width="1280" height="853" fetchpriority="high" decoding="async" alt="Cut-paper inspection board where yellow and blue device lanes align while a red conflict lane visibly breaks before the viewing aperture"></picture>
+          <figcaption>The observer checks sync status without handling your files.</figcaption>
+        </figure>
+      </section>
+      <section class="problem-band" aria-labelledby="problem-title">
+        <div><p class="ticket">SYNC STATUS CHECK</p><h2 id="problem-title">Why one sync reading helps</h2></div>
+        <p>After reconnecting, “idle” may not mean every device agrees. The observer combines Syncthing status, Nextcloud desktop logs, and conflict-copy names.</p>
+      </section>
+      <section class="method" id="how" aria-labelledby="method-title">
+        <div class="section-heading"><p class="eyebrow">How it works</p><h2 id="method-title">How the observer checks a source</h2></div>
+        <ol class="steps">
+          <li><span class="step-number">01</span><div><h3>Add a local source</h3><p>Add Syncthing, a Nextcloud desktop log, or a folder. Credentials and paths stay in the app’s local storage.</p></div></li>
+          <li><span class="step-number">02</span><div><h3>Check the status and its limits</h3><p>See pending activity, conflicts, the last completed sync, and any details your sync tool did not report.</p></div></li>
+          <li><span class="step-number">03</span><div><h3>Open the sync tool</h3><p>Open the affected sync tool from its row. The observer uses read-only checks and does not change your files.</p></div></li>
+        </ol>
+      </section>
+      <section class="walkthrough" data-walkthrough-version="0.1.7" aria-labelledby="walkthrough-title">
+        <div class="section-heading"><p class="eyebrow">Demo walkthrough</p><h2 id="walkthrough-title">Sample conflict walkthrough</h2></div>
+        <ol class="walkthrough-list">
+          <li><figure><img src="/assets/walkthrough-empty.webp" width="900" height="600" loading="lazy" decoding="async" alt="Empty observer board with buttons to add a source or load sample data"><figcaption><strong>1. Start with no sync status</strong><span>The empty board waits for a local source before it reports a status.</span></figcaption></figure></li>
+          <li><figure><img src="/assets/walkthrough-setup.webp" width="900" height="600" loading="lazy" decoding="async" alt="Source setup dialog with choices for Syncthing, a Nextcloud desktop log, and a local folder"><figcaption><strong>2. Add a local source</strong><span>Add Syncthing, choose a Nextcloud desktop log, or choose a folder.</span></figcaption></figure></li>
+          <li><figure><img src="/assets/walkthrough-conflict.webp" width="900" height="600" loading="lazy" decoding="async" alt="Demo observer board showing one field notes conflict"><figcaption><strong>3. Check the status and its limits</strong><span>The board shows the conflict and lists the checks it used.</span></figcaption></figure></li>
+        </ol>
+      </section>
+      <section class="proof" aria-labelledby="proof-title">
+        <div class="mock-window">
+            <div class="mock-bar"><span></span><span></span><span></span><b>SYNC STATUS BOARD</b></div>
+          <div class="mock-body">
+            <div class="mock-state"><span class="state-icon" aria-hidden="true">!</span><div><small>CONFLICT</small><strong>1 conflict file needs attention</strong><p>Checked just now · Syncthing status and filename check</p></div></div>
+            <div class="mock-table" role="img" aria-label="Example reading showing Field notes in conflict and Archive converged"><div class="mock-row mock-head"><span>Folder</span><span>State</span><span>Pending</span></div><div class="mock-row"><b>Field notes</b><em class="conflict">! Conflict</em><span>0</span></div><div class="mock-row"><b>Archive</b><em class="good">✓ Converged</em><span>0</span></div></div>
+          </div>
+        </div>
+        <div><p class="eyebrow">Status limits</p><h2 id="proof-title">When the reading is unknown</h2><p>If a check cannot show that syncing finished, the board says so. Every status lists its checks and any missing Syncthing details.</p><div class="annotation"><span aria-hidden="true">↳</span> A folder check can find common conflict copies. Only Syncthing’s pending count can establish “Converged.”</div></div>
+      </section>
+      <section class="coverage" id="coverage" aria-labelledby="coverage-title">
+        <div class="section-heading"><p class="eyebrow">Current coverage</p><h2 id="coverage-title">Provider coverage and limits</h2></div>
+        <div class="coverage-grid">
+          <article><span class="provider-code">ST</span><h3>Syncthing</h3><p>Reads Syncthing’s local folder list and pending-file count. It also checks folder names for conflict copies.</p><strong>Can show when syncing finished</strong></article>
+          <article><span class="provider-code">NC</span><h3>Nextcloud desktop</h3><p>Reads its local log for conflicts, connection problems, pending activity, and completed syncs.</p><strong>Shows status; no exact pending count</strong></article>
+          <article class="muted-card"><span class="provider-code">FS</span><h3>Any local folder</h3><p>Reads names, sizes, and timestamps only, capped at 50,000 entries and 16 levels. Never opens file content.</p><strong>Conflict hints; sync completion unknown</strong></article>
+        </div>
+      </section>
+      <section class="install" id="install-options" aria-labelledby="install-title">
+        <div><p class="eyebrow">Install the observer</p><h2 id="install-title">Install Local Sync Observer</h2><p>Choose a build for your operating system.</p></div>
+        <div class="install-grid">
+          <article><h3>macOS</h3><p>Apple silicon and Intel disk images.</p><a class="button platform-link" data-platform="macos" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .dmg from GitHub</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+          <article><h3>Windows</h3><p>64-bit Windows installer.</p><a class="button platform-link" data-platform="windows" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .msi from GitHub</a><code>irm https://local-sync-observer.sociobot.in/install.ps1 | iex</code></article>
+          <article><h3>Linux</h3><p>AppImage and Debian package.</p><a class="button platform-link" data-platform="linux" href="https://github.com/B-Divyesh/sf-local-sync-observer/releases/latest">Download .AppImage from GitHub</a><code>curl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh</code></article>
+        </div>
+        <p class="checksum-note">The macOS and Linux shell installer checks the downloaded file before opening it.</p>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="brand"><span class="brand-mark" aria-hidden="true">LS/O</span><span>Local Sync Observer</span></div><p>Read-only local sync status · Built by Param Factory · v0.1.7</p><nav aria-label="Footer navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-local-sync-observer">Source on GitHub <span class="visually-hidden">(external site)</span></a></nav></footer>
+    <p class="route-announcement" data-route-announcement aria-live="polite" aria-atomic="true"></p>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+{
+  "android": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "h1": "Check what synced after offline work.",
+    "audience": "For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.",
+    "primary": "Try it with sample data",
+    "facts": [
+      {
+        "text": "✓ Demo reloads offline after your first visit",
+        "top": 745,
+        "bottom": 785,
+        "fullyVisible": true
+      },
+      {
+        "text": "✓ No product account or telemetry",
+        "top": 797,
+        "bottom": 817,
+        "fullyVisible": true
+      },
+      {
+        "text": "✓ Free under the MIT License",
+        "top": 829,
+        "bottom": 849,
+        "fullyVisible": false
+      }
+    ],
+    "mobileMessages": [
+      "Desktop downloads are available for macOS, Windows, and Linux.",
+      "This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it."
+    ],
+    "requests": [
+      "https://local-sync-observer.sociobot.in"
+    ]
+  },
+  "iphone": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "h1": "Check what synced after offline work.",
+    "audience": "For people using Syncthing or Nextcloud who need pending work, conflicts, and connection status in one place.",
+    "primary": "Try it with sample data",
+    "facts": [
+      {
+        "text": "✓ Demo reloads offline after your first visit",
+        "top": 745,
+        "bottom": 785,
+        "fullyVisible": true
+      },
+      {
+        "text": "✓ No product account or telemetry",
+        "top": 797,
+        "bottom": 817,
+        "fullyVisible": true
+      },
+      {
+        "text": "✓ Free under the MIT License",
+        "top": 829,
+        "bottom": 849,
+        "fullyVisible": false
+      }
+    ],
+    "mobileMessages": [
+      "Desktop downloads are available for macOS, Windows, and Linux.",
+      "This desktop app runs on macOS, Windows, and Linux. Open this site on a computer to download it."
+    ],
+    "requests": [
+      "https://local-sync-observer.sociobot.in"
+    ]
+  }
+}

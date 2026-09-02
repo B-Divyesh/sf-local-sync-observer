@@ -1,0 +1,852 @@
+Reviewed commit: ad3ae8eb3de82ba6d282373b7deffbecf34e16dc
+Started: 2026-09-02T05:39:31Z
+
+=== release-downloads ===
+npm run test:e2e -- --grep @claim:release-downloads
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:release-downloads
+
+[WebServer] (node:916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:1006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:1021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  1 [mobile] › tests/e2e/site.spec.ts:4:1 › @claim:release-downloads landing page has one clear heading and a usable download path
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:4:1 › @claim:release-downloads landing page has one clear heading and a usable download path (568ms)
+
+  1 skipped
+  1 passed (6.5s)
+RESULT: PASS
+
+=== release-matrix ===
+npm test -- --testNamePattern @claim:release-matrix
+
+> local-sync-observer@0.1.7 test
+> vitest run --testNamePattern @claim:release-matrix
+
+
+ RUN  v3.2.7 /tmp/lso-review5.VOx0O4/repo
+
+ ↓ tests/site-files.test.ts (5 tests | 5 skipped)
+ ↓ tests/installers.test.ts (2 tests | 2 skipped)
+ ✓ tests/release-manifest.test.ts (2 tests | 1 skipped) 279ms
+ ↓ tests/copy-audit.test.ts (2 tests | 2 skipped)
+ ↓ tests/status.test.ts (3 tests | 3 skipped)
+
+ Test Files  1 passed | 4 skipped (5)
+      Tests  1 passed | 13 skipped (14)
+   Start at  05:39:39
+   Duration  1.39s (transform 249ms, setup 0ms, collect 391ms, tests 279ms, environment 3ms, prepare 1.01s)
+
+RESULT: PASS
+
+=== checksum-install ===
+npm test -- --testNamePattern @claim:checksum-install
+
+> local-sync-observer@0.1.7 test
+> vitest run --testNamePattern @claim:checksum-install
+
+
+ RUN  v3.2.7 /tmp/lso-review5.VOx0O4/repo
+
+ ↓ tests/copy-audit.test.ts (2 tests | 2 skipped)
+ ↓ tests/release-manifest.test.ts (2 tests | 2 skipped)
+ ✓ tests/installers.test.ts (2 tests | 1 skipped) 384ms
+   ✓ installer integrity > @claim:checksum-install refuses a bad checksum and installs only a verified asset  382ms
+ ↓ tests/site-files.test.ts (5 tests | 5 skipped)
+ ↓ tests/status.test.ts (3 tests | 3 skipped)
+
+ Test Files  1 passed | 4 skipped (5)
+      Tests  1 passed | 13 skipped (14)
+   Start at  05:39:42
+   Duration  1.35s (transform 211ms, setup 0ms, collect 371ms, tests 384ms, environment 5ms, prepare 1.01s)
+
+RESULT: PASS
+
+=== evidence-boundary ===
+npm test -- --testNamePattern @claim:evidence-boundary
+
+> local-sync-observer@0.1.7 test
+> vitest run --testNamePattern @claim:evidence-boundary
+
+
+ RUN  v3.2.7 /tmp/lso-review5.VOx0O4/repo
+
+ ↓ tests/release-manifest.test.ts (2 tests | 2 skipped)
+ ↓ tests/copy-audit.test.ts (2 tests | 2 skipped)
+ ↓ tests/installers.test.ts (2 tests | 2 skipped)
+ ↓ tests/site-files.test.ts (5 tests | 5 skipped)
+ ✓ tests/status.test.ts (3 tests | 2 skipped) 3ms
+
+ Test Files  1 passed | 4 skipped (5)
+      Tests  1 passed | 13 skipped (14)
+   Start at  05:39:44
+   Duration  1.28s (transform 178ms, setup 0ms, collect 256ms, tests 3ms, environment 15ms, prepare 1.02s)
+
+RESULT: PASS
+
+=== metadata-only-scan ===
+cargo test --manifest-path crates/observer-core/Cargo.toml claim_metadata_only_scan_preserves_contents_and_stays_unknown
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded cfg-if v1.0.4
+  Downloaded form_urlencoded v1.2.2
+  Downloaded find-msvc-tools v0.1.11
+  Downloaded displaydoc v0.2.7
+  Downloaded cc v1.4.4
+  Downloaded itoa v1.0.18
+  Downloaded stable_deref_trait v1.2.1
+  Downloaded utf8_iter v1.0.4
+  Downloaded quote v1.0.47
+  Downloaded sct v0.7.1
+  Downloaded writeable v0.6.4
+  Downloaded yoke-derive v0.8.2
+  Downloaded zerofrom-derive v0.1.7
+  Downloaded potential_utf v0.1.6
+  Downloaded untrusted v0.9.0
+  Downloaded idna_adapter v1.2.2
+  Downloaded zerofrom v0.1.8
+  Downloaded percent-encoding v2.3.2
+  Downloaded synstructure v0.13.2
+  Downloaded zmij v1.0.23
+  Downloaded shlex v2.0.1
+  Downloaded smallvec v1.16.0
+  Downloaded getrandom v0.2.17
+  Downloaded litemap v0.8.3
+  Downloaded log v0.4.34
+  Downloaded serde v1.0.229
+  Downloaded serde_core v1.0.229
+  Downloaded tinystr v0.8.4
+  Downloaded yoke v0.8.3
+  Downloaded zerovec-derive v0.11.6
+  Downloaded minreq v2.14.1
+  Downloaded proc-macro2 v1.0.107
+  Downloaded icu_provider v2.3.1
+  Downloaded icu_normalizer_data v2.3.0
+  Downloaded unicode-ident v1.0.24
+  Downloaded zerovec v0.11.8
+  Downloaded serde_derive v1.0.229
+  Downloaded url v2.5.8
+  Downloaded zerotrie v0.2.5
+  Downloaded icu_collections v2.3.0
+  Downloaded icu_locale_core v2.3.0
+  Downloaded icu_properties v2.3.0
+  Downloaded memchr v2.8.3
+  Downloaded idna v1.1.0
+  Downloaded serde_json v1.0.151
+  Downloaded icu_properties_data v2.3.0
+  Downloaded rustls-webpki v0.101.7
+  Downloaded webpki-roots v0.25.4
+  Downloaded rustls v0.21.12
+  Downloaded syn v2.0.119
+  Downloaded syn v3.0.4
+  Downloaded icu_normalizer v2.3.0
+  Downloaded libc v0.2.189
+  Downloaded ring v0.17.14
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling stable_deref_trait v1.2.1
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.11
+   Compiling cc v1.4.4
+   Compiling syn v2.0.119
+   Compiling syn v3.0.4
+   Compiling synstructure v0.13.2
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling zerofrom v0.1.8
+   Compiling zerovec-derive v0.11.6
+   Compiling yoke v0.8.3
+   Compiling displaydoc v0.2.7
+   Compiling libc v0.2.189
+   Compiling zerovec v0.11.8
+   Compiling ring v0.17.14
+   Compiling litemap v0.8.3
+   Compiling tinystr v0.8.4
+   Compiling writeable v0.6.4
+   Compiling potential_utf v0.1.6
+   Compiling icu_locale_core v2.3.0
+   Compiling zerotrie v0.2.5
+   Compiling icu_normalizer_data v2.3.0
+   Compiling icu_properties_data v2.3.0
+   Compiling cfg-if v1.0.4
+   Compiling utf8_iter v1.0.4
+   Compiling getrandom v0.2.17
+   Compiling icu_collections v2.3.0
+   Compiling icu_provider v2.3.1
+   Compiling untrusted v0.9.0
+   Compiling smallvec v1.16.0
+   Compiling serde_core v1.0.229
+   Compiling icu_normalizer v2.3.0
+   Compiling icu_properties v2.3.0
+   Compiling rustls v0.21.12
+   Compiling zmij v1.0.23
+   Compiling idna_adapter v1.2.2
+   Compiling rustls-webpki v0.101.7
+   Compiling sct v0.7.1
+   Compiling serde_json v1.0.151
+   Compiling percent-encoding v2.3.2
+   Compiling log v0.4.34
+   Compiling serde v1.0.229
+   Compiling form_urlencoded v1.2.2
+   Compiling idna v1.1.0
+   Compiling serde_derive v1.0.229
+   Compiling webpki-roots v0.25.4
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling minreq v2.14.1
+   Compiling url v2.5.8
+   Compiling local-sync-observer-core v0.1.2 (/tmp/lso-review5.VOx0O4/repo/crates/observer-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.80s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_metadata_only_scan_preserves_contents_and_stays_unknown ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+RESULT: PASS
+
+=== scan-bounds ===
+cargo test --manifest-path crates/observer-core/Cargo.toml claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+RESULT: PASS
+
+=== local-endpoint-only ===
+npm run test:claim:local-endpoint
+
+> local-sync-observer@0.1.7 test:claim:local-endpoint
+> cargo test --manifest-path crates/observer-core/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints && npm run test:e2e -- --grep @claim:local-endpoint-only
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_local_endpoint_only_rejects_remote_endpoints ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:local-endpoint-only
+
+[WebServer] (node:3053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3103) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3161) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:3176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3175) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3175) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/app.spec.ts:65:1 › @claim:local-endpoint-only accepts bracketed IPv6 loopback through the desktop setup form (867ms)
+  ✓  2 [desktop] › tests/e2e/app.spec.ts:65:1 › @claim:local-endpoint-only accepts bracketed IPv6 loopback through the desktop setup form (897ms)
+
+  2 passed (6.8s)
+RESULT: PASS
+
+=== mobile-desktop-handoff ===
+npm run test:e2e -- --grep @claim:mobile-desktop-handoff
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:mobile-desktop-handoff
+
+[WebServer] (node:3371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3390) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3403) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3428) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:3474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3475) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3475) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/site.spec.ts:38:1 › @claim:mobile-desktop-handoff gives Android and iOS a truthful desktop-only download handoff (1.1s)
+  ✓  2 [mobile] › tests/e2e/site.spec.ts:38:1 › @claim:mobile-desktop-handoff gives Android and iOS a truthful desktop-only download handoff (1.1s)
+
+  2 passed (6.9s)
+RESULT: PASS
+
+=== local-app-storage ===
+npm run test:e2e -- --grep @claim:local-app-storage
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:local-app-storage
+
+[WebServer] (node:3679) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3698) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3711) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:3783) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3783) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [mobile] › tests/e2e/app.spec.ts:110:1 › @claim:local-app-storage keeps unencrypted source settings in the local app namespace (847ms)
+  ✓  1 [desktop] › tests/e2e/app.spec.ts:110:1 › @claim:local-app-storage keeps unencrypted source settings in the local app namespace (905ms)
+
+  2 passed (6.7s)
+RESULT: PASS
+
+=== open-owner ===
+npm run test:e2e -- --grep @claim:open-owner
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:open-owner
+
+[WebServer] (node:3972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4049) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4062) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:4075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [desktop] › tests/e2e/app.spec.ts:128:1 › @claim:open-owner opens the owning local tool without changing the sample (838ms)
+  ✓  1 [mobile] › tests/e2e/app.spec.ts:128:1 › @claim:open-owner opens the owning local tool without changing the sample (967ms)
+
+  2 passed (6.9s)
+RESULT: PASS
+
+=== thirty-second-refresh ===
+npm run test:e2e -- --grep @claim:thirty-second-refresh
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:thirty-second-refresh
+
+[WebServer] (node:4275) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4350) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4383) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:4396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/app.spec.ts:140:1 › @claim:thirty-second-refresh refreshes sources added after launch (890ms)
+  ✓  2 [desktop] › tests/e2e/app.spec.ts:140:1 › @claim:thirty-second-refresh refreshes sources added after launch (858ms)
+
+  2 passed (6.7s)
+RESULT: PASS
+
+=== site-private ===
+npm run test:e2e -- --grep @claim:site-private
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:site-private
+
+[WebServer] (node:4589) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4621) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:4693) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4693) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/site.spec.ts:58:1 › @claim:site-private uses no cookies, analytics, or undisclosed network origin (660ms)
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:58:1 › @claim:site-private uses no cookies, analytics, or undisclosed network origin (613ms)
+
+  2 passed (6.5s)
+RESULT: PASS
+
+=== mit-license ===
+npm test -- --testNamePattern @claim:mit-license
+
+> local-sync-observer@0.1.7 test
+> vitest run --testNamePattern @claim:mit-license
+
+
+ RUN  v3.2.7 /tmp/lso-review5.VOx0O4/repo
+
+ ↓ tests/copy-audit.test.ts (2 tests | 2 skipped)
+ ↓ tests/installers.test.ts (2 tests | 2 skipped)
+ ↓ tests/status.test.ts (3 tests | 3 skipped)
+ ↓ tests/release-manifest.test.ts (2 tests | 2 skipped)
+ ✓ tests/site-files.test.ts (5 tests | 4 skipped) 4ms
+
+ Test Files  1 passed | 4 skipped (5)
+      Tests  1 passed | 13 skipped (14)
+   Start at  05:40:52
+   Duration  1.29s (transform 254ms, setup 0ms, collect 315ms, tests 4ms, environment 1ms, prepare 963ms)
+
+RESULT: PASS
+
+=== isolated-demo ===
+npm run test:e2e -- --grep @claim:isolated-demo
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:isolated-demo
+
+[WebServer] (node:5089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5166) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5179) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:5192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5193) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5193) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/site.spec.ts:188:1 › @claim:isolated-demo loads, resets, and keeps sample data out of the real namespace (1.5s)
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:188:1 › @claim:isolated-demo loads, resets, and keeps sample data out of the real namespace (1.6s)
+
+  2 passed (7.5s)
+RESULT: PASS
+
+=== demo-private ===
+npm run test:e2e -- --grep @claim:demo-private
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:demo-private
+
+[WebServer] (node:5386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5405) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5477) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:5491) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5490) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5491) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5490) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/site.spec.ts:205:1 › @claim:demo-private sends no third-party requests (638ms)
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:205:1 › @claim:demo-private sends no third-party requests (592ms)
+
+  2 passed (6.6s)
+RESULT: PASS
+
+=== offline-demo-reload ===
+npm run test:e2e -- --grep @claim:offline-demo-reload
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:offline-demo-reload
+
+[WebServer] (node:5699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5718) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5758) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5778) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5791) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:5804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/site.spec.ts:213:1 › @claim:offline-demo-reload works offline after the first demo visit (827ms)
+  ✓  2 [mobile] › tests/e2e/site.spec.ts:213:1 › @claim:offline-demo-reload works offline after the first demo visit (762ms)
+
+  2 passed (6.6s)
+RESULT: PASS
+
+=== release-fallback ===
+npm run test:e2e -- --grep @claim:release-fallback
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:release-fallback
+
+[WebServer] (node:5996) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6074) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:6101) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6101) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  1 [mobile] › tests/e2e/site.spec.ts:82:1 › @claim:release-fallback shows the release page when GitHub is unavailable
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:82:1 › @claim:release-fallback shows the release page when GitHub is unavailable (473ms)
+
+  1 skipped
+  1 passed (6.4s)
+RESULT: PASS
+
+=== syncthing-reading ===
+cargo test --manifest-path crates/observer-core/Cargo.toml claim_syncthing_reading_reports_configured_folder_and_device_state
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_syncthing_reading_reports_configured_folder_and_device_state ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.01s
+
+RESULT: PASS
+
+=== reading-details ===
+cargo test --manifest-path crates/observer-core/Cargo.toml claim_reading_details_show_last_good_missing_fields_and_coverage
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_reading_details_show_last_good_missing_fields_and_coverage ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.01s
+
+RESULT: PASS
+
+=== read-only-probe ===
+cargo test --manifest-path crates/observer-core/Cargo.toml claim_observer_probe_is_get_only_and_does_not_change_files
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_observer_probe_is_get_only_and_does_not_change_files ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+RESULT: PASS
+
+=== tray-status ===
+npm run test:e2e -- --grep @claim:tray-status
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:tray-status
+
+[WebServer] (node:6349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6381) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6406) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6427) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:6453) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6453) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [mobile] › tests/e2e/app.spec.ts:162:1 › @claim:tray-status sends the current reading to the operating system tray (736ms)
+  ✓  1 [desktop] › tests/e2e/app.spec.ts:162:1 › @claim:tray-status sends the current reading to the operating system tray (922ms)
+
+  2 passed (6.7s)
+RESULT: PASS
+
+=== no-product-account ===
+npm run test:e2e -- --grep @claim:no-product-account
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:no-product-account
+
+[WebServer] (node:6648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6705) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6738) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:6751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/site.spec.ts:72:1 › @claim:no-product-account opens the working demo without sign-in (843ms)
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:72:1 › @claim:no-product-account opens the working demo without sign-in (792ms)
+
+  2 passed (6.6s)
+RESULT: PASS
+
+=== release-cache-retention ===
+npm run test:e2e -- --grep @claim:release-cache-retention
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:release-cache-retention
+
+[WebServer] (node:6941) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6978) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7037) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:7065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  2 [mobile] › tests/e2e/site.spec.ts:90:1 › @claim:release-cache-retention removes an expired release cache when GitHub is unavailable
+  ✓  1 [desktop] › tests/e2e/site.spec.ts:90:1 › @claim:release-cache-retention removes an expired release cache when GitHub is unavailable (593ms)
+
+  1 skipped
+  1 passed (6.5s)
+RESULT: PASS
+
+=== nextcloud-desktop-log ===
+cargo test --manifest-path crates/observer-core/Cargo.toml claim_nextcloud_desktop_log_reports_status_and_preserves_log
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (crates/observer-core/target/debug/deps/local_sync_observer_core-3502abfa1e33a8d7)
+
+running 1 test
+test tests::claim_nextcloud_desktop_log_reports_status_and_preserves_log ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+RESULT: PASS
+
+=== mixed-provider-demo ===
+npm run test:e2e -- --grep @claim:mixed-provider-demo
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:mixed-provider-demo
+
+[WebServer] (node:7270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7289) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7302) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7327) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7347) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:7373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [desktop] › tests/e2e/site.spec.ts:176:1 › @claim:mixed-provider-demo shows the named Syncthing and Nextcloud sample evidence (615ms)
+  ✓  1 [mobile] › tests/e2e/site.spec.ts:176:1 › @claim:mixed-provider-demo shows the named Syncthing and Nextcloud sample evidence (659ms)
+
+  2 passed (6.4s)
+RESULT: PASS
+
+=== checks-require-source ===
+npm run test:e2e -- --grep @claim:checks-require-source
+
+> local-sync-observer@0.1.7 test:e2e
+> playwright test --grep @claim:checks-require-source
+
+[WebServer] (node:7561) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7581) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7619) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7653) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:7666) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7666) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/e2e/app.spec.ts:29:1 › @claim:checks-require-source makes no provider check before Save and inspect (744ms)
+  ✓  2 [desktop] › tests/e2e/app.spec.ts:29:1 › @claim:checks-require-source makes no provider check before Save and inspect (843ms)
+
+  2 passed (6.7s)
+RESULT: PASS
+
+Finished: 2026-09-02T05:42:05Z
+Clean clone: /tmp/lso-review5.VOx0O4/repo

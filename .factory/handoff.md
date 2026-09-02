@@ -1,61 +1,47 @@
-# Local Sync Observer — verification handoff
+# Local Sync Observer — review 5 handoff
 
 ## Outcome
 
-Independent verification 9 is **PASS** for candidate
-`a525ced8fb0f69908fd824d62804acfb41a3ff3b` at
-<https://local-sync-observer.sociobot.in/>. No product defects were found at
-critical, high, medium, or low severity. The full evidence and 26-claim matrix
-are in [`.factory/verification-9.md`](verification-9.md).
+Adversarial first-read review 5 is **FAIL** for commit
+`ad3ae8eb3de82ba6d282373b7deffbecf34e16dc` at
+<https://local-sync-observer.sociobot.in/>. The full report is
+[`.factory/review-5.md`](review-5.md).
 
-## What was verified
+No product code was changed. The review added browser and claim evidence under
+`.factory/review-5-evidence/`.
 
-- The cold first screen states what the product does, who it serves, and what
-  to click first. **Try it with sample data** opens the populated demo in one
-  click.
-- All 26 exact `.factory/claims.json` commands passed from a clean dependency
-  install.
-- `npm run audit:copy:check`, `npm run check`, full Playwright, observer-core
-  format/test/strict Clippy, and Tauri format/test/strict Clippy passed.
-- An independent app flow rejected a remote host without probing, recovered
-  with IPv6 loopback, showed a conflict, refreshed to converged, and removed
-  the saved source.
-- Live desktop, 390 px mobile, 200% reflow, keyboard focus, reduced motion,
-  Axe, privacy request logs, security/cache headers, links, service-worker
-  update, and offline demo reload passed.
-- Fresh Lighthouse mobile scores: Performance 100, Accessibility 100, Best
-  Practices 100, SEO 100; LCP 1.2 s, TBT 20 ms, CLS 0.025.
-- All 23 deployable files matched the candidate build and live site
-  byte-for-byte. Candidate CI run `33591833845` passed on Ubuntu and Windows.
-- Release workflow run `33591307004` published all required v0.1.7 packages.
-  A fresh Debian download matched the published SHA-256 and remained healthy
-  through an eight-second headless launch smoke test.
+## Findings left for the repair pass
 
-## How to verify
+1. `F-5-1 / F-2-5`: actual Android and iPhone contexts clip the third required
+   first-screen fact because two platform handoff messages repeat each other.
+2. `F-5-2 / F-2-7 / F-3-2`: the generated copy audit lists those two phone
+   sentences individually and then repeats them as one combined sentence.
+3. `F-5-3`: Back returns to the landing URL and focused h1 but resets the prior
+   scroll position from 1000 to 0.
 
-```sh
-npm ci
-npm run audit:copy:check
-npm run check
-npm run test:e2e
-cargo fmt --manifest-path crates/observer-core/Cargo.toml -- --check
-cargo test --manifest-path crates/observer-core/Cargo.toml
-cargo clippy --manifest-path crates/observer-core/Cargo.toml --all-targets -- -D warnings
-cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
-cargo test --manifest-path src-tauri/Cargo.toml
-cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
-```
+## Verification completed
 
-Tauri checks on Linux require the WebKit/GTK packages listed in the GitHub
-Actions workflow. `npm run build` writes the desktop UI to `dist/app` and the
-deployable website to `dist/site`.
+- All 26 exact claim commands passed independently from a clean clone after
+  `npm ci --include=dev`; see `review-5-evidence/claims-summary.txt`.
+- `npm run audit:copy:check`, `npm run check`, `npm run test:e2e`, and
+  `cargo test --manifest-path crates/observer-core/Cargo.toml` passed.
+- The live demo reset, real-storage sentinel, exit, same-origin request log,
+  and offline reload checks passed.
+- Live route metadata, 404, link crawl, Axe, security headers, and
+  `verify-url.sh` checks passed.
 
-## Known gaps and operator action
+## How to verify the findings
 
-There are no known product defects. macOS and Windows packages are
-intentionally unsigned. Notarization and Authenticode require the
-operator-owned `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` secrets before a
-future signed release.
+- Open `/` at 390 × 844 with Pixel 5 or iPhone 13 emulation. The final **Free
+  under the MIT License** fact ends at pixel 849.
+- Run `npm run audit:copy:check`, then inspect landing rows 5, 6, and 35 in
+  `.factory/copy-audit.md`; the passing command currently preserves the
+  duplicate combined row.
+- At desktop width, scroll `/` to 1000, follow the Privacy header link, then
+  use Back. The URL and h1 restore, but `scrollY` becomes 0.
 
-The site has no first-party server endpoint and the product has no sign-in, so
-rate-limit and Entra checks are not applicable.
+## Recommended next step
+
+Make the three narrow fixes and add the viewport, copy-audit uniqueness, and
+history-scroll regression tests specified in the review. Then rerun the full
+claim matrix and adversarial checklist from fresh contexts.

@@ -1,0 +1,28 @@
+{
+  "before": {
+    "url": "https://local-sync-observer.sociobot.in/",
+    "scrollY": 1000,
+    "activeTag": "H1",
+    "activeText": "Check what synced after offline work."
+  },
+  "privacy": {
+    "url": "https://local-sync-observer.sociobot.in/privacy/",
+    "scrollY": 0,
+    "activeTag": "H1",
+    "activeText": "Privacy, in plain terms."
+  },
+  "back": {
+    "url": "https://local-sync-observer.sociobot.in/",
+    "scrollY": 0,
+    "activeTag": "H1",
+    "activeText": "Check what synced after offline work."
+  },
+  "forward": {
+    "url": "https://local-sync-observer.sociobot.in/privacy/",
+    "scrollY": 0,
+    "activeTag": "H1",
+    "activeText": "Privacy, in plain terms."
+  },
+  "expectedBackScrollY": 1000,
+  "pass": false
+}
