@@ -1,0 +1,564 @@
+{
+  "routes": {
+    "/": {
+      "status": 200,
+      "finalUrl": "https://local-sync-observer.sociobot.in/",
+      "title": "Local Sync Observer — check local sync status",
+      "lang": "en",
+      "h1": [
+        "Check what synced after offline work."
+      ],
+      "main": 1,
+      "description": "Check whether your Syncthing folders agree after offline work, without opening file contents.",
+      "canonical": "https://local-sync-observer.sociobot.in/",
+      "ogTitle": "Local Sync Observer — check local sync status",
+      "ogDescription": "Check whether your Syncthing folders agree after offline work.",
+      "ogImage": "https://local-sync-observer.sociobot.in/assets/social-card.png",
+      "twitterCard": "summary_large_image",
+      "favicon": "/assets/app-icon.svg",
+      "apple": "/assets/apple-touch-icon.png",
+      "header": [
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        }
+      ],
+      "footer": [
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "footerText": "LS/O\n\nRead-only local sync evidence · Built by Param Factory · v0.1.5\n\nPrivacy\nTerms\nSource on GitHub\n(external site)",
+      "focused": {
+        "tag": "H1",
+        "text": "Check what synced after offline work."
+      },
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "smallControls": [],
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://local-sync-observer.sociobot.in/#main"
+        },
+        {
+          "text": "LS/OLocal Sync Observer",
+          "href": "https://local-sync-observer.sociobot.in/"
+        },
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        },
+        {
+          "text": "Try it with sample data",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "Download for Linux from GitHub",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_amd64.AppImage"
+        },
+        {
+          "text": "View install options",
+          "href": "https://local-sync-observer.sociobot.in/#install-options"
+        },
+        {
+          "text": "Download .dmg from GitHub",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_aarch64.dmg"
+        },
+        {
+          "text": "Download .msi from GitHub",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_x64_en-US.msi"
+        },
+        {
+          "text": "Download .AppImage from GitHub",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_amd64.AppImage"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "axe": []
+    },
+    "/demo/?demo=1": {
+      "status": 200,
+      "finalUrl": "https://local-sync-observer.sociobot.in/demo/?demo=1",
+      "title": "Demo — Local Sync Observer",
+      "lang": "en",
+      "h1": [
+        "Read a sample sync conflict."
+      ],
+      "main": 1,
+      "description": "Try Local Sync Observer with isolated sample data.",
+      "canonical": "https://local-sync-observer.sociobot.in/demo/",
+      "ogTitle": "Demo — Local Sync Observer",
+      "ogDescription": "Read a sample Syncthing conflict without using your data.",
+      "ogImage": "https://local-sync-observer.sociobot.in/assets/social-card.png",
+      "twitterCard": "summary_large_image",
+      "favicon": "/assets/app-icon.svg",
+      "apple": "/assets/apple-touch-icon.png",
+      "header": [
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        }
+      ],
+      "footer": [
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "footerText": "LS/O\n\nRead-only local sync evidence · Built by Param Factory · v0.1.5\n\nPrivacy\nTerms\nSource on GitHub\n(external site)",
+      "focused": {
+        "tag": "H1",
+        "text": "Read a sample sync conflict."
+      },
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "smallControls": [],
+      "links": [
+        {
+          "text": "Skip to sample board",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1#main"
+        },
+        {
+          "text": "LS/OLocal Sync Observer",
+          "href": "https://local-sync-observer.sociobot.in/"
+        },
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        },
+        {
+          "text": "Choose a download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "axe": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "finalUrl": "https://local-sync-observer.sociobot.in/privacy/",
+      "title": "Privacy — Local Sync Observer",
+      "lang": "en",
+      "h1": [
+        "Privacy, in plain terms."
+      ],
+      "main": 1,
+      "description": "How Local Sync Observer stores local settings and reads sync evidence.",
+      "canonical": "https://local-sync-observer.sociobot.in/privacy/",
+      "ogTitle": "Privacy — Local Sync Observer",
+      "ogDescription": "Learn what stays on your device when you use Local Sync Observer.",
+      "ogImage": "https://local-sync-observer.sociobot.in/assets/social-card.png",
+      "twitterCard": "summary_large_image",
+      "favicon": "/assets/app-icon.svg",
+      "apple": "/assets/apple-touch-icon.png",
+      "header": [
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        }
+      ],
+      "footer": [
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "footerText": "LS/O\n\nRead-only local sync evidence · Built by Param Factory · v0.1.5\n\nPrivacy\nTerms\nSource on GitHub\n(external site)",
+      "focused": {
+        "tag": "H1",
+        "text": "Privacy, in plain terms."
+      },
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "smallControls": [],
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://local-sync-observer.sociobot.in/privacy/#main"
+        },
+        {
+          "text": "LS/OLocal Sync Observer",
+          "href": "https://local-sync-observer.sociobot.in/"
+        },
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        },
+        {
+          "text": "GitHub issue tracker (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer/issues"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "axe": []
+    },
+    "/terms/": {
+      "status": 200,
+      "finalUrl": "https://local-sync-observer.sociobot.in/terms/",
+      "title": "Terms — Local Sync Observer",
+      "lang": "en",
+      "h1": [
+        "Terms of use."
+      ],
+      "main": 1,
+      "description": "Terms for the Local Sync Observer desktop utility.",
+      "canonical": "https://local-sync-observer.sociobot.in/terms/",
+      "ogTitle": "Terms — Local Sync Observer",
+      "ogDescription": "Read the terms for Local Sync Observer, a read-only local utility.",
+      "ogImage": "https://local-sync-observer.sociobot.in/assets/social-card.png",
+      "twitterCard": "summary_large_image",
+      "favicon": "/assets/app-icon.svg",
+      "apple": "/assets/apple-touch-icon.png",
+      "header": [
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        }
+      ],
+      "footer": [
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "footerText": "LS/O\n\nRead-only local sync evidence · Built by Param Factory · v0.1.5\n\nPrivacy\nTerms\nSource on GitHub\n(external site)",
+      "focused": {
+        "tag": "H1",
+        "text": "Terms of use."
+      },
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "smallControls": [],
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://local-sync-observer.sociobot.in/terms/#main"
+        },
+        {
+          "text": "LS/OLocal Sync Observer",
+          "href": "https://local-sync-observer.sociobot.in/"
+        },
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "axe": []
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "finalUrl": "https://local-sync-observer.sociobot.in/does-not-exist",
+      "title": "Page not found — Local Sync Observer",
+      "lang": "en",
+      "h1": [
+        "Page not found"
+      ],
+      "main": 1,
+      "description": "Return to Local Sync Observer or try its isolated demo.",
+      "canonical": "https://local-sync-observer.sociobot.in/404.html",
+      "ogTitle": "Page not found — Local Sync Observer",
+      "ogDescription": "Return to Local Sync Observer or try its isolated demo.",
+      "ogImage": "https://local-sync-observer.sociobot.in/assets/social-card.png",
+      "twitterCard": "summary_large_image",
+      "favicon": "/assets/app-icon.svg",
+      "apple": "/assets/apple-touch-icon.png",
+      "header": [
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        }
+      ],
+      "footer": [
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "footerText": "LS/O\n\nRead-only local sync evidence · Built by Param Factory · v0.1.5\n\nPrivacy\nTerms\nSource on GitHub\n(external site)",
+      "focused": {
+        "tag": "H1",
+        "text": "Page not found"
+      },
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "smallControls": [],
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://local-sync-observer.sociobot.in/does-not-exist#main"
+        },
+        {
+          "text": "LS/OLocal Sync Observer",
+          "href": "https://local-sync-observer.sociobot.in/"
+        },
+        {
+          "text": "Demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "How it works",
+          "href": "https://local-sync-observer.sociobot.in/#how"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Download",
+          "href": "https://local-sync-observer.sociobot.in/#download"
+        },
+        {
+          "text": "Go to home",
+          "href": "https://local-sync-observer.sociobot.in/"
+        },
+        {
+          "text": "Try the demo",
+          "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://local-sync-observer.sociobot.in/privacy/"
+        },
+        {
+          "text": "Terms",
+          "href": "https://local-sync-observer.sociobot.in/terms/"
+        },
+        {
+          "text": "Source on GitHub (external site)",
+          "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "requestFailures": [],
+      "axe": []
+    }
+  },
+  "navigation": {
+    "before": 0,
+    "terms": {
+      "url": "https://local-sync-observer.sociobot.in/terms/",
+      "focus": "Terms of use.",
+      "scroll": 0
+    },
+    "back": {
+      "url": "https://local-sync-observer.sociobot.in/",
+      "focus": "Check what synced after offline work.",
+      "scroll": 6891
+    },
+    "forward": {
+      "url": "https://local-sync-observer.sociobot.in/terms/",
+      "focus": "Terms of use.",
+      "scroll": 0
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "before": true,
+  "after": true,
+  "url": "https://local-sync-observer.sociobot.in/demo/?demo=1",
+  "reloadError": null,
+  "requestOrigins": [
+    "https://local-sync-observer.sociobot.in"
+  ],
+  "requests": [
+    "https://local-sync-observer.sociobot.in/demo/?demo=1",
+    "https://local-sync-observer.sociobot.in/assets/route-focus-CAjFOcgZ.js",
+    "https://local-sync-observer.sociobot.in/assets/route-focus-BhONppDz.css",
+    "https://local-sync-observer.sociobot.in/demo.js",
+    "https://local-sync-observer.sociobot.in/demo/?demo=1",
+    "https://local-sync-observer.sociobot.in/assets/route-focus-CAjFOcgZ.js",
+    "https://local-sync-observer.sociobot.in/assets/route-focus-BhONppDz.css",
+    "https://local-sync-observer.sociobot.in/demo.js"
+  ]
+}

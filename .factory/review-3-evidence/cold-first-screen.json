@@ -1,0 +1,330 @@
+{
+  "mobile": {
+    "status": 200,
+    "url": "https://local-sync-observer.sociobot.in/",
+    "title": "Local Sync Observer — check local sync status",
+    "above": [
+      {
+        "tag": "a",
+        "text": "LS/OLocal Sync Observer",
+        "rect": {
+          "x": 16,
+          "y": 12,
+          "w": 50,
+          "h": 44
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Download",
+        "rect": {
+          "x": 265,
+          "y": 12,
+          "w": 109,
+          "h": 44
+        }
+      },
+      {
+        "tag": "p",
+        "text": "A read-only desktop app",
+        "rect": {
+          "x": 20,
+          "y": 132,
+          "w": 350,
+          "h": 20
+        }
+      },
+      {
+        "tag": "h1",
+        "text": "Check what synced after offline work.",
+        "rect": {
+          "x": 20,
+          "y": 164,
+          "w": 350,
+          "h": 75
+        }
+      },
+      {
+        "tag": "p",
+        "text": "For people using Syncthing who need to see pending files, conflicts, and local device status in one place.",
+        "rect": {
+          "x": 20,
+          "y": 263,
+          "w": 350,
+          "h": 112
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Try it with sample data",
+        "rect": {
+          "x": 20,
+          "y": 403,
+          "w": 258,
+          "h": 48
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Download for Linux from GitHub",
+        "rect": {
+          "x": 20,
+          "y": 465,
+          "w": 325,
+          "h": 48
+        }
+      },
+      {
+        "tag": "a",
+        "text": "View install options",
+        "rect": {
+          "x": 20,
+          "y": 527,
+          "w": 229,
+          "h": 48
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Opens a sample conflict board; nothing is saved.",
+        "rect": {
+          "x": 20,
+          "y": 589,
+          "w": 350,
+          "h": 50
+        }
+      },
+      {
+        "tag": "p",
+        "text": "v0.1.5 · Local.Sync.Observer_0.1.5_amd64.AppImage",
+        "rect": {
+          "x": 20,
+          "y": 652,
+          "w": 350,
+          "h": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "✓ Demo reloads offline after your first visit",
+        "rect": {
+          "x": 20,
+          "y": 712,
+          "w": 350,
+          "h": 40
+        }
+      },
+      {
+        "tag": "li",
+        "text": "✓ No product account or telemetry",
+        "rect": {
+          "x": 20,
+          "y": 765,
+          "w": 258,
+          "h": 20
+        }
+      },
+      {
+        "tag": "li",
+        "text": "✓ Free under the MIT License",
+        "rect": {
+          "x": 20,
+          "y": 797,
+          "w": 219,
+          "h": 20
+        }
+      }
+    ],
+    "requests": [
+      "https://local-sync-observer.sociobot.in/",
+      "https://local-sync-observer.sociobot.in/assets/convergence-board.webp",
+      "https://local-sync-observer.sociobot.in/assets/home-mhp9RbDH.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-CAjFOcgZ.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-BhONppDz.css",
+      "https://local-sync-observer.sociobot.in/assets/walkthrough-empty.webp",
+      "https://local-sync-observer.sociobot.in/assets/walkthrough-setup.webp",
+      "https://local-sync-observer.sociobot.in/assets/walkthrough-conflict.webp",
+      "https://api.github.com/repos/B-Divyesh/sf-local-sync-observer/releases/latest"
+    ],
+    "consoleErrors": []
+  },
+  "desktop": {
+    "status": 200,
+    "url": "https://local-sync-observer.sociobot.in/",
+    "title": "Local Sync Observer — check local sync status",
+    "above": [
+      {
+        "tag": "a",
+        "text": "LS/OLocal Sync Observer",
+        "rect": {
+          "x": 58,
+          "y": 15,
+          "w": 221,
+          "h": 44
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Demo",
+        "rect": {
+          "x": 998,
+          "y": 15,
+          "w": 44,
+          "h": 44
+        }
+      },
+      {
+        "tag": "a",
+        "text": "How it works",
+        "rect": {
+          "x": 1058,
+          "y": 15,
+          "w": 116,
+          "h": 44
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Privacy",
+        "rect": {
+          "x": 1190,
+          "y": 15,
+          "w": 67,
+          "h": 44
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Download",
+        "rect": {
+          "x": 1273,
+          "y": 15,
+          "w": 109,
+          "h": 44
+        }
+      },
+      {
+        "tag": "p",
+        "text": "A read-only desktop app",
+        "rect": {
+          "x": 72,
+          "y": 120,
+          "w": 504,
+          "h": 20
+        }
+      },
+      {
+        "tag": "h1",
+        "text": "Check what synced after offline work.",
+        "rect": {
+          "x": 72,
+          "y": 152,
+          "w": 504,
+          "h": 225
+        }
+      },
+      {
+        "tag": "p",
+        "text": "For people using Syncthing who need to see pending files, conflicts, and local device status in one place.",
+        "rect": {
+          "x": 72,
+          "y": 393,
+          "w": 504,
+          "h": 102
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Try it with sample data",
+        "rect": {
+          "x": 72,
+          "y": 513,
+          "w": 258,
+          "h": 48
+        }
+      },
+      {
+        "tag": "a",
+        "text": "Download for Linux from GitHub",
+        "rect": {
+          "x": 72,
+          "y": 575,
+          "w": 325,
+          "h": 48
+        }
+      },
+      {
+        "tag": "a",
+        "text": "View install options",
+        "rect": {
+          "x": 72,
+          "y": 637,
+          "w": 229,
+          "h": 48
+        }
+      },
+      {
+        "tag": "p",
+        "text": "Opens a sample conflict board; nothing is saved.",
+        "rect": {
+          "x": 72,
+          "y": 699,
+          "w": 504,
+          "h": 25
+        }
+      },
+      {
+        "tag": "p",
+        "text": "v0.1.5 · Local.Sync.Observer_0.1.5_amd64.AppImage",
+        "rect": {
+          "x": 72,
+          "y": 738,
+          "w": 504,
+          "h": 25
+        }
+      },
+      {
+        "tag": "li",
+        "text": "✓ Demo reloads offline after your first visit",
+        "rect": {
+          "x": 72,
+          "y": 783,
+          "w": 352,
+          "h": 20
+        }
+      },
+      {
+        "tag": "li",
+        "text": "✓ No product account or telemetry",
+        "rect": {
+          "x": 72,
+          "y": 815,
+          "w": 258,
+          "h": 20
+        }
+      },
+      {
+        "tag": "li",
+        "text": "✓ Free under the MIT License",
+        "rect": {
+          "x": 350,
+          "y": 815,
+          "w": 219,
+          "h": 20
+        }
+      }
+    ],
+    "requests": [
+      "https://local-sync-observer.sociobot.in/",
+      "https://local-sync-observer.sociobot.in/assets/convergence-board.webp",
+      "https://local-sync-observer.sociobot.in/assets/home-mhp9RbDH.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-CAjFOcgZ.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-BhONppDz.css",
+      "https://local-sync-observer.sociobot.in/assets/walkthrough-empty.webp",
+      "https://local-sync-observer.sociobot.in/assets/walkthrough-setup.webp",
+      "https://local-sync-observer.sociobot.in/assets/walkthrough-conflict.webp",
+      "https://api.github.com/repos/B-Divyesh/sf-local-sync-observer/releases/latest"
+    ],
+    "consoleErrors": []
+  }
+}

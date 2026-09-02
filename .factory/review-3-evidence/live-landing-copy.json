@@ -1,0 +1,425 @@
+{
+  "body": "Skip to main content\nLS/O\nLocal Sync Observer\nDemo\nHow it works\nPrivacy\nDownload\n\nA READ-ONLY DESKTOP APP\n\nCheck what synced after offline work.\n\nFor people using Syncthing who need to see pending files, conflicts, and local device status in one place.\n\nTry it with sample data\nDownload for Linux from GitHub\nView install options\n\nOpens a sample conflict board; nothing is saved.\n\nv0.1.5 · Local.Sync.Observer_0.1.5_amd64.AppImage\n\n✓ Demo reloads offline after your first visit\n✓ No product account or telemetry\n✓ Free under the MIT License\nHOW IT WORKS\nTHREE FOLDERS, ONE SYNC READING\nThe observer checks sync status without handling your files.\n\nSYNC STATUS CHECK\n\nWhy one sync reading helps\n\nAfter reconnecting, “idle” may not mean every device agrees. The observer combines Syncthing status with conflict-copy names and explains missing checks.\n\nHOW IT WORKS\n\nHow the observer checks a source\n01\nAdd a local source\n\nAdd Syncthing on this computer or choose a folder. Credentials and paths stay in the app’s local storage.\n\n02\nCheck the status and its limits\n\nSee pending counts, conflict-copy names, the last good check, and any details Syncthing did not report.\n\n03\nOpen the sync tool\n\nOpen Syncthing from the affected row. The observer uses read-only checks and does not change your files.\n\nDEMO WALKTHROUGH\n\nSample conflict walkthrough\n1. Start with no sync status\nThe empty board waits for a local source before it reports a status.\n2. Add a local source\nAdd Syncthing on this computer or choose a folder.\n3. Check the status and its limits\nThe board shows the conflict and lists the checks it used.\nCONVERGENCE BOARD\n!\nCONFLICT\n1 conflict file needs attention\n\nChecked just now · Syncthing REST + filename metadata\n\nFOLDER\nSTATE\nPENDING\nField notes\n! Conflict\n0\nArchive\n✓ Converged\n0\n\nSTATUS LIMITS\n\nWhen the reading is unknown\n\nIf a check cannot show that syncing finished, the board says so. Every status lists its checks and any missing Syncthing details.\n\n↳ A folder check can find common conflict copies. Only Syncthing’s pending count can establish “Converged.”\n\nCURRENT COVERAGE\n\nProvider coverage and limits\nST\nSyncthing\n\nReads Syncthing’s local folder list and pending-file count. It also checks folder names for conflict copies.\n\nCan show when syncing finished\nFS\nAny local folder\n\nReads names, sizes, and timestamps only, capped at 50,000 entries and 16 levels. Never opens file content.\n\nConflict hints; convergence unknown\n+\nOther sync tools\n\nUse a folder check to find common conflict-copy names. It cannot report files waiting in the sync tool.\n\nFinished syncing stays unknown\n\nINSTALL THE OBSERVER\n\nInstall Local Sync Observer\n\nChoose a build for your operating system.\n\nmacOS\n\nApple silicon and Intel disk images.\n\nDownload .dmg from GitHub\ncurl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh\nWindows\n\n64-bit Windows installer.\n\nDownload .msi from GitHub\nirm https://local-sync-observer.sociobot.in/install.ps1 | iex\nLinux\n\nAppImage and Debian package.\n\nDownload .AppImage from GitHub\ncurl -fsSL https://local-sync-observer.sociobot.in/install.sh | sh\n\nThe macOS and Linux shell installer checks the downloaded file before opening it.\n\nLS/O\nLocal Sync Observer\n\nRead-only local sync evidence · Built by Param Factory · v0.1.5\n\nPrivacy\nTerms\nSource on GitHub\n(external site)\n\nCheck what synced after offline work. loaded",
+  "items": [
+    {
+      "i": 0,
+      "tag": "a",
+      "text": "Skip to main content",
+      "href": "https://local-sync-observer.sociobot.in/#main"
+    },
+    {
+      "i": 1,
+      "tag": "a",
+      "text": "LS/OLocal Sync Observer",
+      "href": "https://local-sync-observer.sociobot.in/"
+    },
+    {
+      "i": 2,
+      "tag": "a",
+      "text": "Demo",
+      "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+    },
+    {
+      "i": 3,
+      "tag": "a",
+      "text": "How it works",
+      "href": "https://local-sync-observer.sociobot.in/#how"
+    },
+    {
+      "i": 4,
+      "tag": "a",
+      "text": "Privacy",
+      "href": "https://local-sync-observer.sociobot.in/privacy/"
+    },
+    {
+      "i": 5,
+      "tag": "a",
+      "text": "Download",
+      "href": "https://local-sync-observer.sociobot.in/#download"
+    },
+    {
+      "i": 6,
+      "tag": "p",
+      "text": "A read-only desktop app",
+      "href": null
+    },
+    {
+      "i": 7,
+      "tag": "h1",
+      "text": "Check what synced after offline work.",
+      "href": null
+    },
+    {
+      "i": 8,
+      "tag": "p",
+      "text": "For people using Syncthing who need to see pending files, conflicts, and local device status in one place.",
+      "href": null
+    },
+    {
+      "i": 9,
+      "tag": "a",
+      "text": "Try it with sample data",
+      "href": "https://local-sync-observer.sociobot.in/demo/?demo=1"
+    },
+    {
+      "i": 10,
+      "tag": "a",
+      "text": "Download for Linux from GitHub",
+      "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_amd64.AppImage"
+    },
+    {
+      "i": 11,
+      "tag": "a",
+      "text": "View install options",
+      "href": "https://local-sync-observer.sociobot.in/#install-options"
+    },
+    {
+      "i": 12,
+      "tag": "p",
+      "text": "Opens a sample conflict board; nothing is saved.",
+      "href": null
+    },
+    {
+      "i": 13,
+      "tag": "p",
+      "text": "v0.1.5 · Local.Sync.Observer_0.1.5_amd64.AppImage",
+      "href": null
+    },
+    {
+      "i": 14,
+      "tag": "li",
+      "text": "✓ Demo reloads offline after your first visit",
+      "href": null
+    },
+    {
+      "i": 15,
+      "tag": "li",
+      "text": "✓ No product account or telemetry",
+      "href": null
+    },
+    {
+      "i": 16,
+      "tag": "li",
+      "text": "✓ Free under the MIT License",
+      "href": null
+    },
+    {
+      "i": 17,
+      "tag": "figcaption",
+      "text": "The observer checks sync status without handling your files.",
+      "href": null
+    },
+    {
+      "i": 18,
+      "tag": "p",
+      "text": "SYNC STATUS CHECK",
+      "href": null
+    },
+    {
+      "i": 19,
+      "tag": "h2",
+      "text": "Why one sync reading helps",
+      "href": null
+    },
+    {
+      "i": 20,
+      "tag": "p",
+      "text": "After reconnecting, “idle” may not mean every device agrees. The observer combines Syncthing status with conflict-copy names and explains missing checks.",
+      "href": null
+    },
+    {
+      "i": 21,
+      "tag": "p",
+      "text": "How it works",
+      "href": null
+    },
+    {
+      "i": 22,
+      "tag": "h2",
+      "text": "How the observer checks a source",
+      "href": null
+    },
+    {
+      "i": 23,
+      "tag": "li",
+      "text": "01Add a local sourceAdd Syncthing on this computer or choose a folder. Credentials and paths stay in the app’s local storage.",
+      "href": null
+    },
+    {
+      "i": 24,
+      "tag": "h3",
+      "text": "Add a local source",
+      "href": null
+    },
+    {
+      "i": 25,
+      "tag": "p",
+      "text": "Add Syncthing on this computer or choose a folder. Credentials and paths stay in the app’s local storage.",
+      "href": null
+    },
+    {
+      "i": 26,
+      "tag": "li",
+      "text": "02Check the status and its limitsSee pending counts, conflict-copy names, the last good check, and any details Syncthing did not report.",
+      "href": null
+    },
+    {
+      "i": 27,
+      "tag": "h3",
+      "text": "Check the status and its limits",
+      "href": null
+    },
+    {
+      "i": 28,
+      "tag": "p",
+      "text": "See pending counts, conflict-copy names, the last good check, and any details Syncthing did not report.",
+      "href": null
+    },
+    {
+      "i": 29,
+      "tag": "li",
+      "text": "03Open the sync toolOpen Syncthing from the affected row. The observer uses read-only checks and does not change your files.",
+      "href": null
+    },
+    {
+      "i": 30,
+      "tag": "h3",
+      "text": "Open the sync tool",
+      "href": null
+    },
+    {
+      "i": 31,
+      "tag": "p",
+      "text": "Open Syncthing from the affected row. The observer uses read-only checks and does not change your files.",
+      "href": null
+    },
+    {
+      "i": 32,
+      "tag": "p",
+      "text": "Demo walkthrough",
+      "href": null
+    },
+    {
+      "i": 33,
+      "tag": "h2",
+      "text": "Sample conflict walkthrough",
+      "href": null
+    },
+    {
+      "i": 34,
+      "tag": "li",
+      "text": "1. Start with no sync statusThe empty board waits for a local source before it reports a status.",
+      "href": null
+    },
+    {
+      "i": 35,
+      "tag": "figcaption",
+      "text": "1. Start with no sync statusThe empty board waits for a local source before it reports a status.",
+      "href": null
+    },
+    {
+      "i": 36,
+      "tag": "li",
+      "text": "2. Add a local sourceAdd Syncthing on this computer or choose a folder.",
+      "href": null
+    },
+    {
+      "i": 37,
+      "tag": "figcaption",
+      "text": "2. Add a local sourceAdd Syncthing on this computer or choose a folder.",
+      "href": null
+    },
+    {
+      "i": 38,
+      "tag": "li",
+      "text": "3. Check the status and its limitsThe board shows the conflict and lists the checks it used.",
+      "href": null
+    },
+    {
+      "i": 39,
+      "tag": "figcaption",
+      "text": "3. Check the status and its limitsThe board shows the conflict and lists the checks it used.",
+      "href": null
+    },
+    {
+      "i": 40,
+      "tag": "p",
+      "text": "Checked just now · Syncthing REST + filename metadata",
+      "href": null
+    },
+    {
+      "i": 41,
+      "tag": "p",
+      "text": "Status limits",
+      "href": null
+    },
+    {
+      "i": 42,
+      "tag": "h2",
+      "text": "When the reading is unknown",
+      "href": null
+    },
+    {
+      "i": 43,
+      "tag": "p",
+      "text": "If a check cannot show that syncing finished, the board says so. Every status lists its checks and any missing Syncthing details.",
+      "href": null
+    },
+    {
+      "i": 44,
+      "tag": "p",
+      "text": "Current coverage",
+      "href": null
+    },
+    {
+      "i": 45,
+      "tag": "h2",
+      "text": "Provider coverage and limits",
+      "href": null
+    },
+    {
+      "i": 46,
+      "tag": "h3",
+      "text": "Syncthing",
+      "href": null
+    },
+    {
+      "i": 47,
+      "tag": "p",
+      "text": "Reads Syncthing’s local folder list and pending-file count. It also checks folder names for conflict copies.",
+      "href": null
+    },
+    {
+      "i": 48,
+      "tag": "h3",
+      "text": "Any local folder",
+      "href": null
+    },
+    {
+      "i": 49,
+      "tag": "p",
+      "text": "Reads names, sizes, and timestamps only, capped at 50,000 entries and 16 levels. Never opens file content.",
+      "href": null
+    },
+    {
+      "i": 50,
+      "tag": "h3",
+      "text": "Other sync tools",
+      "href": null
+    },
+    {
+      "i": 51,
+      "tag": "p",
+      "text": "Use a folder check to find common conflict-copy names. It cannot report files waiting in the sync tool.",
+      "href": null
+    },
+    {
+      "i": 52,
+      "tag": "p",
+      "text": "Install the observer",
+      "href": null
+    },
+    {
+      "i": 53,
+      "tag": "h2",
+      "text": "Install Local Sync Observer",
+      "href": null
+    },
+    {
+      "i": 54,
+      "tag": "p",
+      "text": "Choose a build for your operating system.",
+      "href": null
+    },
+    {
+      "i": 55,
+      "tag": "h3",
+      "text": "macOS",
+      "href": null
+    },
+    {
+      "i": 56,
+      "tag": "p",
+      "text": "Apple silicon and Intel disk images.",
+      "href": null
+    },
+    {
+      "i": 57,
+      "tag": "a",
+      "text": "Download .dmg from GitHub",
+      "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_aarch64.dmg"
+    },
+    {
+      "i": 58,
+      "tag": "h3",
+      "text": "Windows",
+      "href": null
+    },
+    {
+      "i": 59,
+      "tag": "p",
+      "text": "64-bit Windows installer.",
+      "href": null
+    },
+    {
+      "i": 60,
+      "tag": "a",
+      "text": "Download .msi from GitHub",
+      "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_x64_en-US.msi"
+    },
+    {
+      "i": 61,
+      "tag": "h3",
+      "text": "Linux",
+      "href": null
+    },
+    {
+      "i": 62,
+      "tag": "p",
+      "text": "AppImage and Debian package.",
+      "href": null
+    },
+    {
+      "i": 63,
+      "tag": "a",
+      "text": "Download .AppImage from GitHub",
+      "href": "https://github.com/B-Divyesh/sf-local-sync-observer/releases/download/v0.1.5/Local.Sync.Observer_0.1.5_amd64.AppImage"
+    },
+    {
+      "i": 64,
+      "tag": "p",
+      "text": "The macOS and Linux shell installer checks the downloaded file before opening it.",
+      "href": null
+    },
+    {
+      "i": 65,
+      "tag": "p",
+      "text": "Read-only local sync evidence · Built by Param Factory · v0.1.5",
+      "href": null
+    },
+    {
+      "i": 66,
+      "tag": "a",
+      "text": "Privacy",
+      "href": "https://local-sync-observer.sociobot.in/privacy/"
+    },
+    {
+      "i": 67,
+      "tag": "a",
+      "text": "Terms",
+      "href": "https://local-sync-observer.sociobot.in/terms/"
+    },
+    {
+      "i": 68,
+      "tag": "a",
+      "text": "Source on GitHub (external site)",
+      "href": "https://github.com/B-Divyesh/sf-local-sync-observer"
+    },
+    {
+      "i": 69,
+      "tag": "p",
+      "text": "Check what synced after offline work. loaded",
+      "href": null
+    }
+  ]
+}
