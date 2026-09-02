@@ -4,7 +4,9 @@
 
 This repair closes every finding in reviews 1, 2, and 3. The main repair is
 `5321e407612d8fdbefa78382a6c12c5cc45a3ea5`; the final public walkthrough
-caption correction is `965b547a0a7955118c6c071869134cd5e70317fa`.
+caption correction is `965b547a0a7955118c6c071869134cd5e70317fa`; and
+`f5c719c806ba2f921a5eeb49be21c2d01e1fdee9` makes the audit deterministic on
+Windows CRLF checkouts too.
 
 ## What changed
 
@@ -41,7 +43,7 @@ the exact command/result list is
 
 Results from the final local pass:
 
-- `npm run check`: TypeScript passed, 13/13 Vitest tests passed, and production
+- `npm run check`: TypeScript passed, 14/14 Vitest tests passed, and production
   app/site builds completed. Initial app JavaScript is 7.88 KB gzip; landing
   JavaScript is 1.15 KB gzip.
 - `npx playwright test --workers=1`: 48/48 desktop and mobile tests passed,
