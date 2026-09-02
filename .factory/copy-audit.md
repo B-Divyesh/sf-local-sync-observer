@@ -31,7 +31,7 @@ Generated from the current landing markup and README by `node scripts/copy-audit
 | 23 | 4 | AppImage and Debian package. | — |
 | 24 | 13 | The macOS and Linux shell installer checks the downloaded file before opening it. | — |
 | 25 | 13 | The empty board waits for a local source before it reports a status. | — |
-| 26 | 9 | Add Syncthing on this computer or choose a folder. | — |
+| 26 | 11 | Add Syncthing, choose a Nextcloud desktop log, or choose a folder. | — |
 | 27 | 11 | The board shows the conflict and lists the checks it used. | — |
 | 28 | 8 | A folder check can find common conflict copies. | — |
 | 29 | 7 | Only Syncthing’s pending count can establish “Converged.” | — |
