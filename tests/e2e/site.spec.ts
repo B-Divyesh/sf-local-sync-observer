@@ -146,10 +146,16 @@ test("landing page includes three captioned product walkthrough frames", async (
   }
 });
 
-test("one-click demo shows isolated mixed-provider sample data", async ({ page }) => {
+test("@claim:mixed-provider-demo shows the named Syncthing and Nextcloud sample evidence", async ({ page }) => {
   await page.goto("/demo/?demo=1");
   await expect(page.getByText("Syncthing conflict plus Nextcloud pending activity")).toBeVisible();
-  await expect(page.getByText("Nextcloud: Shared research")).toBeVisible();
+  await expect(page.locator(".demo-note")).toContainText("The Syncthing sample has a conflict-copy filename.");
+  await expect(page.locator(".demo-note")).toContainText("The Nextcloud sample has a desktop-log message that work is still pending.");
+  const syncthingRow = page.getByRole("row").filter({ hasText: "Syncthing: Field notes" });
+  await expect(syncthingRow).toContainText("Conflict");
+  const nextcloudRow = page.getByRole("row").filter({ hasText: "Nextcloud: Shared research" });
+  await expect(nextcloudRow).toContainText("Pending");
+  await expect(nextcloudRow).toContainText("Not reported");
 });
 
 test("@claim:isolated-demo loads, resets, and keeps sample data out of the real namespace", async ({ page }) => {

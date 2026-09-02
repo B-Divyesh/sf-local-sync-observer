@@ -26,6 +26,42 @@ test("desktop shell exposes an honest empty state and keyboard dialog", async ({
   expect(errors).toEqual([]);
 });
 
+test("@claim:checks-require-source makes no provider check before Save and inspect", async ({ page }) => {
+  await page.addInitScript(() => {
+    const probeCommands = ["probe_syncthing", "probe_nextcloud_log", "inspect_folder"];
+    (window as Window & { __providerProbes?: string[] }).__providerProbes = [];
+    (window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = {
+      invoke: async (command: string, args: Record<string, unknown>) => {
+        if (probeCommands.includes(command)) {
+          (window as Window & { __providerProbes?: string[] }).__providerProbes?.push(command);
+          return {
+            sourceId: args.sourceId,
+            provider: "Syncthing",
+            state: "converged",
+            checkedAt: Date.now(),
+            summary: "Every reported folder has zero pending items",
+            folders: [],
+            coverage: "fixture"
+          };
+        }
+        if (command === "update_tray_status") return;
+        throw new Error(`Unexpected command ${command}`);
+      }
+    };
+  });
+
+  await page.goto(appUrl);
+  await expect(page.getByText("NO SOURCES ADDED")).toBeVisible();
+  expect(await page.evaluate(() => (window as Window & { __providerProbes?: string[] }).__providerProbes)).toEqual([]);
+
+  await page.getByRole("button", { name: "Add first source" }).click();
+  await page.locator('input[name="apiKey"]').fill("fixture-key");
+  expect(await page.evaluate(() => (window as Window & { __providerProbes?: string[] }).__providerProbes)).toEqual([]);
+
+  await page.getByRole("button", { name: "Save and inspect" }).click();
+  await expect.poll(() => page.evaluate(() => (window as Window & { __providerProbes?: string[] }).__providerProbes)).toEqual(["probe_syncthing"]);
+});
+
 test("example exposes the conflict in one action", async ({ page }) => {
   await page.goto(appUrl);
   await page.getByRole("button", { name: "Try sample data" }).click();

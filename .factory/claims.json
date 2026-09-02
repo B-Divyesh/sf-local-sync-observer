@@ -159,5 +159,19 @@
     "where": "landing coverage, desktop source setup, privacy page, README",
     "test": "cargo test --manifest-path crates/observer-core/Cargo.toml claim_nextcloud_desktop_log_reports_status_and_preserves_log",
     "sandbox": "read four controlled Nextcloud desktop-log fixtures; assert conflict, offline, pending, and completed states, a last-good value, missing pending counts, and unchanged log bytes"
+  },
+  {
+    "id": "mixed-provider-demo",
+    "claim": "The isolated demo shows a Syncthing conflict-copy example and a Nextcloud desktop-log example with pending activity.",
+    "where": "/demo sample note and reading table",
+    "test": "npm run test:e2e -- --grep @claim:mixed-provider-demo",
+    "sandbox": "fresh browser context; open /demo/?demo=1 and assert the named Syncthing conflict-copy and Nextcloud pending-log explanations plus both visible provider rows and states"
+  },
+  {
+    "id": "checks-require-source",
+    "claim": "The desktop app checks a sync tool only after the user adds a local source and selects Save and inspect.",
+    "where": "/demo sample note, desktop empty state and source setup",
+    "test": "npm run test:e2e -- --grep @claim:checks-require-source",
+    "sandbox": "fresh desktop-app browser context with an instrumented native bridge; assert zero provider probe commands before and during setup, then assert one Syncthing probe after Save and inspect"
   }
 ]
