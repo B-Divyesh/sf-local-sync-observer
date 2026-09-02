@@ -7,8 +7,9 @@ const read = (path: string) => readFile(resolve(root, path), "utf8");
 
 describe("static hosting contract", () => {
   it("ships routing, security, cache, and discovery configuration", async () => {
-    const [config, robots, sitemap, notFound] = await Promise.all([
-      read("public/staticwebapp.config.json"), read("public/robots.txt"), read("public/sitemap.xml"), read("site/404.html")
+    const [config, robots, sitemap, notFound, serviceWorker, packageJson] = await Promise.all([
+      read("public/staticwebapp.config.json"), read("public/robots.txt"), read("public/sitemap.xml"), read("site/404.html"),
+      read("public/sw.js"), read("package.json")
     ]);
     expect(config).toContain("frame-ancestors 'none'");
     expect(config).toContain("https://api.github.com");
@@ -17,6 +18,8 @@ describe("static hosting contract", () => {
     expect(robots).toContain("Sitemap:");
     expect(sitemap).toContain("/demo/");
     expect(notFound).toContain("Page not found");
+    const version = (JSON.parse(packageJson) as { version: string }).version;
+    expect(serviceWorker).toContain(`const CACHE = "local-sync-observer-site-v${version}";`);
   });
 
   it("keeps unit test discovery independent of shell glob expansion", async () => {

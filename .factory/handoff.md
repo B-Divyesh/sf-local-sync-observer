@@ -3,7 +3,7 @@
 ## Outcome
 
 The release-identity blocker from independent verification 10 is repaired in
-v0.1.8. The website now offers a desktop download only when GitHub's latest
+v0.1.9. The website now offers a desktop download only when GitHub's latest
 release has both the current version and the website's exact source commit.
 An older release produces the calm publishing fallback and no direct download
 link.
@@ -21,7 +21,8 @@ build.
 
 The repair:
 
-- bumps every package and visible build reference to v0.1.8;
+- bumps every package and visible build reference to v0.1.9;
+- binds the service-worker cache name to v0.1.9 so an installed site updates;
 - embeds the full Git source commit into the production website build;
 - requires the GitHub release tag and `target_commitish` to match the website
   version and source commit before exposing any artifact URL;
@@ -32,7 +33,7 @@ The repair:
   source identity, checksum generation, and final identity verification;
 - updates the `release-downloads` claim and tests the verifier's exact stale
   commit against the original candidate commit;
-- recaptures the three 900 x 600 walkthrough frames from the v0.1.8 desktop UI.
+- recaptures the three 900 x 600 walkthrough frames from the v0.1.9 desktop UI.
 
 ## Local verification
 
@@ -63,14 +64,14 @@ the release-source mismatch regression. Evidence is under
 
 ## Release and deployment evidence
 
-- Release: `v0.1.8`, built by `.github/workflows/release.yml` from its tagged
+- Release: `v0.1.9`, built by `.github/workflows/release.yml` from its tagged
   commit.
 - Required release files: macOS arm64 and Intel DMGs, Windows MSI and EXE,
   Linux AppImage and DEB, `SHA256SUMS`, and `latest.json`.
-- `latest.json` identifies the same commit as the peeled v0.1.8 tag and every
+- `latest.json` identifies the same commit as the peeled v0.1.9 tag and every
   artifact entry.
 - A downloaded Linux Debian package matches its published SHA-256 value and
-  reports package version 0.1.8.
+  reports package version 0.1.9.
 - The production site was deployed from `dist/site` with the work order's
   static deployment configuration.
 - Live `verify-url.sh`, desktop and 390 px browser checks, Axe, privacy request

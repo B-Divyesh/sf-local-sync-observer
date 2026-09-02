@@ -1,4 +1,4 @@
-const CACHE = "local-sync-observer-site-v4";
+const CACHE = "local-sync-observer-site-v0.1.9";
 const SHELL = ["/", "/demo/", "/demo.js", "/404.html", "/assets/convergence-board.webp", "/privacy/", "/terms/"];
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting())));
 self.addEventListener("activate", event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
