@@ -1,0 +1,10 @@
+{
+  "status": 404,
+  "title": "Page not found — Local Sync Observer",
+  "h1": "Page not found",
+  "focusIsH1": true,
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ],
+  "seriousOrCriticalAxe": []
+}

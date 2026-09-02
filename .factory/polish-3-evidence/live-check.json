@@ -1,0 +1,92 @@
+{
+  "base": "https://local-sync-observer.sociobot.in",
+  "checkedAt": "2026-09-02T01:16:23.074Z",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "Local Sync Observer — check local sync status",
+      "h1": 1,
+      "main": 1,
+      "consoleErrors": [],
+      "seriousOrCriticalAxe": []
+    },
+    {
+      "path": "/demo/",
+      "status": 200,
+      "title": "Demo — Local Sync Observer",
+      "h1": 1,
+      "main": 1,
+      "consoleErrors": [],
+      "seriousOrCriticalAxe": []
+    },
+    {
+      "path": "/privacy/",
+      "status": 200,
+      "title": "Privacy — Local Sync Observer",
+      "h1": 1,
+      "main": 1,
+      "consoleErrors": [],
+      "seriousOrCriticalAxe": []
+    },
+    {
+      "path": "/terms/",
+      "status": 200,
+      "title": "Terms — Local Sync Observer",
+      "h1": 1,
+      "main": 1,
+      "consoleErrors": [],
+      "seriousOrCriticalAxe": []
+    },
+    {
+      "path": "/404.html",
+      "status": 200,
+      "title": "Page not found — Local Sync Observer",
+      "h1": 1,
+      "main": 1,
+      "consoleErrors": [],
+      "seriousOrCriticalAxe": []
+    }
+  ],
+  "walkthrough": {
+    "frames": 3,
+    "widths": [
+      900,
+      900,
+      900
+    ],
+    "setupAlt": "Source setup dialog with choices for Syncthing, a Nextcloud desktop log, and a local folder",
+    "setupCaption": "2. Add a local source\nAdd Syncthing, choose a Nextcloud desktop log, or choose a folder.",
+    "manifestVersion": "0.1.6"
+  },
+  "demo": {
+    "url": "https://local-sync-observer.sociobot.in/demo/?demo=1",
+    "banner": true,
+    "conflict": true,
+    "nextcloud": true,
+    "storageKeys": [
+      "demo:local-sync-observer.site.v1"
+    ],
+    "requests": [
+      "https://local-sync-observer.sociobot.in/?demo=1",
+      "https://local-sync-observer.sociobot.in/assets/convergence-board.webp",
+      "https://local-sync-observer.sociobot.in/assets/home-_Dgk5D7b.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-Dw44-cXA.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-Crnx0l0r.css",
+      "https://local-sync-observer.sociobot.in/demo/?demo=1",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-Dw44-cXA.js",
+      "https://local-sync-observer.sociobot.in/assets/route-focus-Crnx0l0r.css",
+      "https://local-sync-observer.sociobot.in/demo.js",
+      "https://local-sync-observer.sociobot.in/assets/app-icon.svg"
+    ],
+    "consoleErrors": []
+  },
+  "expiredCache": {
+    "fallback": true,
+    "value": null
+  },
+  "mobile": {
+    "overflow": false,
+    "heading": "Check what synced after offline work."
+  }
+}

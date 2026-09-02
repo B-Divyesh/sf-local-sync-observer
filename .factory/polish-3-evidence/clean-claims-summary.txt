@@ -1,0 +1,26 @@
+Clean-clone candidate: 965b547a0a7955118c6c071869134cd5e70317fa
+Install: npm ci --include=dev
+
+PASS release-downloads :: npm run test:e2e -- --grep @claim:release-downloads
+PASS release-matrix :: npm test -- --testNamePattern @claim:release-matrix
+PASS checksum-install :: npm test -- --testNamePattern @claim:checksum-install
+PASS evidence-boundary :: npm test -- --testNamePattern @claim:evidence-boundary
+PASS metadata-only-scan :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_metadata_only_scan_preserves_contents_and_stays_unknown
+PASS scan-bounds :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_scan_bounds_are_fifty_thousand_entries_and_depth_sixteen
+PASS local-endpoint-only :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_local_endpoint_only_rejects_remote_endpoints
+PASS local-app-storage :: npm run test:e2e -- --grep @claim:local-app-storage
+PASS open-owner :: npm run test:e2e -- --grep @claim:open-owner
+PASS thirty-second-refresh :: npm run test:e2e -- --grep @claim:thirty-second-refresh
+PASS site-private :: npm run test:e2e -- --grep @claim:site-private
+PASS mit-license :: npm test -- --testNamePattern @claim:mit-license
+PASS isolated-demo :: npm run test:e2e -- --grep @claim:isolated-demo
+PASS demo-private :: npm run test:e2e -- --grep @claim:demo-private
+PASS offline-demo-reload :: npm run test:e2e -- --grep @claim:offline-demo-reload
+PASS release-fallback :: npm run test:e2e -- --grep @claim:release-fallback
+PASS syncthing-reading :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_syncthing_reading_reports_configured_folder_and_device_state
+PASS reading-details :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_reading_details_show_last_good_missing_fields_and_coverage
+PASS read-only-probe :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_observer_probe_is_get_only_and_does_not_change_files
+PASS tray-status :: npm run test:e2e -- --grep @claim:tray-status
+PASS no-product-account :: npm run test:e2e -- --grep @claim:no-product-account
+PASS release-cache-retention :: npm run test:e2e -- --grep @claim:release-cache-retention
+PASS nextcloud-desktop-log :: cargo test --manifest-path crates/observer-core/Cargo.toml claim_nextcloud_desktop_log_reports_status_and_preserves_log
