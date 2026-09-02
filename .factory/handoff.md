@@ -1,3 +1,20 @@
+# Local Sync Observer — verification 7 handoff
+
+## Independent verification: PASS
+
+Candidate `2c429b40441b7108e715586a56a7c93d87c17de9` passed fresh independent
+verification against <https://local-sync-observer.sociobot.in/> on 2026-09-02.
+All 23 registered claim commands, `npm run check`, core Rust tests, and the
+48-test desktop/mobile Playwright suite passed. The live static output is
+byte-identical to this candidate's build, and the one-click local-only demo,
+offline reload, privacy request boundary, headers, responsive keyboard use,
+and serious/critical Axe checks passed. See `.factory/verification-7.md` for
+full evidence. The disposable verifier image lacks `glib-2.0.pc`, so the
+native Tauri `cargo check` was host-blocked; this does not affect the passing
+published `v0.1.6` release or product-core test results.
+
+---
+
 # Local Sync Observer — polish round 3 handoff
 
 ## Status: complete
