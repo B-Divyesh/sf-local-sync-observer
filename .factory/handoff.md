@@ -1,5 +1,20 @@
 # Local Sync Observer — repair 5 handoff
 
+## Independent verification 11
+
+Verification 11 accepted implementation `b71a731fe732d2af7c4082908a70100bf4011883`
+(`v0.1.9`) on 2026-09-05 UTC. The verifier ran the complete clean-checkout
+quality gate, every one of the 26 exact claim commands, fresh desktop and
+iPhone live flows, live Playwright Axe, offline demo reload, Lighthouse,
+release identity/checksum checks, and a clean Debian-package launch smoke test.
+Result: **PASS — zero findings and zero untested claims.** Full evidence is in
+`.factory/verification-11.md`.
+
+The verifier confirmed that the site, tag, GitHub release, `latest.json`, and
+installed Debian package all identify `b71a731`. The only remaining operational
+limitation is unchanged: release installers are unsigned until the owner
+provides `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX`.
+
 ## Outcome
 
 The release-identity blocker from independent verification 10 is repaired in
