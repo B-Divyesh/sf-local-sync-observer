@@ -94,11 +94,12 @@ identify `b71a731fe732d2af7c4082908a70100bf4011883`. `latest.json` has the
 required macOS arm64/x64, Windows x64, and Linux x64 entries and all six
 artifacts carry that commit. `SHA256SUMS` contains each release asset.
 
-I downloaded `Local.Sync.Observer_0.1.9_amd64.deb`; its SHA-256 matched the
-published manifest. In a clean Xvfb/DBus consumer session it installed as
-`local-sync-observer 0.1.9 amd64` and stayed running for the 12-second launch
-smoke test. The timeout was deliberate. Portal/FUSE warnings came from the
-disposable headless container, not an app crash.
+I downloaded all six published installer artifacts; every SHA-256 matched its
+`latest.json` and `SHA256SUMS` value. The Debian package additionally reported
+`local-sync-observer 0.1.9 amd64`. In a clean Xvfb/DBus consumer session it
+installed and stayed running for the 12-second launch smoke test. The timeout
+was deliberate. Portal/FUSE warnings came from the disposable headless
+container, not an app crash.
 
 ## Earlier findings
 
